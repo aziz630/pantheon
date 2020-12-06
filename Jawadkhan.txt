@@ -1,2 +1,6 @@
 These changes are made from Test-001 branch.
 
+<<<<<<< HEAD
+=======
+some other contents added.
+>>>>>>> test-001
