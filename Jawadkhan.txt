@@ -8,3 +8,5 @@ some more lines.
 
 *********************
 
+new text
+
