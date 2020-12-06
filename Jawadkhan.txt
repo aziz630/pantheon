@@ -1,12 +1,10 @@
-These changes are made from Test-001 branch.
+git pull/push/merge/commit procedure.
 
-some other contents added.
-
-some more text added from test-001 branch and merge into master.
-
-some more lines.
-
-*********************
-
-new text
+1. make changes in local branch.
+2. stage the local file to the local branch.
+3. commit local branch.
+4. checkout master branch.
+5. pull master branch.
+6. merge local branch into master (current branch at this time).
+7. push the both branchs to the remote repository.
 
