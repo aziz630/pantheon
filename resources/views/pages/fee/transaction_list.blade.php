@@ -161,7 +161,7 @@
         /**
          * Data Table Initialization
          **/
-        let table = $("#transactions").DataTable((processing: false));
+        let table = $("#transactions").DataTable({ processing: false });
     });
 </script>
 @endsection
