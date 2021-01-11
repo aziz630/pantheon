@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGuardiansTable extends Migration
+class CreateSubjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateGuardiansTable extends Migration
      */
     public function up()
     {
-        Schema::create('guardians', function (Blueprint $table) {
+        Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('cnic');
-            $table->string('occupation')->default(null);
-            $table->string('email')->default(null);
-            $table->string('phone')->default(null);
-            $table->string('residence_phone')->default(null);
+            $table->string('subject_name', 50);
+            $table->longText('subject_description');
             $table->softDeletesTz('deleted_at', 0);
             $table->timestamps();
         });
@@ -33,6 +29,6 @@ class CreateGuardiansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('guardians');
+        Schema::dropIfExists('subjects');
     }
 }

@@ -1,6 +1,5 @@
 {{-- Extends layout --}}
-@extends('layout.default') 
-@section('styles')
+@extends('layout.default') @section('styles')
 <link
     href="{{ asset('plugins/custom/datatables/datatables.bundle.css') }}"
     rel="stylesheet"
@@ -9,11 +8,7 @@
 @endsection
 
 {{-- Content --}}
-@section('content')
-
-@php 
-    $search = false;
-@endphp
+@section('content') @php $search = false; @endphp
 
 {{-- Add new Student form --}}
 <!--begin::Card-->
@@ -23,12 +18,23 @@
             <span class="card-icon">
                 <i class="flaticon-search text-primary"></i>
             </span>
-            <h3 class="card-label">{{ __('All Students') }} <small>Filteration enabled</small></h3>
+            <h3 class="card-label">
+                {{ __("All Students") }} <small>Filteration enabled</small>
+            </h3>
         </div>
         <div class="card-toolbar">
-            {{-- <a href="#" class="btn btn-icon btn-sm btn-primary mr-1" data-card-tool="toggle" data-toggle="tooltip" data-placement="top" title="Toggle Card">
+            {{--
+            <a
+                href="#"
+                class="btn btn-icon btn-sm btn-primary mr-1"
+                data-card-tool="toggle"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Toggle Card"
+            >
                 <i class="ki ki-arrow-down icon-nm"></i>
-            </a> --}}
+            </a>
+            --}}
             <!--begin::Dropdown-->
             <div class="dropdown dropdown-inline mr-2">
                 <button
@@ -125,7 +131,10 @@
             </div>
             <!--end::Dropdown-->
             <!--begin::Button-->
-            <a href="{{ url('enroll_student') }}" class="btn btn-primary font-weight-bolder">
+            <a
+                href="{{ url('enroll_student') }}"
+                class="btn btn-primary font-weight-bolder"
+            >
                 <span class="svg-icon svg-icon-md">
                     <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                     <svg
@@ -158,11 +167,12 @@
         </div>
     </div>
     <div class="card-body">
+        @include('pages.alerts.alerts')
         <!--begin: Search Form-->
         <form class="mb-15" method="post" onsubmit="e.preventDefault();">
             <div class="row mb-6">
                 <div class="col-lg-3 mb-lg-0 mb-6">
-                    <label>ERP No:</label>
+                    <label>Enrollment No:</label>
                     <input
                         type="text"
                         class="form-control datatable-input"
@@ -191,6 +201,12 @@
                         name="class"
                     >
                         <option value="">Select</option>
+                        @foreach($classes as $class)
+                        <option
+                            value="{{ $class->id }}"
+                            >{{ $class->class_name }}</option
+                        >
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-lg-3 mb-lg-0 mb-6">
@@ -201,29 +217,12 @@
                         name="section"
                     >
                         <option value="">Select</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row mb-8">
-                <div class="col-lg-3 mb-lg-0 mb-6">
-                    <label>Status:</label>
-                    <select
-                        class="form-control datatable-input"
-                        data-col-index="6"
-                        name="status"
-                    >
-                        <option value="">Select</option>
-                    </select>
-                </div>
-                <div class="col-lg-3 mb-lg-0 mb-6">
-                    <label>Gender:</label>
-                    <select
-                        class="form-control datatable-input"
-                        data-col-index="7"
-                        name="gender"
-                    >
-                        <option value="">Select</option>
+                        @foreach($sections as $section)
+                        <option
+                            value="{{ $section->id }}"
+                            >{{ $section->section_name }}</option
+                        >
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -237,13 +236,12 @@
         >
             <thead>
                 <tr>
-                    <th>ERP No.</th>
+                    <th>Enrollment No.</th>
                     <th>Student Name</th>
                     <th>Father Name</th>
+                    <th>Gender</th>
                     <th>Class/Grade</th>
                     <th>Section</th>
-                    <th>Status</th>
-                    <th>Gender</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -253,69 +251,65 @@
 </div>
 <!-- end::Card -->
 
-
 @endsection
 
 {{-- Scripts Section --}}
 @section('scripts')
 
 <!--begin::Page Vendors(used by this page)-->
-    <script src="{{
+<script src="{{
         asset('plugins/custom/datatables/datatables.bundle.js')
-    }}">
-    </script>
+    }}"></script>
 <!--end::Page Vendors-->
-    
 
-    {{-- <script src="{{
+{{--
+<script src="{{
         asset('js/pages/crud/datatables/data-sources/ajax-server-side.js')
-    }}">
-    </script> --}}
+    }}"></script>
+--}}
 
-    
 <script>
-
     // Initializing student datatable
 
-    $.fn.dataTable.ext.search.push(
-        function( settings, data, dataIndex ) {
-            var erp_input = $('#erp_no').val();
-            var name_input = $('#studentName').val();
-            var erp = data[0]; // use data for the erp column
-            var name = data[1];
-    
-            if ( ( erp_input != '' && erp_input == erp ) || ( name_input != '' && name_input == name) || ( name_input == '' && erp_input == '') )
-            {
-                return true;
-            }
-            return false;
-        }
-    );
+    $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+        var erp_input = $("#erp_no").val();
+        var name_input = $("#studentName").val();
+        var erp = data[0]; // use data for the erp column
+        var name = data[1];
 
-    $(document).ready(function(){
+        if (
+            (erp_input != "" && erp_input == erp) ||
+            (name_input != "" && name_input == name) ||
+            (name_input == "" && erp_input == "")
+        ) {
+            return true;
+        }
+        return false;
+    });
+
+    $(document).ready(function() {
         /**
-        * Data Table Initialization
-        **/
-        let table = $('#students').DataTable({
+         * Data Table Initialization
+         **/
+        let table = $("#students").DataTable({
             processing: true,
             serverside: true,
             ajax: "{{ url('students_list_ajax') }}",
             columns: [
-                {data: 'erp_no'},
-                {data: 'studentName'},
-                {data: 'email'},
-                {data: 'dob'},
-                {data: 'pob'},
-                {data: 'is_muslim'},
-                {data: 'status'},
-                {data: 'action', orderable: true, searchable: true},
+                { data: "erp_no" },
+                { data: "studentName" },
+                { data: "fatherName" },
+                { data: "gender" },
+                { data: "class" },
+                { data: "section" },
+                { data: "action", orderable: true, searchable: true }
             ]
         }); //.search( 'Enrolled' ).draw();
 
         // Re-draw datatable when user performing filteration
-        $('#erp_no, #studentName').keyup( function() {
+        $("#erp_no, #studentName").keyup(function() {
             table.draw();
-        } );
+        });
     });
 </script>
 @endsection

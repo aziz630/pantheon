@@ -17,7 +17,7 @@
         <div class="brand-logo">
             <a href="{{ url('/') }}">
                 <!-- <img alt="{{ config('app.name') }}" src="{{ asset('media/logos/'.$kt_logo_image) }}"/> -->
-                <h5>{{ config('app.name') }}</h5>
+                <h5>Pantheon</h5>
             </a>
         </div>
 
@@ -47,7 +47,7 @@
             {{ Metronic::printAttrs('aside_menu') }}>
 
             <ul class="menu-nav {{ Metronic::printClasses('aside_menu_nav', false) }}">
-                {{ Menu::renderVerMenu(config('menu_aside.items')) }}
+                {{ Menu::renderVerMenu(config('menu_aside_admin.items')) }}
             </ul>
         </div>
     </div>

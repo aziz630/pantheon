@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSectionsTable extends Migration
+class CreateEnrollmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,14 @@ class CreateSectionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sections', function (Blueprint $table) {
+        Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
-            $table->string('section', 30);
+            $table->foreignId('student_id');
+            $table->foreignId('class_id');
+            $table->foreignId('section_id');
+            $table->foreignId('academic_session_id');
+            $table->date('enrollment_date');
+            $table->boolean('enrollment_status')->default(0);
             $table->softDeletesTz('deleted_at', 0);
             $table->timestamps();
         });
@@ -28,6 +33,6 @@ class CreateSectionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sections');
+        Schema::dropIfExists('enrollments');
     }
 }

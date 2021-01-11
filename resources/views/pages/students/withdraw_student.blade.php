@@ -118,6 +118,7 @@
         </div>
     </div>
     <div class="card-body">
+        @include('pages.alerts.alerts')
         <!--begin: Search Form-->
         <form class="mb-15">
             <h3>Search Student by ERP No.</h3>

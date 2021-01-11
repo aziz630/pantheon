@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClassesTable extends Migration
+class CreateFeeStructureAmountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateClassesTable extends Migration
      */
     public function up()
     {
-        Schema::create('classes', function (Blueprint $table) {
+        Schema::create('fee_structure_amounts', function (Blueprint $table) {
             $table->id();
-            $table->string('class', 30);
-            $table->softDeletesTz('deleted_at', 0);
-            $table->timestamps();
+            $table->foreignId('fee_structure_id');
+            $table->foreignId('fee_category_id');
+            $table->string('fee_amount');
+            $table->boolean('no_repeat')->default(false);
         });
     }
 
@@ -28,6 +29,6 @@ class CreateClassesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('classes');
+        Schema::dropIfExists('fee_structure_amounts');
     }
 }

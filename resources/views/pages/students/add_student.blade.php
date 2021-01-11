@@ -15,10 +15,11 @@
 <!--begin::Container-->
 <div class="card card-custom">
     <div class="card-body p-0">
+        @include('pages.alerts.alerts')
         <!--begin: Wizard-->
         <div
             class="wizard wizard-2"
-            id="kt_wizard"
+            id="enrollment_wizard"
             data-wizard-state="step-first"
             data-wizard-clickable="false"
         >
@@ -282,10 +283,10 @@
                             </div>
                             <div class="wizard-label">
                                 <h3 class="wizard-title">
-                                    Completed!
+                                    Fee
                                 </h3>
                                 <div class="wizard-desc">
-                                    Review and Submit
+                                    Collect fee and enroll
                                 </div>
                             </div>
                         </div>
@@ -299,8 +300,15 @@
                 <!--begin: Wizard Form-->
                 <div class="row">
                     <div class="offset-xxl-2 col-xxl-8">
-                        <form class="form" id="kt_form">
-                            <!--begin: Wizard Step 1-->
+                        <form
+                            class="form"
+                            method="post"
+                            action="{{ route('student.enroll') }}"
+                            id="enrollment_form"
+                            accept-charset="utf-8"
+                            enctype="multipart/form-data"
+                        >
+                            <!--begin: Wizard Step 1 Personal info-->
                             <div
                                 class="pb-5"
                                 data-wizard-type="step-content"
@@ -309,486 +317,48 @@
                                 <h4 class="mb-10 font-weight-bold text-dark">
                                     Enter Student Personal Info
                                 </h4>
-                                <!--begin::Input-->
-                                <div class="form-group">
-                                    <label>First Name</label>
-                                    <input
-                                        type="text"
-                                        class="form-control form-control-solid form-control-lg"
-                                        name="fname"
-                                        placeholder="First Name"
-                                        value=""
-                                    />
-                                    <span class="form-text text-muted"
-                                        >Please enter your first name.</span
-                                    >
-                                </div>
-                                <!--end::Input-->
-                                <!--begin::Input-->
-                                <div class="form-group">
-                                    <label>Last Name</label>
-                                    <input
-                                        type="text"
-                                        class="form-control form-control-solid form-control-lg"
-                                        name="lname"
-                                        placeholder="Last Name"
-                                        value=""
-                                    />
-                                    <span class="form-text text-muted"
-                                        >Please enter your last name.</span
-                                    >
-                                </div>
-                                <!--end::Input-->
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>Phone</label>
-                                            <input
-                                                type="tel"
-                                                class="form-control form-control-solid form-control-lg"
-                                                name="phone"
-                                                placeholder="phone"
-                                                value="+61412345678"
-                                            />
-                                            <span class="form-text text-muted"
-                                                >Please enter your phone
-                                                number.</span
-                                            >
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>Email</label>
-                                            <input
-                                                type="email"
-                                                class="form-control form-control-solid form-control-lg"
-                                                name="email"
-                                                placeholder="Email"
-                                                value="john.wick@reeves.com"
-                                            />
-                                            <span class="form-text text-muted"
-                                                >Please enter your email
-                                                address.</span
-                                            >
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                </div>
+                                @csrf
+                                @include('pages.students.partials.personal_details')
                             </div>
                             <!--end: Wizard Step 1-->
-                            <!--begin: Wizard Step 2-->
+
+                            <!--begin: Wizard Step 2 Addresses-->
                             <div class="pb-5" data-wizard-type="step-content">
                                 <h4 class="mb-10 font-weight-bold text-dark">
-                                    Setup Your Current Location
+                                    Student Addresses
                                 </h4>
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>Address Line 1</label>
-                                            <input
-                                                type="text"
-                                                class="form-control form-control-solid form-control-lg"
-                                                name="address1"
-                                                placeholder="Address Line 1"
-                                                value="Address Line 1"
-                                            />
-                                            <span class="form-text text-muted"
-                                                >Please enter your
-                                                Address.</span
-                                            >
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>Address Line 2</label>
-                                            <input
-                                                type="text"
-                                                class="form-control form-control-solid form-control-lg"
-                                                name="address2"
-                                                placeholder="Address Line 2"
-                                                value="Address Line 2"
-                                            />
-                                            <span class="form-text text-muted"
-                                                >Please enter your
-                                                Address.</span
-                                            >
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>Postcode</label>
-                                            <input
-                                                type="text"
-                                                class="form-control form-control-solid form-control-lg"
-                                                name="postcode"
-                                                placeholder="Postcode"
-                                                value="3000"
-                                            />
-                                            <span class="form-text text-muted"
-                                                >Please enter your
-                                                Postcode.</span
-                                            >
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>City</label>
-                                            <input
-                                                type="text"
-                                                class="form-control form-control-solid form-control-lg"
-                                                name="city"
-                                                placeholder="City"
-                                                value="Melbourne"
-                                            />
-                                            <span class="form-text text-muted"
-                                                >Please enter your City.</span
-                                            >
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>State</label>
-                                            <input
-                                                type="text"
-                                                class="form-control form-control-solid form-control-lg"
-                                                name="state"
-                                                placeholder="State"
-                                                value="VIC"
-                                            />
-                                            <span class="form-text text-muted"
-                                                >Please enter your State.</span
-                                            >
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <!--begin::Select-->
-                                        <div class="form-group">
-                                            <label>Country</label>
-                                            <select
-                                                name="country"
-                                                class="form-control form-control-solid form-control-lg"
-                                            >
-                                                <option value="">Select</option>
-
-                                                @if(isset($countries))
-                                                    @foreach($countries as $country)
-                                                    <option
-                                                        value="{{ $country['id'] }}"
-                                                        >{{
-                                                            $country["name"]
-                                                        }}</option
-                                                    >
-                                                    @endforeach 
-                                                @endif
-                                            </select>
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                </div>
+                                @include('pages.students.partials.addresses')
                             </div>
                             <!--end: Wizard Step 2-->
-                            <!--begin: Wizard Step 3-->
+
+                            <!--begin: Wizard Step 3 Guardians-->
                             <div class="pb-5" data-wizard-type="step-content">
                                 <h4 class="mb-10 font-weight-bold text-dark">
-                                    Select your Services
+                                    Enter student guardian info
                                 </h4>
-                                <!--begin::Select-->
-                                <div class="form-group">
-                                    <label>Delivery Type:</label>
-                                    <select
-                                        name="delivery"
-                                        class="form-control form-control-solid form-control-lg"
-                                    >
-                                        <option value=""
-                                            >Select a Service Type
-                                            Option</option
-                                        >
-                                        <option
-                                            value="overnight"
-                                            selected="selected"
-                                            >Overnight Delivery (within 48
-                                            hours)</option
-                                        >
-                                        <option value="express"
-                                            >Express Delivery (within 5 working
-                                            days)</option
-                                        >
-                                        <option value="basic"
-                                            >Basic Delivery (within 5 - 10
-                                            working days)</option
-                                        >
-                                    </select>
-                                </div>
-                                <!--end::Select-->
-                                <!--begin::Select-->
-                                <div class="form-group">
-                                    <label>Packaging Type:</label>
-                                    <select
-                                        name="packaging"
-                                        class="form-control form-control-solid form-control-lg"
-                                    >
-                                        <option value=""
-                                            >Select a Packaging Type
-                                            Option</option
-                                        >
-                                        <option
-                                            value="regular"
-                                            selected="selected"
-                                            >Regular Packaging</option
-                                        >
-                                        <option value="oversized"
-                                            >Oversized Packaging</option
-                                        >
-                                        <option value="fragile"
-                                            >Fragile Packaging</option
-                                        >
-                                        <option value="frozen"
-                                            >Frozen Packaging</option
-                                        >
-                                    </select>
-                                </div>
-                                <!--end::Select-->
-                                <!--begin::Select-->
-                                <div class="form-group">
-                                    <label>Preferred Delivery Window:</label>
-                                    <select
-                                        name="preferreddelivery"
-                                        class="form-control form-control-solid form-control-lg"
-                                    >
-                                        <option value=""
-                                            >Select a Preferred Delivery
-                                            Option</option
-                                        >
-                                        <option
-                                            value="morning"
-                                            selected="selected"
-                                            >Morning Delivery (8:00AM -
-                                            11:00AM)</option
-                                        >
-                                        <option value="afternoon"
-                                            >Afternoon Delivery (11:00AM -
-                                            3:00PM)</option
-                                        >
-                                        <option value="evening"
-                                            >Evening Delivery (3:00PM -
-                                            7:00PM)</option
-                                        >
-                                    </select>
-                                </div>
-                                <!--end::Select-->
+                                @include('pages.students.partials.guardians')
                             </div>
                             <!--end: Wizard Step 3-->
-                            <!--begin: Wizard Step 4-->
+
+                            <!--begin: Wizard Step 4 Enrollment-->
                             <div class="pb-5" data-wizard-type="step-content">
                                 <h4 class="mb-10 font-weight-bold text-dark">
-                                    Setup Your Delivery Location
+                                    Enroll student into your desired class -
+                                    section
                                 </h4>
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>Address Line 1</label>
-                                            <input
-                                                type="text"
-                                                class="form-control form-control-solid form-control-lg"
-                                                name="locaddress1"
-                                                placeholder="Address Line 1"
-                                                value="Address Line 1"
-                                            />
-                                            <span class="form-text text-muted"
-                                                >Please enter your
-                                                Address.</span
-                                            >
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>Address Line 2</label>
-                                            <input
-                                                type="text"
-                                                class="form-control form-control-solid form-control-lg"
-                                                name="locaddress2"
-                                                placeholder="Address Line 2"
-                                                value="Address Line 2"
-                                            />
-                                            <span class="form-text text-muted"
-                                                >Please enter your
-                                                Address.</span
-                                            >
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>Postcode</label>
-                                            <input
-                                                type="text"
-                                                class="form-control form-control-solid form-control-lg"
-                                                name="locpostcode"
-                                                placeholder="Postcode"
-                                                value="3072"
-                                            />
-                                            <span class="form-text text-muted"
-                                                >Please enter your
-                                                Postcode.</span
-                                            >
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>City</label>
-                                            <input
-                                                type="text"
-                                                class="form-control form-control-solid form-control-lg"
-                                                name="loccity"
-                                                placeholder="City"
-                                                value="Preston"
-                                            />
-                                            <span class="form-text text-muted"
-                                                >Please enter your City.</span
-                                            >
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>State</label>
-                                            <input
-                                                type="text"
-                                                class="form-control form-control-solid form-control-lg"
-                                                name="locstate"
-                                                placeholder="State"
-                                                value="VIC"
-                                            />
-                                            <span class="form-text text-muted"
-                                                >Please enter your state.</span
-                                            >
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <!--begin::Select-->
-                                        <div class="form-group">
-                                            <label>Country</label>
-                                            <select
-                                                name="loccountry"
-                                                class="form-control form-control-solid form-control-lg"
-                                            >
-                                                <option value="">Select</option>
-
-                                                @if(isset($countries))
-                                                @foreach($countries as $country)
-                                                <option
-                                                    value="{{ $country['id'] }}"
-                                                    >{{
-                                                        $country["name"]
-                                                    }}</option
-                                                >
-                                                @endforeach @endif
-                                            </select>
-                                        </div>
-                                        <!--end::Select-->
-                                    </div>
-                                </div>
+                                @include('pages.students.partials.enrollment')
                             </div>
                             <!--end: Wizard Step 4-->
-                            <!--begin: Wizard Step 5-->
+
+                            <!--begin: Wizard Step 5 -->
                             <div class="pb-5" data-wizard-type="step-content">
                                 <!--begin::Section-->
                                 <h4 class="mb-10 font-weight-bold text-dark">
-                                    Review your Details and Submit
+                                    Collect fee and enroll
                                 </h4>
-                                <h6 class="font-weight-bolder mb-3">
-                                    Current Address:
-                                </h6>
-                                <div class="text-dark-50 line-height-lg">
-                                    <div>Address Line 1</div>
-                                    <div>Address Line 2</div>
-                                    <div>
-                                        Melbourne 3000, VIC, Australia
-                                    </div>
-                                </div>
-                                <div
-                                    class="separator separator-dashed my-5"
-                                ></div>
-                                <!--end::Section-->
-                                <!--begin::Section-->
-                                <h6 class="font-weight-bolder mb-3">
-                                    Delivery Details:
-                                </h6>
-                                <div class="text-dark-50 line-height-lg">
-                                    <div>
-                                        Package: Complete Workstation (Monitor,
-                                        Computer, Keyboard &amp; Mouse)
-                                    </div>
-                                    <div>Weight: 25kg</div>
-                                    <div>
-                                        Dimensions: 110cm (w) x 90cm (h) x 150cm
-                                        (L)
-                                    </div>
-                                </div>
-                                <div
-                                    class="separator separator-dashed my-5"
-                                ></div>
-                                <!--end::Section-->
-                                <!--begin::Section-->
-                                <h6 class="font-weight-bolder mb-3">
-                                    Delivery Service Type:
-                                </h6>
-                                <div class="text-dark-50 line-height-lg">
-                                    <div>
-                                        Overnight Delivery with Regular
-                                        Packaging
-                                    </div>
-                                    <div>
-                                        Preferred Morning (8:00AM - 11:00AM)
-                                        Delivery
-                                    </div>
-                                </div>
-                                <div
-                                    class="separator separator-dashed my-5"
-                                ></div>
-                                <!--end::Section-->
-                                <!--begin::Section-->
-                                <h6 class="font-weight-bolder mb-3">
-                                    Delivery Address:
-                                </h6>
-                                <div class="text-dark-50 line-height-lg">
-                                    <div>Address Line 1</div>
-                                    <div>Address Line 2</div>
-                                    <div>
-                                        Preston 3072, VIC, Australia
-                                    </div>
-                                </div>
-                                <!--end::Section-->
+                                <div id="fee_collection_form"></div>
                             </div>
+
                             <!--end: Wizard Step 5-->
                             <!--begin: Wizard Actions-->
                             <div
@@ -809,7 +379,7 @@
                                         class="btn btn-success font-weight-bolder text-uppercase px-9 py-4"
                                         data-wizard-type="action-submit"
                                     >
-                                        Submit
+                                        Enroll
                                     </button>
                                     <button
                                         type="button"
@@ -838,5 +408,102 @@
 
 {{-- Scripts Section --}}
 @section('scripts')
-<script src="{{ asset('js/pages/custom/wizard/wizard-2.js') }}"></script>
+<script src="{{
+        asset('js/pages/custom/wizard/student_enrollment_validation.js')
+    }}"></script>
+
+<script>
+    var KTBootstrapDatepicker = (function() {
+        var arrows;
+        if (KTUtil.isRTL()) {
+            arrows = {
+                leftArrow: '<i class="la la-angle-right"></i>',
+                rightArrow: '<i class="la la-angle-left"></i>'
+            };
+        } else {
+            arrows = {
+                leftArrow: '<i class="la la-angle-left"></i>',
+                rightArrow: '<i class="la la-angle-right"></i>'
+            };
+        }
+
+        // Private functions
+        var demos = function() {
+            // minimum setup
+            $("#dob").datepicker({
+                rtl: KTUtil.isRTL(),
+                todayHighlight: true,
+                orientation: "bottom left",
+                templates: arrows
+            });
+
+            $("#admissionDate").datepicker({
+                rtl: KTUtil.isRTL(),
+                todayHighlight: true,
+                orientation: "bottom left",
+                templates: arrows
+            });
+        };
+
+        return {
+            // public functions
+            init: function() {
+                demos();
+            }
+        };
+    })();
+
+    jQuery(document).ready(function() {
+        KTBootstrapDatepicker.init();
+
+        $("#class").on("change", function() {
+            let classID = $(this).val();
+            let section = $("#sections");
+
+            if (!classID) return false;
+
+            $.post(
+                "{{ url('get_all_sections_for_class') }}",
+                { classID: classID, _token: "{{ csrf_token() }}" },
+                function(data) {
+                    if (data.status == 200) {
+                        let sections = data.data;
+                        if (!sections.length) return false;
+                        let processedSections = `<option>Select Section</option>`;
+                        processedSections += sections.map(
+                            item =>
+                                `<option value="${item.id}">${item.section_name}</option>`
+                        );
+                        sections = undefined;
+
+                        section.html(processedSections);
+                    }
+                }
+            );
+
+            if ($("#session").val() != "") {
+                let sessionID = $("#session").val();
+
+                $.post(
+                    "{{ url('get_fee_structure') }}",
+                    {
+                        classID: classID,
+                        sessionID: sessionID,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    function(data) {
+                        if (data) {
+                            $("#fee_collection_form").html(data);
+                        } else {
+                            $("#fee_collection_form").html(
+                                `<h3>Please first create <b>Fee Structure</b> for the selected <b>Class</b></h3>`
+                            );
+                        }
+                    }
+                );
+            }
+        });
+    });
+</script>
+
 @endsection
