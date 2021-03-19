@@ -25,8 +25,8 @@ class GuardianController extends Controller
 
     public function guardians_list($p = null)
     {
-        $page_title = 'Guadian Listing';
-        $page_description = $p == null ? 'List of all active guardians' : 'List of all deleted guardians';
+        $page_title = 'Account Listing';
+        $page_description = $p == null ? 'List of all active accounts' : 'List of all deleted accounts';
         $trashed = $p != null ? true : false;
 
         return view('pages.guardians.list', compact('page_title', 'page_description', 'trashed'));
@@ -47,27 +47,18 @@ class GuardianController extends Controller
         /***  Check whether the request is ajax or not */
         if ($RQ->ajax()) {
             return DataTables::of($guardians)->addIndexColumn()
-                ->addColumn('name', function ($row) {
+                ->addColumn('guardianName', function ($row) {
                     $name = $row->grd_name;
                     return $name;
-                })->addColumn('cnic', function ($row) {
-                    $cnic = $row->grd_cnic;
+                })->addColumn('guardianCNIC', function ($row) {
+                    $cnic = $row->grd_cnic_no;
                     return $cnic;
-                })->addColumn('mobile', function ($row) {
+                })->addColumn('guardianContact', function ($row) {
                     $mobile = $row->grd_mobile;
                     return $mobile;
-                })->addColumn('phone', function ($row) {
-                    $phone = $row->grd_home_ph;
-                    return $phone;
-                })->addColumn('email', function ($row) {
-                    $email = $row->grd_email;
-                    return $email;
-                })->addColumn('address', function ($row) {
-                    $address = $row->grd_address;
-                    return $address;
-                })->addColumn('occupation', function ($row) {
-                    $occupation = $row->grd_occupation;
-                    return $occupation;
+                })->addColumn('accountBalance', function ($row) {
+                    $balance = $row->account_balance;
+                    return $balance;
                 })->addColumn('createdAt', function ($row) {
                     $createdAt = $row->created_at != '' ? $row->created_at : 'Null';
                     return $createdAt;
@@ -75,8 +66,7 @@ class GuardianController extends Controller
                     $updatedAt = $row->updated_at != '' ? $row->updated_at : 'Null';
                     return $updatedAt;
                 })->addColumn('action', function ($row) {
-                    $actBtn = '<a href="' . url('guardian_edit/' . $row->id) . '" class="btn btn-sm btn-clean btn-icon" title="Edit details"><i class="la la-edit"></i></a>';
-                    $actBtn .= '<a href="' . url('guardian_delete/' . $row->id) . '" class="btn btn-sm btn-clean btn-icon" title="Delete"><i class="la la-trash"></i></a>';
+                    $actBtn = '<a href="' . url('account_Transactions/' . $row->id) . '" class="btn btn-sm btn-clean btn-icon" title="Transaction history"><i class="flaticon-layers"></i></a>';
                     return $actBtn;
                 })->rawColumns(['action'])->make(true);
         }
@@ -140,14 +130,98 @@ class GuardianController extends Controller
      * a form view to edit a guardian 
      */
 
-    public function edit_guardian(Request $RQ, $id)
+    public function show_transaction_history(Request $RQ, $id)
     {
-        $page_title = 'Edit Guardian';
-        $page_description = 'Use this form to edit/update student guardian';
+        $page_title = 'Transactions History';
+        $page_description = 'List all transactions history for this account';
 
-        $guardian = $this->guardian_service->get_a_guardian($id)[0];
+        $transactions = $this->guardian_service->get_account_transactions($id);
 
-        return view('pages.guardians.edit', compact('page_title', 'page_description', 'guardian'));
+        return view('pages.guardians.transaction_list', compact('page_title', 'page_description', 'transactions'));
+    }
+
+
+    /**
+     * 
+     * 
+     * 
+     * Cash deposit view
+     */
+    public function cash_deposit(Request $RQ, $id)
+    {
+        $page_title = 'Cash Deposit';
+        $page_description = 'account recharging';
+
+        $account_details = $this->guardian_service->get_a_guardian($id)[0];
+
+        return view('pages.guardians.deposit', compact('page_title', 'page_description', 'account_details'));
+    }
+
+
+    /**
+     * 
+     * 
+     * 
+     * Cash withdraw view
+     */
+    public function cash_withdraw(Request $RQ, $id)
+    {
+        $page_title = 'Cash Withdraw';
+        $page_description = 'account discharging';
+
+        $account_details = $this->guardian_service->get_a_guardian($id)[0];
+
+        return view('pages.guardians.withdraw', compact('page_title', 'page_description', 'account_details'));
+    }
+
+
+    /**
+     * 
+     * 
+     * 
+     * Reversing a last transaction 
+     */
+    public function reverse_transaction(Request $RQ, $id)
+    {
+        $page_title = 'Recent Transaction';
+        $page_description = 'Reversing Transaction';
+
+        $transaction_details = $this->guardian_service->get_a_transaction($id)[0];
+        $account_details = $this->guardian_service->get_a_guardian($transaction_details->guardian_id)[0];
+
+        return view('pages.guardians.revers_transaction', compact('page_title', 'page_description', 'account_details', 'transaction_details'));
+    }
+
+
+    /**
+     * 
+     * 
+     * Store Family account transaction record. 
+     */
+    function save_account_transaction(Request $rq)
+    {
+        $res = $this->guardian_service->save_transaction($rq);
+        if ($res) {
+            return redirect()->back()->with('success', 'Transaction made successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Transaction can not be made at this time.');
+        }
+    }
+
+
+    /**
+     * 
+     * 
+     * Update Family account transaction record. 
+     */
+    function update_account_transaction(Request $rq)
+    {
+        $res = $this->guardian_service->update_transaction($rq);
+        if ($res) {
+            return redirect()->back()->with('success', 'Transaction updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Transaction can not be updated at this time.');
+        }
     }
 
 

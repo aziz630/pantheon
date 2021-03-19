@@ -242,6 +242,7 @@
                     <th>Gender</th>
                     <th>Class/Grade</th>
                     <th>Section</th>
+                    <th>Previous School</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -302,7 +303,8 @@
                 { data: "gender" },
                 { data: "class" },
                 { data: "section" },
-                { data: "action", orderable: true, searchable: true }
+                { data: "documents", orderable: false, searchable: false },
+                { data: "action", orderable: false, searchable: false }
             ]
         }); //.search( 'Enrolled' ).draw();
 

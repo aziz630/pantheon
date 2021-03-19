@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Enrollment;
+use App\Models\FamilyTransaction;
 use App\Models\Fee;
 use App\Models\Guardian;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ class StudentService
     private $rq = null;
     private $guardianID = null;
     private $studentID = null;
+    private $familyAccount_balance = 0;
 
     /**
      * 
@@ -26,7 +28,7 @@ class StudentService
      */
     public function get_all_students()
     {
-        $students = false;
+        $students = collect();
         $data = DB::table('students')
             ->join('enrollments', 'students.id', '=', 'enrollments.student_id')
             ->join('classes', 'enrollments.class_id', '=', 'classes.id')
@@ -36,7 +38,7 @@ class StudentService
                 'enrollments.class_id',
                 'enrollments.section_id',
                 'classes.class_name',
-                'sections.section_name',
+                'sections.section_name'
             )
             ->where('students.deleted_at', '=', Null)
             ->orderBy('students.id')
@@ -81,19 +83,28 @@ class StudentService
 
         try {
             DB::transaction(function () {
-                $guardian = Guardian::create([
-                    'grd_name' => $this->rq->guardianName,
-                    'grd_cnic_no' => $this->rq->guardianCnic,
-                    'grd_mobile' => $this->rq->guardianMobile,
-                    'grd_home_ph' => $this->rq->guardianHomePhone,
-                    'grd_email' => $this->rq->guardianEmail,
-                    'grd_address' => $this->rq->gurdianAddress,
-                    'grd_occupation' => $this->rq->guardianOccupation,
-                    'account_balance' => '0',
-                    'grd_cnic_copy' => 'no image',
-                ]);
+                $guardian = Guardian::where('grd_cnic_no', $this->rq->guardianCnic)->get();
+                // making sure that the guardian exists or not. 
+                if (count($guardian) && $guardian[0]->id) {
+                    $this->guardianID = $guardian[0]->id;
+                    $this->familyAccount_balance = $guardian[0]->account_balance;
+                } else {
+                    $guardian = Guardian::create([
+                        'grd_name' => $this->rq->guardianName,
+                        'grd_cnic_no' => $this->rq->guardianCnic,
+                        'grd_mobile' => $this->rq->guardianMobile,
+                        'grd_home_ph' => $this->rq->guardianHomePhone,
+                        'grd_email' => $this->rq->guardianEmail,
+                        'grd_address' => $this->rq->gurdianAddress,
+                        'grd_occupation' => $this->rq->guardianOccupation,
+                        'account_balance' => '0',
+                        'grd_cnic_copy' => 'no image',
+                    ]);
 
-                $this->guardianID = $guardian->id;
+                    $this->guardianID = $guardian->id;
+                    $this->familyAccount_balance = 0;
+                }
+
 
                 $student = Student::create([
                     'std_name' => $this->rq->fullName,
@@ -130,6 +141,16 @@ class StudentService
                     'enrollment_status' => 1,
                 ]);
 
+                FamilyTransaction::create([
+                    'guardian_id' => $this->guardianID,
+                    'transaction_date' => date('Y-m-d H:i:s', strtotime("-1 minutes")),
+                    'description' => 'Security Fee deposit',
+                    'debit_amount' => intval($this->rq->Security),
+                    'credit_amount' => 0,
+                    'balance' => $this->familyAccount_balance + intval($this->rq->Security),
+                    'is_notified' => 1,
+                ]);
+
                 $guardian = Guardian::find($this->guardianID);
                 $guardian->account_balance = intval($this->rq->Security) + intval($guardian->account_balance);
                 $guardian->save();
@@ -143,8 +164,8 @@ class StudentService
                         'description' => 'Amount payable for new admission',
                         'discount_amount' => 0,
                         'debit_amount' => 0,
-                        'credit_amount' => intval($this->rq->deposit) + intval($this->rq->concission),
-                        'amount_payable' => intval($this->rq->deposit) + intval($this->rq->concission),
+                        'credit_amount' => (intval($this->rq->deposit) + intval($this->rq->concission)) - intval($this->rq->Security),
+                        'amount_payable' => (intval($this->rq->deposit) + intval($this->rq->concission)) - intval($this->rq->Security),
                         'is_notified' => 1,
                         'is_processed' => 1,
                         'created_at' => date('Y-m-d H:i:s'),
@@ -175,7 +196,6 @@ class StudentService
             //dd($e);
             return $std_id;
         }
-
         return true;
     }
 }

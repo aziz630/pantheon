@@ -4,22 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PreviousSchool extends Model
+class FamilyTransaction extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     /*
      * Database table Name
      */
-    protected $table = 'prev_schools';
+    protected $table = 'family_account_transactions';
 
     //protected $fillable = [];
 
     protected $guarded = [];
 
-    public function previous_school_remarks()
+    public function account()
     {
-        return $this->hasOne(PreviousSchoolRemark::class, 'prev_school_id');
+        return $this->belongsTo(Guardian::class);
     }
 }

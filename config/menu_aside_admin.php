@@ -238,11 +238,7 @@ return [
 					'submenu' => [
 						[
 							'title' => 'Search Accounts',
-							'page' => '',
-						],
-						[
-							'title' => 'Make Transaction',
-							'page' => '',
+							'page' => 'accounts',
 						],
 						[
 							'title' => 'Trashed',

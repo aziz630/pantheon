@@ -12,6 +12,8 @@ use App\Http\Controllers\FeeController;
 
 
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\PreviousSchoolController;
+use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\PagesController;
 
 /*
@@ -168,19 +170,41 @@ Route::post('/fee_record_edit', [FeeController::class, 'update_fee_record'])->mi
  */
 
 /*** [ Guardians ] */
-Route::get('/guardians/{p?}', [GuardianController::class, 'guardians_list'])->middleware('auth');
-Route::get('/get_guardians', [GuardianController::class, 'read_all_guardians'])->middleware('auth');
-Route::get('/trashed_guardians', [GuardianController::class, 'read_all_trashed_guardians'])->middleware('auth');
+Route::get('/accounts/{p?}', [GuardianController::class, 'guardians_list'])->middleware('auth');
+Route::get('/get_accounts', [GuardianController::class, 'read_all_guardians'])->middleware('auth');
+Route::get('/trashed_accounts', [GuardianController::class, 'read_all_trashed_guardians'])->middleware('auth');
 
-Route::get('/guardian_edit/{id}', [GuardianController::class, 'edit_guardian'])->middleware('auth');
-Route::post('/guardian_edit', [GuardianController::class, 'update_guardian'])->middleware('auth')->name('guardian.update');
+Route::get('/account_Transactions/{id}', [GuardianController::class, 'show_transaction_history'])->middleware('auth');
 
-Route::get('/guardian_delete/{id}', [GuardianController::class, 'delete_guardian'])->middleware('auth');
-Route::get('/guardian_restore/{id}', [GuardianController::class, 'restore_guardian'])->middleware('auth');
+Route::get('/account_delete/{id}', [GuardianController::class, 'delete_guardian'])->middleware('auth');
+Route::get('/account_restore/{id}', [GuardianController::class, 'restore_guardian'])->middleware('auth');
+Route::get('/deposit_to_family_account/{id}', [GuardianController::class, 'cash_deposit'])->middleware('auth')->name('family_account.deposit');
+Route::post('/save_account_transaction', [GuardianController::class, 'save_account_transaction'])->middleware('auth');
+Route::post('/reverse_account_transaction', [GuardianController::class, 'update_account_transaction'])->middleware('auth');
+Route::get('/withdraw_from_family_account/{id}', [GuardianController::class, 'cash_withdraw'])->middleware('auth')->name('family_account.withdraw');
+Route::get('/reverse_transaction/{id}', [GuardianController::class, 'reverse_transaction'])->middleware('auth');
+
 
 /**
  * 
  * Guardian and family accounts module routes ends here **************************************
+ */
+
+
+/**
+ * 
+ * Student Previous school information routes starts here **************************************
+ */
+Route::get('/student/{id}/previous_school', [PreviousSchoolController::class, 'get_student_previous_school'])->middleware('auth');
+Route::get('/add_previous_school', [PreviousSchoolController::class, 'create_previous_school'])->middleware('auth');
+Route::post('/save_previous_school', [PreviousSchoolController::class, 'save_previous_school'])->middleware('auth')->name('previousSchool.save');
+Route::get('/student/{std_id}/edit_previous_school', [PreviousSchoolController::class, 'edit_previous_school_info'])->middleware('auth');
+Route::post('/update_previous_school', [PreviousSchoolController::class, 'update_a_previous_school'])->middleware('auth')->name('previousSchool.update');
+
+
+/**
+ * 
+ * Student Previous school information routes ends here **************************************
  */
 
 

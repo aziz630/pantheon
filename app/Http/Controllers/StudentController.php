@@ -71,12 +71,17 @@ class StudentController extends Controller
                 ->addColumn('section', function ($row) {
                     $section = $row->section_name;
                     return $section;
+                })->addColumn('documents', function ($row) {
+                    /**  <a href=\"javascript:;\" class=\"btn btn-sm btn-clean btn-icon\" title=\"Edit details\">\\\r\n\t\t\t\t\t\t\t\t<i class=\"la la-edit\"></i>\\\r\n\t\t\t\t\t\t\t</a> */
+                    $docBtn = '<a href="' . url("student/$row->id/previous_school") . '" class="btn btn-sm btn-clean btn-icon" title="checkout previous school info"><i class="flaticon2-crisp-icons text-success"></i></a>';
+                    $docBtn .= '<a href="' . url("student/$row->id/edit_previous_school") . '" class="btn btn-sm btn-clean btn-icon" title="Edit previous school info"><i class="flaticon2-writing text-primary"></i></a>';
+                    return $docBtn;
                 })->addColumn('action', function ($row) {
                     /**  <a href=\"javascript:;\" class=\"btn btn-sm btn-clean btn-icon\" title=\"Edit details\">\\\r\n\t\t\t\t\t\t\t\t<i class=\"la la-edit\"></i>\\\r\n\t\t\t\t\t\t\t</a> */
-                    $actBtn = '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Edit details"><i class="la la-edit"></i></a>';
-                    $actBtn .= '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Delete"><i class="la la-trash"></i></a>';
+                    $actBtn = '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Edit details"><i class="la la-edit text-primary"></i></a>';
+                    $actBtn .= '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Delete"><i class="la la-trash text-danger"></i></a>';
                     return $actBtn;
-                })->rawColumns(['action'])->make(true);
+                })->rawColumns(['documents', 'action'])->make(true);
         }
     }
 

@@ -8,7 +8,8 @@
 @endsection
 
 {{-- Content --}}
-@section('content') @php $search = false; @endphp
+@section('content') @php $search = false; @endphp 
+
 
 {{-- Create new sections form --}}
 <!--begin::Card-->
