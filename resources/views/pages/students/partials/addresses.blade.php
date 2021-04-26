@@ -1,11 +1,11 @@
 <div class="row">
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Current Address</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="stdCurrentAddress"
                 placeholder="Student current address"
                 value=""
@@ -16,13 +16,13 @@
         </div>
         <!--end::Input-->
     </div>
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Permanent Address</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="stdPermanentAddress"
                 placeholder="Student permanent address"
                 value=""

@@ -1,11 +1,11 @@
 <div class="row">
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Full Name</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="fullName"
                 placeholder="Full Name"
                 value=""
@@ -17,13 +17,13 @@
         <!--end::Input-->
     </div>
 
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Date of Birth</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="stdDOB"
                 readonly
                 id="dob"
@@ -36,16 +36,14 @@
         </div>
         <!--end::Input-->
     </div>
-</div>
-
-<div class="row">
-    <div class="col-xl-6">
+    
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Place of Birth</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="stdPOB"
                 placeholder="City or Village or Town"
                 value=""
@@ -56,8 +54,10 @@
         </div>
         <!--end::Input-->
     </div>
+</div>
 
-    <div class="col-xl-6">
+<div class="row">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Gender</label>
@@ -97,10 +97,8 @@
         </div>
         <!--end::Input-->
     </div>
-</div>
 
-<div class="row">
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Religion</label>
@@ -133,7 +131,8 @@
         </div>
         <!--end::Input-->
     </div>
-    <div class="col-xl-6">
+
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Nationality</label>
@@ -169,13 +168,13 @@
 </div>
 
 <div class="row">
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Student Mobile No.</label>
             <input
                 type="tel"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="stdPhone"
                 placeholder="3429999999"
                 value=""
@@ -186,13 +185,13 @@
         </div>
         <!--end::Input-->
     </div>
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Email</label>
             <input
                 type="email"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="stdEmail"
                 placeholder="student@example.com"
                 value=""
@@ -205,14 +204,16 @@
     </div>
 </div>
 
+<hr />
+
 <div class="row">
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Father Name</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="stdFatherName"
                 placeholder="Student Father Name"
                 value=""
@@ -224,13 +225,13 @@
         <!--end::Input-->
     </div>
 
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Father CNIC</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="stdFatherCNIC"
                 placeholder="99999-9999999-9"
                 value=""
@@ -241,16 +242,14 @@
         </div>
         <!--end::Input-->
     </div>
-</div>
 
-<div class="row">
-    <div class="col-xl-12">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Father Occupation</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="stdFatherOccupation"
                 placeholder="Student Father Occupation"
                 value=""
@@ -263,14 +262,16 @@
     </div>
 </div>
 
+<hr />
+
 <div class="row">
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Mother Name</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="stdMotherName"
                 placeholder="Student Mother Name"
                 value=""
@@ -282,13 +283,13 @@
         <!--end::Input-->
     </div>
 
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Mother CNIC</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="stdMotherCNIC"
                 placeholder="99999-9999999-9"
                 value=""
@@ -299,16 +300,14 @@
         </div>
         <!--end::Input-->
     </div>
-</div>
 
-<div class="row">
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Mother Occupation</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="stdMotherOccupation"
                 placeholder="Student Mother Occupation"
                 value=""
@@ -319,13 +318,18 @@
         </div>
         <!--end::Input-->
     </div>
-    <div class="col-xl-6">
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Emergency Contact</label>
             <input
                 type="tel"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="stdEmergency"
                 placeholder="3429999999"
                 value=""
