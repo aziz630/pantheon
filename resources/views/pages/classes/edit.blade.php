@@ -19,6 +19,20 @@ return true; } return false; } } @endphp
             </h3>
         </div>
     </div>
+
+
+    {{-- Error Validation Messages --}}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    
     <!--begin::Form-->
     <form class="form" action="{{ route('class.update') }}" method="post">
         <div class="card-body">

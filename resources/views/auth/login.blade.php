@@ -146,5 +146,4 @@
 
 {{-- Scripts Section --}}
 @section('scripts')
-<script src="{{ asset('js/pages/custom/login/login-general.js') }}"></script>
 @endsection

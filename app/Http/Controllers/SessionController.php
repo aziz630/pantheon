@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSessionRequest;
 use Illuminate\Http\Request;
 use App\Services\SessionService;
 use Yajra\DataTables\Facades\DataTables;
@@ -119,8 +120,9 @@ class SessionController extends Controller
      * Save new sessions
      */
 
-    public function save_session(Request $RQ)
+    public function save_session(StoreSessionRequest $RQ)
     {
+        
         $res = $this->session_service->save_session($RQ);
         if ($res) {
             return redirect()->back()->with('success', 'Session created successfully.');
@@ -138,7 +140,7 @@ class SessionController extends Controller
      * a form view to edit a section 
      */
 
-    public function edit_session(Request $rq, $id)
+    public function edit_session(StoreSessionRequest $rq, $id)
     {
         $page_title = 'Edit Session';
         $page_description = 'Use this form to edit/update session';

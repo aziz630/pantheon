@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSectionRequest;
 use Illuminate\Http\Request;
 use App\Services\SectionService;
 use Yajra\DataTables\Facades\DataTables;
@@ -119,7 +120,7 @@ class SectionController extends Controller
      * Save new section
      */
 
-    public function save_section(Request $RQ)
+    public function save_section(StoreSectionRequest $RQ)
     {
         $res = $this->section_service->save_section($RQ);
         if ($res) {
@@ -155,7 +156,7 @@ class SectionController extends Controller
      * Update section
      */
 
-    public function update_section(Request $RQ)
+    public function update_section(StoreSectionRequest $RQ)
     {
         $res = $this->section_service->update_section($RQ);
         if ($res) {

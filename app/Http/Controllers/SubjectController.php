@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSubjectRequest;
 use Illuminate\Http\Request;
 use App\Services\SubjectService;
 use Yajra\DataTables\Facades\DataTables;
@@ -125,7 +126,7 @@ class SubjectController extends Controller
      * Save new subject
      */
 
-    public function save_subject(Request $RQ)
+    public function save_subject(StoreSubjectRequest $RQ)
     {
         $res = $this->subject_service->save_subject($RQ);
         if ($res) {
@@ -160,7 +161,7 @@ class SubjectController extends Controller
      * Update subject
      */
 
-    public function update_subject(Request $RQ)
+    public function update_subject(StoreSubjectRequest $RQ)
     {
         $res = $this->subject_service->update_subject($RQ);
         if ($res) {

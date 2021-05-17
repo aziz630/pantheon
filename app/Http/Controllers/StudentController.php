@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreStudentRequest;
 use App\Services\ClassesService;
 use App\Services\FeeService;
 use App\Services\SectionService;
@@ -129,7 +130,7 @@ class StudentController extends Controller
      * 
      * Save and Enroll new student
      */
-    public function save_and_enroll_new_student(Request $RQ)
+    public function save_and_enroll_new_student(StoreStudentRequest $RQ)
     {
         $page_title = "Student Enrollment";
         $page_description = "Please fill out all fields carefully.";
