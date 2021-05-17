@@ -14,7 +14,7 @@
         />
         <input
             type="number"
-            class="form-control"
+            class="form-control form-control-solid"
             disabled
             name="{{ $category->category_name }}"
             placeholder="Enter amount in PKR"
@@ -43,7 +43,7 @@
         <label>Amount Payable:</label>
         <input
             type="text"
-            class="form-control"
+            class="form-control form-control-solid"
             id="payable"
             disabled
             placeholder="Amount to pay"
@@ -55,7 +55,7 @@
         <label>Make Concission:</label>
         <input
             type="number"
-            class="form-control"
+            class="form-control form-control-solid"
             id="concission"
             placeholder="offer a discount"
             name="concission"
@@ -65,7 +65,7 @@
         <label>Deposit:</label>
         <input
             type="number"
-            class="form-control"
+            class="form-control form-control-solid"
             id="deposit"
             placeholder="Enter deposit amount"
             name="deposit"

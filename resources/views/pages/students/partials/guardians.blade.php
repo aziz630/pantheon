@@ -1,11 +1,11 @@
 <div class="row">
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Guardian Name</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="guardianName"
                 placeholder="Guardian Name"
                 value=""
@@ -17,13 +17,13 @@
         <!--end::Input-->
     </div>
 
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Guardian CNIC</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="guardianCnic"
                 placeholder="99999-9999999-9"
                 value=""
@@ -34,16 +34,14 @@
         </div>
         <!--end::Input-->
     </div>
-</div>
 
-<div class="row">
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Landline No.</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="guardianHomePhone"
                 placeholder="guardian landline number"
                 value=""
@@ -54,14 +52,16 @@
         </div>
         <!--end::Input-->
     </div>
+</div>
 
-    <div class="col-xl-6">
+<div class="row">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Mobile No.</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="guardianMobile"
                 placeholder="guardian mobile number"
                 value=""
@@ -72,16 +72,14 @@
         </div>
         <!--end::Input-->
     </div>
-</div>
-
-<div class="row">
-    <div class="col-xl-6">
+    
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Email address.</label>
             <input
                 type="email"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="guardianEmail"
                 placeholder="guardian email address"
                 value=""
@@ -93,13 +91,13 @@
         <!--end::Input-->
     </div>
 
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Occupation.</label>
             <input
                 type="text"
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="guardianOccupation"
                 placeholder="guardian occupation"
                 value=""
@@ -118,8 +116,9 @@
         <div class="form-group">
             <label>Address</label>
             <textarea
-                class="form-control form-control-solid form-control-lg"
+                class="form-control form-control-solid"
                 name="gurdianAddress"
+                rows="4"
                 placeholder="guardian address"
                 value=""
             ></textarea>
