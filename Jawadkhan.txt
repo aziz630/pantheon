@@ -9,4 +9,4 @@ git pull/push/merge/commit procedure.
 7. push the both branchs to the remote repository.
 
 8. Thank you.
-9. removed.
+9. Ihtisham added this line.
