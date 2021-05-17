@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreClassRequest;
 use Illuminate\Http\Request;
 use App\Services\ClassesService;
 use App\Services\SectionService;
@@ -136,7 +137,7 @@ class ClassController extends Controller
      * Save new class
      */
 
-    public function save_class(Request $RQ)
+    public function save_class(StoreClassRequest $RQ)
     {
         $res = $this->class_service->save_class($RQ);
         if ($res) {
@@ -174,7 +175,7 @@ class ClassController extends Controller
      * Update class
      */
 
-    public function update_class(Request $RQ)
+    public function update_class(StoreClassRequest $RQ)
     {
         $res = $this->class_service->update_class($RQ);
         if ($res) {
