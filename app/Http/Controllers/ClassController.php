@@ -139,6 +139,7 @@ class ClassController extends Controller
 
     public function save_class(StoreClassRequest $RQ)
     {
+        dd($RQ);
         $res = $this->class_service->save_class($RQ);
         if ($res) {
             return redirect()->back()->with('success', 'Class created successfully.');

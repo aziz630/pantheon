@@ -6,9 +6,9 @@
 
 ### Installation
 
-Laravel has a set of requirements in order to run smoothly in specific environment. Please see [requirements](https://laravel.com/docs/7.x#server-requirements) section in Laravel documentation.
+Pantheon School ERP installation and configuration steps:
+Jawad khan -- Full stack web developer
 
-PantheonSchool similarly uses additional plugins and frameworks, so ensure You have [Composer](https://getcomposer.org/) and [Node](https://nodejs.org/) installed on Your machine.
 
 Assuming your machine meets all requirements - let's process to installation of PantheonSchool
 
