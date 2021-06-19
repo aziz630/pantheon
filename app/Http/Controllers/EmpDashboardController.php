@@ -26,7 +26,7 @@ class EmpDashboardController extends Controller
         
         // if(Auth::user()->hasRole('employee')){
             $user = Auth::user();
-            dd($user->email);
+            dd($user->gande);
             return view('pages.empdashboard', compact('page_title', 'page_description', 'total_employee','user'));
         // }
     
