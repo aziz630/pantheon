@@ -7,7 +7,8 @@
 {{-- Dashboard 1 --}}
 
 <div class="row">
-  <h1>{{ $user->name }}</h1>
+
+
 </div>
 
 @endsection

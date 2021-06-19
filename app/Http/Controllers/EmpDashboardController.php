@@ -25,9 +25,9 @@ class EmpDashboardController extends Controller
         $total_employee = $this->emp_dashboardService->count_all_employee();
         
         // if(Auth::user()->hasRole('employee')){
-            $user = Auth::user();
-            dd($user->gande);
-            return view('pages.empdashboard', compact('page_title', 'page_description', 'total_employee','user'));
+            // $user = Auth::user();
+            // dd($user->gande);
+            return view('pages.empdashboard', compact('page_title', 'page_description', 'total_employee'));
         // }
     
         

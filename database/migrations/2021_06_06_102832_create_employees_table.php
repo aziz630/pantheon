@@ -29,6 +29,8 @@ class CreateEmployeesTable extends Migration
             $table->string('emp_gender');
             $table->string('is_employee');
             $table->string('emp_religion');
+            $table->string('reason_of_resign')->default(NULL)->nullable();
+            $table->boolean('status')->default(1);
             $table->string('emp_experience');
             $table->string('emp_image');
             $table->string('emp_file');
