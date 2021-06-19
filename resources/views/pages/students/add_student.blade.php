@@ -151,58 +151,6 @@
                 demos();
             }
         };
-    })();
-
-    jQuery(document).ready(function() {
-        KTBootstrapDatepicker.init();
-
-        $("#class").on("change", function() {
-            let classID = $(this).val();
-            let section = $("#sections");
-
-            if (!classID) return false;
-
-            $.post(
-                "{{ url('get_all_sections_for_class') }}",
-                { classID: classID, _token: "{{ csrf_token() }}" },
-                function(data) {
-                    if (data.status == 200) {
-                        let sections = data.data;
-                        if (!sections.length) return false;
-                        let processedSections = `<option>Select Section</option>`;
-                        processedSections += sections.map(
-                            item =>
-                                `<option value="${item.id}">${item.section_name}</option>`
-                        );
-                        sections = undefined;
-
-                        section.html(processedSections);
-                    }
-                }
-            );
-
-            if ($("#session").val() != "") {
-                let sessionID = $("#session").val();
-
-                $.post(
-                    "{{ url('get_fee_structure') }}",
-                    {
-                        classID: classID,
-                        sessionID: sessionID,
-                        _token: "{{ csrf_token() }}"
-                    },
-                    function(data) {
-                        if (data) {
-                            $("#fee_collection_form").html(data);
-                        } else {
-                            $("#fee_collection_form").html(
-                                `<h3>Please first create <b>Fee Structure</b> for the selected <b>Class</b></h3>`
-                            );
-                        }
-                    }
-                );
-            }
-        });
     });
 </script>
 

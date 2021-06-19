@@ -62,8 +62,13 @@
             >
             <!--end::Button-->
         </div>
-        @php $remoteUrl = url('get_classes'); @endphp @else @php $remoteUrl =
-        url('trashed_classes'); @endphp @endif
+        @php $remoteUrl = url('get_classes'); @endphp 
+        
+    @else 
+    @php $remoteUrl =
+        url('trashed_classes'); 
+        @endphp 
+    @endif
     </div>
     <div class="card-body">
         @include('pages.alerts.alerts')
@@ -125,7 +130,7 @@
                 { data: "classSections" },
                 { data: "createdAt" },
                 { data: "updatedAt" },
-                { data: "action", orderable: true, searchable: true }
+                { data: "action", orderable: false, searchable: false }
             ]
         });
     });

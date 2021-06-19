@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classes;
 use Illuminate\Http\Request;
 use App\Services\DashboardService;
-use App\Models\Classes;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -15,14 +16,18 @@ class DashboardController extends Controller
         $this->dashboardService = new DashboardService();
     }
 
-
     public function index()
     {
         $page_title = 'Dashboard';
         $page_description = 'Some description for the page';
 
-        $total_students = $this->dashboardService->count_all_students();
-
-        return view('pages.dashboard', compact('page_title', 'page_description', 'total_students'));
+        // $total_employee = $this->dashboardService->count_all_employee();
+        // if(Auth::user()->hasRole('admin')){
+            return view('pages.dashboard', compact('page_title', 'page_description'));
+        // }
+        // if(Auth::user()->hasRole('admin')) {
+        //     return redirect('/dashboard');
+        // }
+        
     }
 }

@@ -256,20 +256,46 @@ return [
             'submenu' => [
 				[
                     'title' => 'Hire an employee',
-					'page' => '#',
+					'page' => 'hire_employ',
                 ],
 				[
 					'title' => 'Search Employees',
-					'page' => '#'
+					'page' => 'employee',
+				],
+                [
+					'title' => 'Domestic Employees',
+					'page' => 'domEmployee',
 				],
 				[
                     'title' => 'Resigned Employees',
-					'page' => '#',
+					'page' => 'resigneEmp',
                 ],
 				[
                     'title' => 'Fired Employees',
-					'page' => '#',
+					'page' => 'fireEmp',
                 ],
+                [
+                    'title' => 'Trashed Employee',
+                    'page' => 'employee/trashed'
+                ]
+                // [
+                //     'title' => 'Domestic Employee',
+                //     'bullet' => 'dot',
+                //     'submenu' => [
+                //         [
+                //             'title' => 'Search Employee',
+                //             'page' => 'dom_employee'
+                //         ],
+                //         [
+                //             'title' => 'Add Employee',
+                //             'page' => 'fire_dom_employee'
+                //         ],
+                //         [
+                //             'title' => 'Trashed',
+                //             'page' => 'classes/trashed'
+                //         ]
+                //     ]
+                // ]
             ]
         ],
 		
@@ -278,6 +304,7 @@ return [
             'section' => 'General',
         ],
         
-    ]
+    ],
 
+    
 ];

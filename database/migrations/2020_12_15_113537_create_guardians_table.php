@@ -15,6 +15,7 @@ class CreateGuardiansTable extends Migration
     {
         Schema::create('guardians', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('guardian_id');
             $table->string('grd_name');
             $table->string('grd_cninc_no', 30);
             $table->string('grd_cnic_copy');

@@ -77,7 +77,7 @@ return true; } return false; } } @endphp
                         @foreach($sections as $section)
                         <label class="radio radio-solid">
                             <input type="checkbox" name="sections[]"
-                            {{ value_exists($assigned_sections, 'id', $section->id) === true ? 'checked="checked"' : "" }}
+                            {{ value_exists($assigned_sections, 'id', $section->id) === true ? 'checked = "checked"' : "" }}
                             value="{{ $section->id }}" /> <span></span>Section
                             {{ $section->section_name }}</label
                         >

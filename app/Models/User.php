@@ -9,9 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Jetstream\HasProfilePhoto;
 //use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
+use Laratrust\Traits\LaratrustUserTrait;
 
 class User extends Authenticatable
 {
+    use LaratrustUserTrait;
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
@@ -24,10 +26,11 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    // protected $fillable = [
+    //     'name', 'email', 'password',
+    // ];
 
+    protected $guarded = [];
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmpDashboardController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\SectionController;
@@ -9,7 +10,9 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\FeeCategoryController;
 use App\Http\Controllers\FeeStructureController;
 use App\Http\Controllers\FeeController;
-
+use App\Http\Controllers\EmployController;
+use App\Http\Controllers\DomesticController;
+use App\Http\Controllers\ResigneController;
 
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PreviousSchoolController;
@@ -33,7 +36,17 @@ use App\Http\Controllers\PagesController;
 Route::get('/', function () {
 	return view('auth.login');
 });
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+
+Route::group(['middleware'=>['auth']], function (){
+
+	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+
+Route::group(['middleware'=>['auth']], function (){
+
+	Route::get('/emp_dashboard', [EmpDashboardController::class, 'index']);
+});
+
 
 
 /**
@@ -207,10 +220,48 @@ Route::post('/update_previous_school', [PreviousSchoolController::class, 'update
  * Student Previous school information routes ends here **************************************
  */
 
+// 	Human Resource hiring epmloy
+
+Route::get('/employee/{p?}', [EmployController::class, 'employee_list'])->middleware('auth');
+Route::get('/domEmployee/{p?}', [EmployController::class, 'domestic_employee_list'])->middleware('auth');
+Route::get('/hire_employ', [EmployController::class, 'hire_new_employ'])->middleware('auth');
+Route::post('/save_employ', [EmployController::class, 'save_new_employee'])->middleware('auth')->name('employee.save');
+
+Route::get('/get_all_employee', [EmployController::class, 'read_all_employee'])->middleware('auth');
+Route::get('/get_all_domestic_employee', [EmployController::class, 'read_all_domestic_employee'])->middleware('auth');
+Route::get('/trashed_employee', [EmployController::class, 'read_all_trashed_employee'])->middleware('auth');
+
+Route::get('/single_emp/{id}', [EmployController::class, 'get_single_employee_detail'])->middleware('auth');
+
+Route::get('/edit_employ/{id}', [EmployController::class, 'edit_employee_record'])->middleware('auth');
+Route::post('/edit_employee', [EmployController::class, 'update_employee_record'])->middleware('auth')->name('employee.update');
+
+Route::get('/employee_delete/{id}', [EmployController::class, 'delete_employee'])->middleware('auth');
+Route::get('/employee_restore/{id}', [EmployController::class, 'restore_employee'])->middleware('auth');
 
 
+/********
+ * *
+ * RESIGN EMPLOYEE
+ */
+Route::get('/resigneEmp/{p?}', [ResigneController::class, 'resign_employee_list'])->middleware('auth');
+Route::get('/read_resigne_employee', [ResigneController::class, 'read_all_resigne_employee'])->middleware('auth');
+Route::get('/fireEmp', [ResigneController::class, 'fire_employ'])->middleware('auth');
 
 
+Route::get('/resigne', [ResigneController::class, 'resign_employ'])->middleware('auth');
+
+// Route::post('/update_previous_school', [PreviousSchoolController::class, 'update_a_previous_school'])->middleware('auth')->name('previousSchool.update');
+
+/********
+ * *
+ * 
+ */
+// domestic employee routes
+// Route::get('/dom_employee/{p?}', [DomesticController::class, 'Dom_employee_list'])->middleware('auth');
+// Route::get('/fire_dom_employee', [DomesticController::class, 'create_domestic_emp'])->middleware('auth');
+// Route::get('/get_all_dom_employee', [DomesticController::class, 'read_all_dom_employee'])->middleware('auth');
+// Route::post('/save_dom_employee', [DomesticController::class, 'save_dom_employee'])->middleware('auth')->name('dom_employee.save');
 
 /**
  * 
