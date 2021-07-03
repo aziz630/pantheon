@@ -31,6 +31,12 @@ class User extends Authenticatable
     // ];
 
     protected $guarded = [];
+
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
     /**
      * The attributes that should be hidden for arrays.
      *

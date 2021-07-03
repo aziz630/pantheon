@@ -7,9 +7,13 @@
                 type="text"
                 class="form-control form-control-solid"
                 name="stdCurrentAddress"
+                id="stdCurrentAddress"
                 placeholder="Student current address"
-                value=""
+                value="{{ old('stdCurrentAddress') }}"
             />
+            @if($errors->has('stdCurrentAddress'))
+                <span class="text-danger">{{ $errors->first('stdCurrentAddress') }}</span>
+            @endif
             <span class="form-text text-muted"
                 >Please enter student current Address.</span
             >
@@ -24,9 +28,13 @@
                 type="text"
                 class="form-control form-control-solid"
                 name="stdPermanentAddress"
+                id="stdPermanentAddress"
                 placeholder="Student permanent address"
-                value=""
+                value="{{ old('stdPermanentAddress') }}"
             />
+            @if($errors->has('stdPermanentAddress'))
+                <span class="text-danger">{{ $errors->first('stdPermanentAddress') }}</span>
+            @endif
             <span class="form-text text-muted"
                 >Please enter student permanent Address.</span
             >

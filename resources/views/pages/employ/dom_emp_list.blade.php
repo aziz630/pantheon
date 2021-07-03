@@ -62,7 +62,7 @@
             >
             <!--end::Button-->
         </div>
-        @php $remoteUrl = url('get_all_dom_employee'); @endphp 
+        @php $remoteUrl = url('get_all_domestic_employee'); @endphp 
         
     @else 
     @php $remoteUrl =
@@ -86,6 +86,7 @@
                 <th>F/Name</th>
                 <th>Contact</th>
                 <th>Email</th>
+                <th>More</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -130,6 +131,7 @@
                 { data: "fName" },
                 { data: "empContact" },
                 { data: "empEmail" },
+                { data: "more" },
                 { data: "action", orderable: false, searchable: false }
             ]
         });

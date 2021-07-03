@@ -40,15 +40,54 @@ class StudentService
                 'classes.class_name',
                 'sections.section_name'
             )
-            ->where('students.deleted_at', '=', Null)
+            ->where('students.deleted_at', '=', Null)->where('reason_of_withdrawal', '=' , NULL)
             ->orderBy('students.id')
             ->get();
 
         if ($data) {
-            $students = $data;
+            $students = $data;  
         }
 
         return $students;
+
+    
+
+    }
+
+
+
+      /**
+     * 
+     * 
+     * 
+     * Get all withdrawed students
+     */
+    public function get_all_withdraw_students()
+    {
+        $students = collect();
+        $data = DB::table('students')
+            ->join('enrollments', 'students.id', '=', 'enrollments.student_id')
+            ->join('classes', 'enrollments.class_id', '=', 'classes.id')
+            ->join('sections', 'enrollments.section_id', '=', 'sections.id')
+            ->select(
+                'students.*',
+                'enrollments.class_id',
+                'enrollments.section_id',
+                'classes.class_name',
+                'sections.section_name'
+            )
+            ->where('students.deleted_at', '=', Null)->where('reason_of_withdrawal', '!=' , NULL)
+            ->orderBy('students.id')
+            ->get();
+
+        if ($data) {
+            $students = $data;  
+        }
+
+        return $students;
+
+    
+
     }
 
     /**
@@ -80,31 +119,42 @@ class StudentService
     public function enroll_new_student($rq)
     {
         $this->rq = $rq;
-
-        try {
             DB::transaction(function () {
-                $guardian = Guardian::where('grd_cnic_no', $this->rq->guardianCnic)->get();
-                // making sure that the guardian exists or not. 
-                if (count($guardian) && $guardian[0]->id) {
-                    $this->guardianID = $guardian[0]->id;
-                    $this->familyAccount_balance = $guardian[0]->account_balance;
-                } else {
+                // $guardian = Guardian::where('grd_cnic_no', $this->rq->guardianCnic)->get();
+                // // making sure that the guardian exists or not. 
+                // if (count($guardian) && $guardian[0]->id) {
+                //     $this->guardianID = $guardian[0]->id;
+                //     $this->familyAccount_balance = $guardian[0]->account_balance;
+                // } else {
+
+                     
+
+                    //  upload profile image
+                    $cnic = $this->rq->file('guardianCnicCopy');
+                    $cnicCopy = time().'.'.$cnic->extension();
+                    $cnic->move(public_path('gardianCNIC'),$cnicCopy);
+
                     $guardian = Guardian::create([
                         'grd_name' => $this->rq->guardianName,
-                        'grd_cnic_no' => $this->rq->guardianCnic,
+                        'grd_cninc_no' => $this->rq->guardianCnic,
                         'grd_mobile' => $this->rq->guardianMobile,
                         'grd_home_ph' => $this->rq->guardianHomePhone,
                         'grd_email' => $this->rq->guardianEmail,
                         'grd_address' => $this->rq->gurdianAddress,
                         'grd_occupation' => $this->rq->guardianOccupation,
                         'account_balance' => '0',
-                        'grd_cnic_copy' => 'no image',
+                        'grd_cnic_copy' => $cnicCopy,
                     ]);
 
                     $this->guardianID = $guardian->id;
-                    $this->familyAccount_balance = 0;
-                }
+                    // $this->familyAccount_balance = 0;
+                // }
 
+                //  upload profile image
+                $image = $this->rq->file('stdImage');
+                $imageName = time().'.'.$image->extension();
+                $image->move(public_path('stdProfile'),$imageName);
+                
 
                 $student = Student::create([
                     'std_name' => $this->rq->fullName,
@@ -115,18 +165,18 @@ class StudentService
                     'std_nationality' => $this->rq->stdNationality,
                     'std_current_address' => $this->rq->stdCurrentAddress,
                     'std_permanent_address' => $this->rq->stdPermanentAddress,
-                    'std_email' => $this->rq->stdEmail,
-                    'std_mobile_no' => $this->rq->stdPhone,
+                    'std_email' => $this->rq->std_email,
+                    // 'std_mobile_no' => $this->rq->stdPhone,
                     'std_emergency_contact_no' => $this->rq->stdEmergency,
                     'std_admission_date' => date_format(date_create($this->rq->stdAdmissionDate), 'Y-m-d'),
-                    'std_registeration_no' => $this->rq->regNumber,
+                    // 'std_registeration_no' => $this->rq->regNumber,
                     'std_father_name' => $this->rq->stdFatherName,
                     'std_father_cnic' => $this->rq->stdFatherCNIC,
                     'std_father_occupation' => $this->rq->stdFatherOccupation,
                     'std_mother_name' => $this->rq->stdMotherName,
                     'std_mother_cnic' => $this->rq->stdMotherCNIC,
                     'std_mother_occupation' => $this->rq->stdMotherOccupation,
-                    'std_image' => 'no image',
+                    'std_image' => $imageName,
                     'guardian_id' => $this->guardianID,
                 ]);
 
@@ -141,61 +191,184 @@ class StudentService
                     'enrollment_status' => 1,
                 ]);
 
-                FamilyTransaction::create([
-                    'guardian_id' => $this->guardianID,
-                    'transaction_date' => date('Y-m-d H:i:s', strtotime("-1 minutes")),
-                    'description' => 'Security Fee deposit',
-                    'debit_amount' => intval($this->rq->Security),
-                    'credit_amount' => 0,
-                    'balance' => $this->familyAccount_balance + intval($this->rq->Security),
-                    'is_notified' => 1,
-                ]);
+                // FamilyTransaction::create([
+                //     'guardian_id' => $this->guardianID,
+                //     'transaction_date' => date('Y-m-d H:i:s', strtotime("-1 minutes")),
+                //     'description' => 'Security Fee deposit',
+                //     'debit_amount' => intval($this->rq->Security),
+                //     'credit_amount' => 0,
+                //     'balance' => $this->familyAccount_balance + intval($this->rq->Security),
+                //     'is_notified' => 1,
+                // ]);
 
-                $guardian = Guardian::find($this->guardianID);
-                $guardian->account_balance = intval($this->rq->Security) + intval($guardian->account_balance);
-                $guardian->save();
+                // $guardian = Guardian::find($this->guardianID);
+                // $guardian->account_balance = intval($this->rq->Security) + intval($guardian->account_balance);
+                // $guardian->save();
 
-                Fee::insert([
-                    [
-                        'student_id' => $this->studentID,
-                        'fee_structure_id' => $this->rq->structure_id,
-                        'fee_month' => date('F'),
-                        'transaction_date' => date('Y-m-d H:i:s', strtotime("-1 minutes")),
-                        'description' => 'Amount payable for new admission',
-                        'discount_amount' => 0,
-                        'debit_amount' => 0,
-                        'credit_amount' => (intval($this->rq->deposit) + intval($this->rq->concission)) - intval($this->rq->Security),
-                        'amount_payable' => (intval($this->rq->deposit) + intval($this->rq->concission)) - intval($this->rq->Security),
-                        'is_notified' => 1,
-                        'is_processed' => 1,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s'),
-                    ], [
-                        'student_id' => $this->studentID,
-                        'fee_structure_id' => $this->rq->structure_id,
-                        'fee_month' => date('F'),
-                        'transaction_date' => date('Y-m-d H:i:s', time()),
-                        'description' => 'Amount paid for new Admission, ' . intval($this->rq->Security) . ' security fee is deposited to family account',
-                        'discount_amount' => $this->rq->concission,
-                        'debit_amount' => intval($this->rq->deposit) - intval($this->rq->Security),
-                        'credit_amount' => 0,
-                        'amount_payable' => 0,
-                        'is_notified' => 1,
-                        'is_processed' => 1,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s'),
-                    ]
-                ]);
+                // Fee::insert([
+                //     [
+                //         'student_id' => $this->studentID,
+                //         'fee_structure_id' => $this->rq->structure_id,
+                //         'fee_month' => date('F'),
+                //         'transaction_date' => date('Y-m-d H:i:s', strtotime("-1 minutes")),
+                //         'description' => 'Amount payable for new admission',
+                //         'discount_amount' => 0,
+                //         'debit_amount' => 0,
+                //         'credit_amount' => (intval($this->rq->deposit) + intval($this->rq->concission)) - intval($this->rq->Security),
+                //         'amount_payable' => (intval($this->rq->deposit) + intval($this->rq->concission)) - intval($this->rq->Security),
+                //         'is_notified' => 1,
+                //         'is_processed' => 1,
+                //         'created_at' => date('Y-m-d H:i:s'),
+                //         'updated_at' => date('Y-m-d H:i:s'),
+                //     ], [
+                //         'student_id' => $this->studentID,
+                //         'fee_structure_id' => $this->rq->structure_id,
+                //         'fee_month' => date('F'),
+                //         'transaction_date' => date('Y-m-d H:i:s', time()),
+                //         'description' => 'Amount paid for new Admission, ' . intval($this->rq->Security) . ' security fee is deposited to family account',
+                //         'discount_amount' => $this->rq->concission,
+                //         'debit_amount' => intval($this->rq->deposit) - intval($this->rq->Security),
+                //         'credit_amount' => 0,
+                //         'amount_payable' => 0,
+                //         'is_notified' => 1,
+                //         'is_processed' => 1,
+                //         'created_at' => date('Y-m-d H:i:s'),
+                //         'updated_at' => date('Y-m-d H:i:s'),
+                //     ]
+                // ]);
             });
 
-            $this->rq = null;
-            $this->guardianID = null;
-        } catch (Throwable $e) {
-            $std_id = $this->studentID;
-            $this->studentID = null;
-            //dd($e);
-            return $std_id;
-        }
+            
         return true;
+    }
+
+
+
+    /**
+     * 
+     * 
+     * Edit Student Function
+     */
+     
+    public function edit_student($id)
+    {
+        $student = false;
+
+        if ($data = Student::where('id', $id)->first()) {
+            $student = $data;
+        }
+        return $student;
+    }
+
+
+     /**
+     * 
+     * 
+     * update Student 
+     */
+    
+    function update_student($rq)
+    {
+        //  upload profile image
+        $image = $rq->file('stdImage');
+        $imageName = time().'.'.$image->extension();
+        $image->move(public_path('stdProfile'),$imageName);
+
+
+        $model = Student::find($rq->sId);
+        $model->std_name = $rq->fullName;
+        $model->std_gender = $rq->stdGender;
+        $model->std_dob = date_format(date_create($rq->stdDOB), 'Y-m-d');
+        $model->std_pob = $rq->stdPOB;
+        $model->std_religion = $rq->stdReligion;
+        $model->std_nationality = $rq->stdNationality;
+        $model->std_current_address = $rq->stdCurrentAddress;
+        $model->std_permanent_address = $rq->stdPermanentAddress;
+        $model->std_email = $rq->std_email;
+        $model->std_emergency_contact_no = $rq->stdEmergency;
+        $model->std_admission_date = date_format(date_create($rq->stdAdmissionDate), 'Y-m-d');
+        $model->std_father_name = $rq->stdFatherName;
+        $model->std_father_cnic = $rq->stdFatherCNIC;
+        $model->std_father_occupation = $rq->stdFatherOccupation;
+        $model->std_mother_name = $rq->stdMotherName;
+        $model->std_mother_cnic = $rq->stdMotherCNIC;
+        $model->std_mother_occupation = $rq->stdMotherOccupation;
+        $model->std_image = $imageName;
+
+        $model->save();
+       
+        //  upload profile image
+        $cnic = $rq->file('guardianCnicCopy');
+        $cnicCopy = time().'.'.$cnic->extension();
+        $cnic->move(public_path('gardianCNIC'),$cnicCopy);
+
+
+        $guardian = Guardian::find($rq->sId);
+        $guardian->grd_name = $rq->guardianName;
+        $guardian->grd_cninc_no = $rq->guardianCnic;
+        $guardian->grd_mobile = $rq->guardianMobile;
+        $guardian->grd_home_ph = $rq->guardianHomePhone;
+        $guardian->grd_email = $rq->guardianEmail;
+        $guardian->grd_address = $rq->gurdianAddress;
+        $guardian->grd_occupation = $rq->guardianOccupation;
+        $guardian->grd_cnic_copy = $cnicCopy;
+        $guardian->save();
+
+        $enrollment = Enrollment::find($rq->sId);
+        $enrollment->class_id = $rq->class;
+        $enrollment->section_id = $rq->section;
+        $enrollment->academic_session_id = $rq->session;
+        $enrollment->enrollment_date = date_format(date_create($rq->stdAdmissionDate), 'Y-m-d');
+
+        $enrollment->save();           
+        
+        return true;
+
+    }
+    /**
+     * 
+     * 
+     * View Student detail
+     */
+
+    public function view_single_student($id)
+    {
+        $student = false;
+
+        if ($data = Student::find($id)) {
+            $student = $data;
+        }
+
+        return $student;
+    }
+
+
+     /**
+     * 
+     * 
+     * Delete Student
+     */
+
+    function delete_student($id)
+    {
+        $model = Student::find($id);
+
+        if ($model->delete()) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    
+    public function student_withdraw_record($rq)
+    {
+        
+        $model = Student::find($rq->wId);
+        $model->reason_of_withdrawal = $rq->reasonOfWithdraw;
+        $model->save();
+        return true;
+      
     }
 }

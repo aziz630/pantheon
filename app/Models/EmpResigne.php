@@ -8,8 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class EmpResigne extends Model
 {
     use HasFactory;
+    
 
     protected $table = 'emp_resignes';
 
     protected $guarded = [];
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class); 
+    }
 }

@@ -30,6 +30,13 @@
 													<h3 class="card-label font-weight-bolder text-dark">Personal Information</h3>
 													<span class="text-muted font-weight-bold font-size-sm mt-1">your personal informaiton</span>
 												</div>
+												<div class="card-toolbar">
+												
+													<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+														Terminate Employee
+													</button>
+													<!--end::Button-->
+												</div>
 												
 											</div>
 											<!--end::Header-->
@@ -46,8 +53,8 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Picture</label>
 														<div class="col-lg-9 col-xl-6">
-															<div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url({{ $employee->emp_image }})">
-																<div class="image-input-wrapper" style="background-image: url({{ $employee->emp_image }})"></div>
+															<div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url({{ asset('profile') }}/{{ $employee->emp_profile_image }})">
+																<div class="image-input-wrapper" style="background-image: url({{ asset('profile') }}/{{ $employee->emp_profile_image }})"></div>
 																<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
 																	<i class="fa fa-pen icon-sm text-muted"></i>
 																	<input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg" />
@@ -63,6 +70,7 @@
 															{{-- <span class="form-text text-muted">Allowed file types: png, jpg, jpeg.</span> --}}
 														</div>
 													</div>
+													<!-- -->
 
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Job Title</label>
@@ -547,8 +555,11 @@
 														</div>
 													</div>
 
-
-
+													<div class="form-group row">
+													<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+														Terminate Employee
+														</button> -->
+													</div>
 												</div>
 												<!--end::Body-->
 											</form>
@@ -562,7 +573,118 @@
 							<!--end::Container-->
 						</div>
 						<!--end::Entry-->
-			
+						<br>
+
+						<div class="d-flex flex-column-fluid">
+							<!--begin::Container-->
+							<div class="container">
+								<!--begin::Profile Personal Information-->
+								<div class="d-flex flex-row">
+									<!--begin::Aside-->
+									
+									<!--end::Aside-->
+									<!--begin::Content-->
+									<div class="flex-row-fluid ml-lg-12">
+										<!--begin::Card-->
+										<div class="card card-custom card-stretch">
+											
+											<!--begin::Form-->
+											<form class="form">
+												<!--begin::Body-->
+												<div class="card-body">
+
+
+
+
+														{{-- Any Others --}}
+														<div class="row">
+															<label class="col-xl-3"></label>
+																<div class="col-lg-9 col-xl-6">
+																	<h3>Attachement files</h3>
+																</div>
+															<br>
+															<hr>
+															<div class="card-toolbar">
+																<a
+																	href="{{ url('/download/attached', $employee->emp_file_attachment) }}"
+																	class="btn btn-primary font-weight-bolder"
+																>
+																	<span class="svg-icon svg-icon-md">
+																		</span
+																	>Download Attachement Files</a
+																>
+															</div>
+															<!--end::Button-->
+														</div>
+
+												
+													
+													
+												</div>
+												<!--end::Body-->
+											</form>
+											<!--end::Form-->
+										</div>
+									</div>
+									<!--end::Content-->
+								</div>
+								<!--end::Profile Personal Information-->
+							</div>
+							<!--end::Container-->
+						</div>
+						<!--end::Entry-->
+
+
+
+
+						<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Reason for Termination</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+								
+									<!--begin::Input-->
+									<form class="form"
+											method="post"
+											action="{{ route('terminate_employee.update') }}"
+											id="terminate_form"
+											accept-charset="utf-8"
+											enctype="multipart/form-data"
+										>
+										@csrf
+										<input
+										type="hidden"
+										name="tId"
+										value="{{ $employee->id }}"
+										/>
+										<div class="form-group">
+											<label>Reason of Termination</label>
+											
+											<textarea class="form-control form-control-solid" 
+											name="reasonOfTerminate" rows="5"
+											placeholder="Please type Reason for Terminate"
+											></textarea>
+											
+											<span class="form-text text-muted"
+												>Please enter reason of Termination.</span
+											>
+										</div>
+										<!--end::Input-->
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+											<button type="submit" class="btn btn-danger">Terminate</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+						
 		<!--end::Main-->
 		<!-- begin::User Panel-->
 		@endsection

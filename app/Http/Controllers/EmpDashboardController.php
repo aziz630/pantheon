@@ -19,15 +19,15 @@ class EmpDashboardController extends Controller
 
     public function index()
     {
-        $page_title = 'Employee Dashboard';
-        $page_description = 'Some description for the page';
+        // $page_title = 'Employee Dashboard';
+        // $page_description = 'Some description for the page';
 
-        $total_employee = $this->emp_dashboardService->count_all_employee();
+        // $total_employee = $this->emp_dashboardService->count_all_employee();
         
         // if(Auth::user()->hasRole('employee')){
             // $user = Auth::user();
-            // dd($user->gande);
-            return view('pages.empdashboard', compact('page_title', 'page_description', 'total_employee'));
+            // dd(auth()->user()->id);
+            // return view('pages.empdashboard', compact('page_title', 'page_description'));
         // }
     
         

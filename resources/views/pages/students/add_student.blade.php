@@ -12,6 +12,17 @@
 
 {{-- Add new Student form --}}
 
+
+{{-- Error Validation messages  --}}
+    <!-- @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif -->
 <!--begin::Container-->
 <form
     class="form"
@@ -84,21 +95,38 @@
             </div>
         </div>
     </div>
+    
 
     <div class="card card-custom m-5">
-        <div class="card-body p-5">
-            @include('pages.alerts.alerts')
+
+        <div class="card-footer">
             <div class="row">
-                <div class=" col-xxl-12">
-                    
-                   <!--begin::Section-->
-                    <h4 class="mb-10 font-weight-bold text-dark">
-                        Collect fee and enroll
-                    </h4>
-                    <div id="fee_collection_form"></div>
+                <div class="col-lg-6">
+                    <button type="submit" class="btn btn-primary mr-2">
+                        Save
+                    </button>
+                    <a href="{{ url('students') }}" class="btn btn-secondary">
+                        Back
+                    </a>
                 </div>
             </div>
         </div>
+        <!-- <div class="card-body p-5">
+            @include('pages.alerts.alerts')
+            <div class="row"> -->
+                <!-- <div class=" col-xxl-12"> -->
+                    
+                   <!--begin::Section-->
+                    <!-- <h4 class="mb-10 font-weight-bold text-dark">
+                        Collect fee and enroll
+                    </h4> 
+                    <div id="fee_collection_form"></div> -->
+                    
+                <!-- </div> -->
+
+                <!--                 
+            </div>
+        </div> -->
     </div>
 </form>
 <!--end::Container-->
@@ -112,6 +140,7 @@
         asset('js/pages/custom/wizard/student_enrollment_validation.js')
     }}"></script> --}}
 
+   
 <script>
     var KTBootstrapDatepicker = (function() {
         var arrows;
@@ -151,6 +180,11 @@
                 demos();
             }
         };
+    })();
+
+    jQuery(document).ready(function() {
+        KTBootstrapDatepicker.init();
+
     });
 </script>
 

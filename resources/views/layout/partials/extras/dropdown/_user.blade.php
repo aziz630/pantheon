@@ -58,7 +58,7 @@
                     My Messages
                 </div>
                 <div class="text-muted">
-                    Inbox and tasks
+                   
                 </div>
             </div>
         </div>

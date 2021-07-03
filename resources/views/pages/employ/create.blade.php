@@ -12,6 +12,9 @@
 
 {{-- Add new Student form --}}
 
+
+{{-- Error Validation Messages --}}
+   
 <!--begin::Container-->
 <form
     class="form"
@@ -187,6 +190,18 @@
     jQuery(document).ready(function() {
         KTBootstrapDatepicker.init();
 
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+      $(".btn-success").click(function(){ 
+          var lsthmtl = $(".clone").html();
+          $(".increment").after(lsthmtl);
+      });
+      $("body").on("click",".btn-danger",function(){ 
+          $(this).parents(".realprocode").remove();
+      });
     });
 </script>
 

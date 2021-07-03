@@ -10,10 +10,10 @@
 {{-- Content --}}
 @section('content') @php $search = false; @endphp
 
-{{-- Add new Student form --}}
+{{-- Create new class form --}}
 <!--begin::Card-->
-<div class="card card-custom mb-7" id="student_filteration">
-    <div class="card-header">
+<div class="card card-custom mb-7">
+<div class="card-header">
         <div class="card-title">
             <span class="card-icon">
                 <i class="flaticon-search text-primary"></i>
@@ -168,84 +168,25 @@
     </div>
     <div class="card-body">
         @include('pages.alerts.alerts')
-        <!--begin: Search Form-->
-        <form class="mb-15" method="post" onsubmit="e.preventDefault();">
-            <div class="row mb-6">
-                <div class="col-lg-3 mb-lg-0 mb-6">
-                    <label>Enrollment No:</label>
-                    <input
-                        type="text"
-                        class="form-control datatable-input"
-                        placeholder="E.g: RSM_1"
-                        data-col-index="0"
-                        name="erp_no"
-                        id="erp_no"
-                    />
-                </div>
-                <div class="col-lg-3 mb-lg-0 mb-6">
-                    <label>Name:</label>
-                    <input
-                        type="text"
-                        class="form-control datatable-input"
-                        placeholder="E.g: Ahmad"
-                        data-col-index="1"
-                        name="student_name"
-                        id="studentName"
-                    />
-                </div>
-                <div class="col-lg-3 mb-lg-0 mb-6">
-                    <label>Class:</label>
-                    <select
-                        class="form-control datatable-input"
-                        data-col-index="2"
-                        name="class"
-                    >
-                        <option value="">Select</option>
-                        @foreach($classes as $class)
-                        <option
-                            value="{{ $class->id }}"
-                            >{{ $class->class_name }}</option
-                        >
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-lg-3 mb-lg-0 mb-6">
-                    <label>Section:</label>
-                    <select
-                        class="form-control datatable-input"
-                        data-col-index="2"
-                        name="section"
-                    >
-                        <option value="">Select</option>
-                        @foreach($sections as $section)
-                        <option
-                            value="{{ $section->id }}"
-                            >{{ $section->section_name }}</option
-                        >
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-        </form>
-
         <!--begin: Datatable-->
         <table
             class="table table-bordered table-hover table-checkable"
             id="students"
             style="margin-top: 13px !important"
         >
-            <thead>
-                <tr>
-                    <th>Enrollment No.</th>
-                    <th>Student Name</th>
-                    <th>Father Name</th>
-                    <th>Gender</th>
-                    <th>Class/Grade</th>
-                    <th>Section</th>
-                    <th>Previous School</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
+        <thead>
+            <tr>
+                <th>Enrollment No.</th>
+                <th>Student Name</th>
+                <th>Father Name</th>
+                <th>Gender</th>
+                <th>Class/Grade</th>
+                <th>Section</th>
+                <th>More</th>
+                <!-- <th>Previous School</th> -->
+                <th>Actions</th>
+            </tr>
+        </thead>
         </table>
         <!--end: Datatable-->
     </div>
@@ -272,21 +213,21 @@
 <script>
     // Initializing student datatable
 
-    $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-        var erp_input = $("#erp_no").val();
-        var name_input = $("#studentName").val();
-        var erp = data[0]; // use data for the erp column
-        var name = data[1];
+    // $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+    //     var erp_input = $("#erp_no").val();
+    //     var name_input = $("#studentName").val();
+    //     var erp = data[0]; // use data for the erp column
+    //     var name = data[1];
 
-        if (
-            (erp_input != "" && erp_input == erp) ||
-            (name_input != "" && name_input == name) ||
-            (name_input == "" && erp_input == "")
-        ) {
-            return true;
-        }
-        return false;
-    });
+        // if (
+        //     (erp_input != "" && erp_input == erp) ||
+        //     (name_input != "" && name_input == name) ||
+        //     (name_input == "" && erp_input == "")
+        // ) {
+        //     return true;
+        // }
+        // return false;
+    // });
 
     $(document).ready(function() {
         /**
@@ -295,23 +236,27 @@
         let table = $("#students").DataTable({
             processing: true,
             serverside: true,
-            ajax: "{{ url('students_list_ajax') }}",
+            ajax: "{{ url('get_all_students_list') }}",
             columns: [
                 { data: "erp_no" },
                 { data: "studentName" },
                 { data: "fatherName" },
-                { data: "gender" },
+                { data: "stdGender" },
                 { data: "class" },
                 { data: "section" },
-                { data: "documents", orderable: false, searchable: false },
+                { data: "more" },
+                // { data: "documents", orderable: false, searchable: false },
                 { data: "action", orderable: false, searchable: false }
             ]
         }); //.search( 'Enrolled' ).draw();
 
         // Re-draw datatable when user performing filteration
-        $("#erp_no, #studentName").keyup(function() {
-            table.draw();
-        });
+        // $("#erp_no, #studentName").keyup(function() {
+        //     table.draw();
+        // });
     });
 </script>
 @endsection
+
+
+<!-- {{ url('students_list_ajax') }} -->

@@ -22,12 +22,15 @@ class DashboardController extends Controller
         $page_description = 'Some description for the page';
 
         // $total_employee = $this->dashboardService->count_all_employee();
-        // if(Auth::user()->hasRole('admin')){
+        if(Auth::user()->hasRole('admin')){
             return view('pages.dashboard', compact('page_title', 'page_description'));
-        // }
-        // if(Auth::user()->hasRole('admin')) {
-        //     return redirect('/dashboard');
-        // }
+        }elseif(Auth::user()->hasRole('employee')){
+            return view('pages.empdashboard', compact('page_title', 'page_description'));
+
+        }
+        if(Auth::user()->hasRole('admin')) {
+            return redirect('/dashboard');
+        }
         
     }
 }

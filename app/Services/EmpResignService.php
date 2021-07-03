@@ -92,16 +92,16 @@ class EmpResignService
     //     });  
     // }
 
-    public function get_all_resigne_employee()
-    {
-        $employee = false;
+    // public function get_all_resigne_employee()
+    // {
+    //     $employee = false;
 
-        if ($data = Employee::all()) {
-            $employee = $data;
-        }
+    //     if ($data = Employee::all()) {
+    //         $employee = $data;
+    //     }
 
-        return $employee;
-    }
+    //     return $employee;
+    // }
 
     // public function get_all_domestic_employee()
     // {

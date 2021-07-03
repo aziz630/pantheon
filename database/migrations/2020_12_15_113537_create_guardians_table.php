@@ -15,13 +15,13 @@ class CreateGuardiansTable extends Migration
     {
         Schema::create('guardians', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('guardian_id');
+            // $table->foreignId('student_id');
             $table->string('grd_name');
             $table->string('grd_cninc_no', 30);
             $table->string('grd_cnic_copy');
             $table->string('grd_mobile', 20);
             $table->string('grd_home_ph', 20);
-            $table->string('grd_email', 50);
+            $table->string('grd_email', 225);
             $table->string('grd_address');
             $table->string('grd_occupation', 50);
             $table->string('account_balance', 50);

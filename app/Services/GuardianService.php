@@ -16,9 +16,9 @@ class GuardianService
 
     public function get_all_guardians()
     {
-        $guardians = collect();
+        $guardians = false;
 
-        if ($data = Guardian::all()) {
+        if ($data = Guardian::all()->first()) {
             $guardians = $data;
         }
 

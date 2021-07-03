@@ -19,7 +19,11 @@
             <span class="form-text text-muted"
                 >Please select academic session.</span
             >
+           
         </div>
+            @if($errors->has('session'))
+                <span class="text-danger">{{ $errors->first('session') }}</span>
+            @endif
         <!--end::Input-->
     </div>
     
@@ -41,7 +45,11 @@
                 @endforeach @endif
             </select>
             <span class="form-text text-muted">Please select class.</span>
+            
         </div>
+            @if($errors->has('class'))
+                <span class="text-danger">{{ $errors->first('class') }}</span>
+            @endif
         <!--end::Input-->
     </div>
 
@@ -51,21 +59,31 @@
             <label>Section</label>
             <select
                 name="section"
-                id="sections"
+                id="section"
                 class="form-control form-control-solid"
             >
                 <option>Select Section</option>
+
+                @foreach($sections as $section)
+                <option
+                    value="{{ $section->id }}"
+                    >{{ $section->section_name }}</option
+                >
+                @endforeach
             </select>
             <span class="form-text text-muted">Please select section.</span>
         </div>
+            @if($errors->has('section'))
+                <span class="text-danger">{{ $errors->first('section') }}</span>
+            @endif
         <!--end::Input-->
     </div>
 </div>
 
 <div class="row">
-    <div class="col-xl-4">
+    <!-- <div class="col-xl-4"> -->
         <!--begin::Input-->
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label>Registration No.</label>
             <input
                 type="text"
@@ -76,9 +94,9 @@
             <span class="form-text text-muted"
                 >Please enter student registration number.</span
             >
-        </div>
+        </div> -->
         <!--end::Input-->
-    </div>
+    <!-- </div> -->
 
     <div class="col-xl-4">
         <!--begin::Input-->
@@ -88,10 +106,14 @@
                 type="text"
                 class="form-control form-control-solid"
                 readonly
-                id="admissionDate"
                 name="stdAdmissionDate"
+                id="admissionDate"
                 placeholder="Month/Day/Year"
+                value="{{ old('stdAdmissionDate') }}"
             />
+            @if($errors->has('stdAdmissionDate'))
+                <span class="text-danger">{{ $errors->first('stdAdmissionDate') }}</span>
+            @endif
             <span class="form-text text-muted"
                 >Please enter student admission date.</span
             >

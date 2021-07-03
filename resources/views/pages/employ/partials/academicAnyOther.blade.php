@@ -9,7 +9,7 @@
                 class="form-control form-control-solid"
                 name="opassingyear"
                 placeholder="Enter passing year"
-                value=""
+                value="{{ old('opassingyear')}}"
             />
             <span class="form-text text-muted"
                 >Please enter passing year.</span
@@ -26,7 +26,7 @@
                 class="form-control form-control-solid"
                 name="osubject"
                 placeholder="Enter Subject"
-                value=""
+                value="{{ old('osubject')}}"
             />
             <span class="form-text text-muted"
                 >Please enter your subject.</span
@@ -40,13 +40,13 @@
     <div class="col-xl-6">
         <!--begin::Input-->
         <div class="form-group">
-            <label>School Name</label>
+            <label>University Name</label>
             <input
                 type="text"
                 class="form-control form-control-solid"
                 name="ocollegename"
                 placeholder="Enter college name"
-                value=""
+                value="{{ old('ocollegename')}}"
             />
             <span class="form-text text-muted"
                 >Please enter your School name.</span
@@ -63,7 +63,7 @@
                 class="form-control form-control-solid"
                 name="ocgpa"
                 placeholder="Enter CGPA or %age"
-                value=""
+                value="{{ old('ocgpa')}}"
             />
             <span class="form-text text-muted"
                 >Please enter Enter your parsentage.</span

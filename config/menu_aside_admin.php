@@ -135,8 +135,8 @@ return [
 						],
 						[
 							'title' => 'Withdrawed Student',
-							'page' => 'students'
-						]
+							'page' => 'withdraw_students'
+                        ]
                     ]
                 ],
                 
@@ -262,40 +262,23 @@ return [
 					'title' => 'Search Employees',
 					'page' => 'employee',
 				],
-                [
-					'title' => 'Domestic Employees',
-					'page' => 'domEmployee',
-				],
 				[
-                    'title' => 'Resigned Employees',
-					'page' => 'resigneEmp',
+                    'title' => 'Resigne Request',
+					'page' => 'resigneRequest',
+                ],
+                [
+                    'title' => 'Search Resigne Employee',
+					'page' => 'resigneEmployee',
                 ],
 				[
                     'title' => 'Fired Employees',
-					'page' => 'fireEmp',
+					'page' => 'terminateEmployee',
                 ],
                 [
                     'title' => 'Trashed Employee',
                     'page' => 'employee/trashed'
                 ]
-                // [
-                //     'title' => 'Domestic Employee',
-                //     'bullet' => 'dot',
-                //     'submenu' => [
-                //         [
-                //             'title' => 'Search Employee',
-                //             'page' => 'dom_employee'
-                //         ],
-                //         [
-                //             'title' => 'Add Employee',
-                //             'page' => 'fire_dom_employee'
-                //         ],
-                //         [
-                //             'title' => 'Trashed',
-                //             'page' => 'classes/trashed'
-                //         ]
-                //     ]
-                // ]
+            
             ]
         ],
 		

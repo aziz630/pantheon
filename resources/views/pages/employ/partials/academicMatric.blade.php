@@ -9,7 +9,7 @@
                 class="form-control form-control-solid"
                 name="mpassingyear"
                 placeholder="Enter passing year"
-                value=""
+                value="{{ old('mpassingyear')}}"
             />
             <span class="form-text text-muted"
                 >Please enter passing year.</span
@@ -26,7 +26,7 @@
                 class="form-control form-control-solid"
                 name="msubject"
                 placeholder="Enter Subject"
-                value=""
+                value="{{ old('msubject')}}"
             />
             <span class="form-text text-muted"
                 >Please enter your subject.</span
@@ -46,7 +46,7 @@
                 class="form-control form-control-solid"
                 name="mschoolname"
                 placeholder="college name"
-                value=""
+                value="{{ old('mschoolname')}}"
             />
             <span class="form-text text-muted"
                 >Please enter your School name.</span
@@ -63,7 +63,7 @@
                 class="form-control form-control-solid"
                 name="mpersentage"
                 placeholder="Enter persentage"
-                value=""
+                value="{{ old('mpersentage')}}"
             />
             <span class="form-text text-muted"
                 >Please enter Enter your parsentage.</span

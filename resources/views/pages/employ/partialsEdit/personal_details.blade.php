@@ -7,14 +7,19 @@
                 type="text"
                 class="form-control form-control-solid"
                 name="title"
+                placeholder="Enter Post Title"
                 value="{{ $employee->emp_title }}"
             />
+            @if ($errors->has('title'))
+                <span class="text-danger">{{ $errors->first('title') }}</span>
+            @endif
             <span class="form-text text-muted"
                 >Please enter post title.</span
             >
         </div>
         <!--end::Input-->
     </div>
+
 
     <div class="col-xl-4">
         <!--begin::Input-->
@@ -25,8 +30,11 @@
                 class="form-control form-control-solid"
                 name="fullName"
                 placeholder="Full Name"
-                value=""
+                value="{{ $employee->emp_name }}"
             />
+            @if ($errors->has('fullName'))
+                <span class="text-danger">{{ $errors->first('fullName') }}</span>
+            @endif
             <span class="form-text text-muted"
                 >Please enter your full name.</span
             >
@@ -43,8 +51,11 @@
                 class="form-control form-control-solid"
                 name="fName"
                 placeholder="Father Name"
-                value=""
+                value="{{ $employee->emp_fname }}"
             />
+            @if ($errors->has('fName'))
+                <span class="text-danger">{{ $errors->first('fName') }}</span>
+            @endif
             <span class="form-text text-muted"
                 >Please enter your father name.</span
             >
@@ -54,25 +65,9 @@
 
 </div>
 
-<div class="row">
-    <div class="col-xl-4">
-        <!--begin::Input-->
-        <div class="form-group">
-            <label>Current Address</label>
-            <input
-                type="text"
-                class="form-control form-control-solid"
-                name="empCurrentAddress"
-                placeholder="employ current address"
-                value=""
-            />
-            <span class="form-text text-muted"
-                >Please enter student current Address.</span
-            >
-        </div>
-        <!--end::Input-->
-    </div>
 
+
+<div class="row">
     <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
@@ -82,8 +77,11 @@
                 class="form-control form-control-solid"
                 name="empContact"
                 placeholder="Employee mobile number"
-                value=""
+                value="{{ $employee->emp_contact }}"
             />
+            @if ($errors->has('empContact'))
+                <span class="text-danger">{{ $errors->first('empContact') }}</span>
+            @endif
             <span class="form-text text-muted"
                 >Please enter contact number</span
             >
@@ -102,17 +100,18 @@
                 readonly
                 id="dob"
                 placeholder="Month/Day/Year"
-                value=""
+                value="{{ $employee->emp_dob }}"
             />
+            @if ($errors->has('empDOB'))
+                <span class="text-danger">{{ $errors->first('empDOB') }}</span>
+            @endif
             <span class="form-text text-muted"
                 >Please enter date of birth.</span
             >
         </div>
         <!--end::Input-->
     </div>
-</div>
 
-<div class="row">
     <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
@@ -120,17 +119,43 @@
             <input
                 type="email"
                 class="form-control form-control-solid"
-                name="empEmail"
+                name="emp_email"
                 placeholder="employee@example.com"
-                value=""
+                value="{{ $employee->emp_email }}"
             />
+            @if ($errors->has('emp_email'))
+                <span class="text-danger">{{ $errors->first('emp_email') }}</span>
+            @endif
             <span class="form-text text-muted"
                 >Please enter email address.</span
             >
         </div>
         <!--end::Input-->
     </div>
+</div>
 
+<div class="row">
+
+    <div class="col-xl-4">
+        <!--begin::Input-->
+        <div class="form-group">
+            <label>Current Address</label>
+            <input
+                type="text"
+                class="form-control form-control-solid"
+                name="empCurrentAddress"
+                placeholder="employ current address"
+                value="{{ $employee->emp_address }}"
+            />
+            @if ($errors->has('empCurrentAddress'))
+                <span class="text-danger">{{ $errors->first('empCurrentAddress') }}</span>
+            @endif
+            <span class="form-text text-muted"
+                >Please enter student current Address.</span
+            >
+        </div>
+        <!--end::Input-->
+    </div>
     <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
@@ -140,8 +165,11 @@
                 class="form-control form-control-solid"
                 name="empPermanentAddress"
                 placeholder="Enter permanent address"
-                value=""
+                value="{{ $employee->emp_permanent_address }}"
             />
+            @if ($errors->has('empPermanentAddress'))
+                <span class="text-danger">{{ $errors->first('empPermanentAddress') }}</span>
+            @endif
             <span class="form-text text-muted"
                 >Please enter permanent Address.</span
             >
@@ -152,40 +180,33 @@
     <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
-            <label>Marital Status </label>
-            <div class="col-12 col-form-label">
-                <div class="radio-inline">
-                    <label
-                        class="radio radio-outline radio-outline-2x radio-primary"
-                    >
-                        <input
-                            type="radio"
-                            name="empStatus"
-                            checked="checked"
-                            value="1"
-                        />
-                        <span></span>
-                        Single
-                    </label>
-                    <label
-                        class="radio radio-outline radio-outline-2x radio-primary"
-                    >
-                        <input type="radio" name="empStatus" value="0" />
-                        <span></span>
-                        Married
-                    </label>
-                </div>
+            <label>Profile picture</label>
+            <div></div>
+            <div class="custom-file">
+                <input
+                    type="file"
+                    class="custom-file-input form-control-solid"
+                    name="file"
+                    id="File"
+                />
+                <label class="custom-file-label" for="cnicFile"
+                    >Choose file</label
+                >
+                @if ($errors->has('file'))
+                <span class="text-danger">{{ $errors->first('file') }}</span>
+                @endif
             </div>
             <span class="form-text text-muted"
-                >Please select your status.</span
+                >Please select profile picture.</span
             >
         </div>
         <!--end::Input-->
-    </div>
-   
+    </div> 
+
 </div>
 
 <div class="row">
+
     <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
@@ -198,8 +219,8 @@
                         <input
                             type="radio"
                             name="empNationality"
-                            checked="checked"
-                            value="1"
+                            
+                            value="pakistani" {{ $employee->emp_nationality == 'pakistani' ? 'checked' : '' }}
                         />
                         <span></span>
                         Pakistani
@@ -207,7 +228,8 @@
                     <label
                         class="radio radio-outline radio-outline-2x radio-primary"
                     >
-                        <input type="radio" name="empNationality" value="0" />
+                        <input type="radio" name="empNationality" value="forigner"
+                        {{ $employee->emp_nationality == 'forigner' ? 'checked' : '' }} />
                         <span></span>
                         Forigner
                     </label>
@@ -218,42 +240,6 @@
             >
         </div>
         <!--end::Input-->
-    </div>
-    <div class="form-group">
-        <label>Gender</label>
-        <div class="col-12 col-form-label">
-            <div class="radio-inline">
-                <label
-                    class="radio radio-outline radio-outline-2x radio-primary"
-                >
-                    <input
-                        type="radio"
-                        name="empGender"
-                        checked="checked"
-                        value="1"
-                    />
-                    <span></span>
-                    Male
-                </label>
-                <label
-                    class="radio radio-outline radio-outline-2x radio-primary"
-                >
-                    <input type="radio" name="empGender" value="0" />
-                    <span></span>
-                    Female
-                </label>
-                <label
-                    class="radio radio-outline radio-outline-2x radio-primary"
-                >
-                    <input type="radio" name="stdGender" value="2" />
-                    <span></span>
-                    Other
-                </label>
-            </div>
-        </div>
-        <span class="form-text text-muted"
-            >Please select student gender</span
-        >
     </div>
     <div class="col-xl-4">
         <!--begin::Input-->
@@ -267,8 +253,8 @@
                         <input
                             type="radio"
                             name="empReligion"
-                            checked="checked"
-                            value="1"
+                           
+                            value="muslim"{{ $employee->emp_religion == 'muslim' ? 'checked' : '' }}
                         />
                         <span></span>
                         Muslim
@@ -276,7 +262,8 @@
                     <label
                         class="radio radio-outline radio-outline-2x radio-primary"
                     >
-                        <input type="radio" name="empReligion" value="0" />
+                        <input type="radio" name="empReligion" value="non-muslim"
+                        {{ $employee->emp_religion == 'non-muslim' ? 'checked' : '' }} />
                         <span></span>
                         None-Muslim
                     </label>
@@ -288,5 +275,106 @@
         </div>
         <!--end::Input-->
     </div>
+    <div class="col-xl-4">
+        <div class="form-group">
+            <label>Marital Status </label>
+            <div class="col-12 col-form-label">
+                <div class="radio-inline">
+                    <label
+                        class="radio radio-outline radio-outline-2x radio-primary"
+                    >
+                        <input
+                            type="radio"
+                            name="empMarried"
+                            value="single" {{ $employee->is_married == 'single' ? 'checked' : '' }}
+                        />
+                        <span></span>
+                        Single
+                    </label>
+                    <label
+                        class="radio radio-outline radio-outline-2x radio-primary"
+                    >
+                        <input type="radio" name="empMarried" value="married" {{ $employee->is_married == 'married' ? 'checked' : '' }} />
+                        <span></span>
+                        Married
+                    </label>
+                </div>
+            </div>
+            <span class="form-text text-muted"
+                >Please select your status.</span
+            >
+        </div>
+    </div>
 </div>
+<div class="row">
+    <div class="col-xl-4">
+        <div class="form-group">
+            <label>Gender</label>
+            <div class="col-12 col-form-label">
+                <div class="radio-inline">
+                    <label
+                        class="radio radio-outline radio-outline-2x radio-primary"
+                    >
+                        <input
+                            type="radio"
+                            name="empGender"
+                            value="male" {{ $employee->emp_gender == 'male' ? 'checked' : '' }}
+                        />
+                        <span></span>
+                        Male
+                    </label>
+                    <label
+                        class="radio radio-outline radio-outline-2x radio-primary"
+                    >
+                        <input type="radio" name="empGender" value="female" {{ $employee->emp_gender == 'female' ? 'checked' : '' }} />
+                        <span></span>
+                        Female
+                    </label>
+                    <label
+                        class="radio radio-outline radio-outline-2x radio-primary"
+                    >
+                        <input type="radio" name="empGender" value="other" {{ $employee->emp_gender == 'other' ? 'checked' : '' }} />
+                        <span></span>
+                        Other
+                    </label>
+                </div>
+            </div>
+            <span class="form-text text-muted"
+                >Please select gender</span
+            >
+        </div>
+    </div>
+
+    <div class="col-xl-4">
+        <!--begin::Input-->
+        <div class="form-group">
+            <label>Role</label>
+            <select
+                name="role_id"
+                id="role_id"
+                class="form-control form-control-solid"
+            >
+                <option>Select User</option>
+                <option value="admin" {{ $employee->is_employee == 'admin' ? 'selected' : '' }}> Admin </option>
+                <option value="employee" {{ $employee->is_employee == 'employee' ? 'selected' : ''}} >Employee </option>
+            </select>
+            @if ($errors->has('role_id'))
+                <span class="text-danger">{{ $errors->first('role_id') }}</span>
+            @endif
+            <span class="form-text text-muted"
+                >Please select employee.</span
+            >
+        </div>
+        <!--end::Input-->
+    </div>
+</div>
+
+<div class="row">
+
+  
+
+</div>
+    
+
 <hr />
+

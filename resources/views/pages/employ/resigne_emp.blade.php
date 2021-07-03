@@ -12,17 +12,31 @@
 
 {{-- Add new Student form --}}
 
+@if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
 <!--begin::Container-->
 <form
     class="form"
     method="post"
-    action="{{ route('employee.save') }}"
-    id="hiring_form"
+    action="{{ route('resigh_employee.update') }}"
+    id="resign_form"
     accept-charset="utf-8"
     enctype="multipart/form-data"
 >
-    @csrf
-
+@csrf
+  <input
+  type="hidden"
+  name="rId"
+  value="{{ auth()->user()->id }}"
+/>
     <div class="card card-custom m-5">
         <div class="card-body p-5">
             @include('pages.alerts.alerts')
@@ -41,73 +55,77 @@
                                 <input
                                     type="text"
                                     class="form-control form-control-solid"
-                                    name="name"
-                                    placeholder="Name"
-                                    value=""
+                                    name="fullName"
+                                    require
+                                    value="{{ auth()->user()->fname }}" readonly
                                 />
                                 <span class="form-text text-muted"
-                                    >Please enter post name.</span
+                                    >Your name.</span
                                 >
                             </div>
                             <!--end::Input-->
                         </div>
-                    
+                        
                         <div class="col-xl-4">
                             <!--begin::Input-->
                             <div class="form-group">
-                                <label>ERP Number</label>
+                                <label>Title</label>
                                 <input
                                     type="text"
                                     class="form-control form-control-solid"
-                                    name="erpNumber"
-                                    placeholder="ERP Number"
-                                    value=""
+                                    name="title"
+                                    require
+                                    value="{{ auth()->user()->title }}" readonly
                                 />
                                 <span class="form-text text-muted"
-                                    >Please enter your ERP number.</span
+                                    >Your Title .</span
                                 >
                             </div>
                             <!--end::Input-->
                         </div>
-                    
+
                         <div class="col-xl-4">
                             <!--begin::Input-->
                             <div class="form-group">
-                                <label>Designation</label>
+                                <label>Email</label>
                                 <input
                                     type="text"
                                     class="form-control form-control-solid"
-                                    name="designation"
-                                    placeholder="Designation"
-                                    value=""
+                                    name="title"
+                                    require
+                                    value="{{ auth()->user()->email }}" readonly
                                 />
                                 <span class="form-text text-muted"
-                                    >Please enter your designation.</span
+                                    >Your Title .</span
                                 >
                             </div>
                             <!--end::Input-->
                         </div>
-                    
+
                     </div>
                     
                     <div class="row">
-                        <div class="col-xl-4">
+                        <div class="col-xl-8">
                             <!--begin::Input-->
                             <div class="form-group">
                                 <label>Reason of resign</label>
-                                <input
-                                    type="text"
-                                    class="form-control form-control-solid"
-                                    name="reason"
-                                    placeholder="Reason of resign"
-                                    value=""
-                                />
+                                
+                                <textarea class="form-control form-control-solid" 
+                                name="reasonOfResign"
+                                placeholder="Please type Reason of resigne"
+                                ></textarea>
+                                
                                 <span class="form-text text-muted"
                                     >Please enter reason of resigne.</span
                                 >
+                                <!-- @if ($errors->has('reason_of_resign'))
+                                <span class="text-danger">{{ $errors->first('reason_of_resign') }}</span>
+                                @endif -->
                             </div>
                             <!--end::Input-->
                         </div>
+
+                       
                     
                         <div class="col-xl-4">
                             <!--begin::Input-->
@@ -118,12 +136,15 @@
                                     <input
                                         type="file"
                                         class="custom-file-input form-control-solid"
-                                        name="image"
+                                        name="file"
                                         id="File"
                                     />
                                     <label class="custom-file-label" for="cnicFile"
                                         >Choose file</label
                                     >
+                                    <!-- @if ($errors->has('resig_file'))
+                                    <span class="text-danger">{{ $errors->first('resig_file') }}</span>
+                                    @endif -->
                                 </div>
                                 <span class="form-text text-muted"
                                     >Please browse attachement file.</span
@@ -131,8 +152,19 @@
                             </div>
                             <!--end::Input-->
                         </div>
-                        
+                    </div>
                     <hr />
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <button type="submit" class="btn btn-primary mr-2">
+                                submit
+                            </button>
+                            <a href="{{ url('/dashboard') }}" class="btn btn-secondary">
+                                Back
+                            </a>
+                        </div>
+                    </div>
                     
                 </div>
             </div>

@@ -15,12 +15,10 @@ class CreateEmpResignesTable extends Migration
     {
         Schema::create('emp_resignes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employ_id');
-            $table->string('emp_name');
-            $table->boolean('emp_staus');
-            $table->string('emp_resign_reason');
-            $table->date('emp_start_date');    
-            $table->date('emp_end_date');    
+            $table->foreignId('employee_id');
+            $table->boolean('staus');
+            $table->string('resign_of_reason');
+            $table->string('resig_file');
             $table->timestamps();
         });
     }
