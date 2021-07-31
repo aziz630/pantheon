@@ -19,7 +19,7 @@ use Illuminate\Support\Str;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
-        'fname' => 'Jawad',
+        'fname' => 'admin',
         'employee_id' => 1,
         'is_employee' => 'admin',
         'email' => 'trellis@gmail.com',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Requests\StoreSectionRequest;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
@@ -428,13 +429,9 @@ class EmployController extends Controller
             // if(count($employee) == 1)
             // {
 
-                $data = array('name'=>"Aziz");
-                // $subject = $request->emp_email;
-                Mail::send(['text'=>'pages.emails.testMail'], $data, function($message) {
-                $message->to('eng.azizkhan11@gmail.com', 'Pantheon')->subject
-                    ('Resigne');
-                $message->from('eng.azizkhan11@gmail.com','Pantheon');
-                });
+                
+
+                Mail::to($approve->emp_email)->send(new TestMail());
                 
             return redirect(url('resigneRequest'))->with('success', 'Request Approved successfully And send Email.');
         

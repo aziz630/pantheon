@@ -120,4 +120,26 @@
         </div>
         <!--end::Input-->
     </div>
+
+      <div class="col-xl-4">
+        <!--begin::Input-->
+        <div class="form-group">
+            <label>Discount</label>
+            <input
+                type="text"
+                class="form-control form-control-solid"
+                name="discount"
+                id="discount"
+                placeholder="Discount"
+                value="{{ old('discount') }}"
+            />
+            @if($errors->has('discount'))
+                <span class="text-danger">{{ $errors->first('discount') }}</span>
+            @endif
+            <span class="form-text text-muted"
+                >Please enter student discount.</span
+            >
+        </div>
+        <!--end::Input-->
+    </div>
 </div>

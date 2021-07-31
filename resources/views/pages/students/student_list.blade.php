@@ -12,8 +12,63 @@
 
 {{-- Create new class form --}}
 <!--begin::Card-->
+
 <div class="card card-custom mb-7">
-<div class="card-header">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">
+                {{ __("All Students") }} <small>Filteration enabled</small>
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+    
+        <form class="mb-15" action="{{ route('search.student') }}" method="GET">
+
+            <div class="row">
+             
+                <div class="col-md-4">
+                    <label>Class:</label>
+                    <select
+                        name="class"
+                        id="class"
+                        class="form-control form-control-solid"
+                    >
+                        <option>Select Class</option>
+
+                        @if(isset($classes)) @foreach($classes as $class)
+                        <option value="{{ $class['id'] }}" {{ (@$class_id == $class['id'])? 'selected' : '' }}>
+                            {{ $class["class_name"] }}
+                        </option>
+                        @endforeach @endif
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>Session:</label>
+                    <select
+                        name="session"
+                        id="session"
+                        class="form-control form-control-solid"
+                    >
+                        <option>Select Session</option>
+
+                        @foreach($sessions as $session)
+                        <option value="{{ $session['id'] }}" {{ (@$session_id == $session['id'])? 'selected' : '' }}>
+                            {{ $session["session"].'-'.($session["session"] + 1) }}
+                        </option>
+                        @endforeach 
+                    </select>
+                </div>
+                <div class="col-md-2 pt-7">
+                    <input type="submit" class="btn btn-primary btn-primary" name="search" value="search" >
+                </div>
+            
+            </div>
+        </form>
+    </div>
+</div>
+<div class="card card-custom mb-7">
+    <div class="card-header">
         <div class="card-title">
             <span class="card-icon">
                 <i class="flaticon-search text-primary"></i>
@@ -36,99 +91,7 @@
             </a>
             --}}
             <!--begin::Dropdown-->
-            <div class="dropdown dropdown-inline mr-2">
-                <button
-                    type="button"
-                    class="btn btn-light-primary font-weight-bolder dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                >
-                    <span class="svg-icon svg-icon-md">
-                        <!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                            width="24px"
-                            height="24px"
-                            viewBox="0 0 24 24"
-                            version="1.1"
-                        >
-                            <g
-                                stroke="none"
-                                stroke-width="1"
-                                fill="none"
-                                fill-rule="evenodd"
-                            >
-                                <rect x="0" y="0" width="24" height="24" />
-                                <path
-                                    d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z"
-                                    fill="#000000"
-                                    opacity="0.3"
-                                />
-                                <path
-                                    d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z"
-                                    fill="#000000"
-                                />
-                            </g>
-                        </svg>
-                        <!--end::Svg Icon--> </span
-                    >Export
-                </button>
-                <!--begin::Dropdown Menu-->
-                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                    <!--begin::Navigation-->
-                    <ul class="navi flex-column navi-hover py-2">
-                        <li
-                            class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2"
-                        >
-                            Choose an option:
-                        </li>
-                        <li class="navi-item">
-                            <a href="#" class="navi-link">
-                                <span class="navi-icon">
-                                    <i class="la la-print"></i>
-                                </span>
-                                <span class="navi-text">Print</span>
-                            </a>
-                        </li>
-                        <li class="navi-item">
-                            <a href="#" class="navi-link">
-                                <span class="navi-icon">
-                                    <i class="la la-copy"></i>
-                                </span>
-                                <span class="navi-text">Copy</span>
-                            </a>
-                        </li>
-                        <li class="navi-item">
-                            <a href="#" class="navi-link">
-                                <span class="navi-icon">
-                                    <i class="la la-file-excel-o"></i>
-                                </span>
-                                <span class="navi-text">Excel</span>
-                            </a>
-                        </li>
-                        <li class="navi-item">
-                            <a href="#" class="navi-link">
-                                <span class="navi-icon">
-                                    <i class="la la-file-text-o"></i>
-                                </span>
-                                <span class="navi-text">CSV</span>
-                            </a>
-                        </li>
-                        <li class="navi-item">
-                            <a href="#" class="navi-link">
-                                <span class="navi-icon">
-                                    <i class="la la-file-pdf-o"></i>
-                                </span>
-                                <span class="navi-text">PDF</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <!--end::Navigation-->
-                </div>
-                <!--end::Dropdown Menu-->
-            </div>
+           
             <!--end::Dropdown-->
             <!--begin::Button-->
             <a
@@ -165,13 +128,16 @@
             >
             <!--end::Button-->
         </div>
+        
     </div>
     <div class="card-body">
         @include('pages.alerts.alerts')
         <!--begin: Datatable-->
+        
+       
         <table
             class="table table-bordered table-hover table-checkable"
-            id="students"
+            id="student_table"
             style="margin-top: 13px !important"
         >
         <thead>
@@ -183,16 +149,39 @@
                 <th>Class/Grade</th>
                 <th>Section</th>
                 <th>More</th>
-                <!-- <th>Previous School</th> -->
-                <th>Actions</th>
+                <th>Action</th>
+                <!-- <th>Actions</th> -->
             </tr>
         </thead>
+        <tbody>
+            @foreach($allData as $key => $value)
+                <tr>
+                    <td>{{$key+1}}</td>
+                    <td>{{ $value['student']['std_name'] }}</td>
+                    <td>{{ $value['student']['std_father_name'] }}</td>
+                    <td>{{ $value['student']['std_gender'] }}</td>
+                    <td>{{ $value['class']['class_name'] }}</td>
+                    <td>{{ $value['session']['session'] }}</td>
+                    <td>
+                        <a href="{{ route('view.single.student',$value->student_id) }}" class="btn btn-primary btn-sm">more</a>
+                    </td>
+                    <td>
+                        <a href="{{ route('student.edit',$value->student_id) }}" class="btn btn-sm btn-clean btn-icon btn" title="Edit details"><i class="la la-edit"></i></a>
+                        <a href="{{ route('student.delete',$value->student_id) }}" class="btn btn-sm btn-clean btn-icon" title="Delete"><i class="la la-trash"></i></a>
+                    </td>
+                   
+                </tr>
+            @endforeach
+            </tbody>
         </table>
+
         <!--end: Datatable-->
+     
+
     </div>
+  
 </div>
 <!-- end::Card -->
-
 @endsection
 
 {{-- Scripts Section --}}
@@ -211,50 +200,101 @@
 --}}
 
 <script>
-    // Initializing student datatable
+   
+        $(document).ready(function() {
+    $('#student_table').DataTable();
+} ); 
 
-    // $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-    //     var erp_input = $("#erp_no").val();
-    //     var name_input = $("#studentName").val();
-    //     var erp = data[0]; // use data for the erp column
-    //     var name = data[1];
+$(function(e){
+    $('.check_all').click(function(){
+        $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+    });
 
-        // if (
-        //     (erp_input != "" && erp_input == erp) ||
-        //     (name_input != "" && name_input == name) ||
-        //     (name_input == "" && erp_input == "")
-        // ) {
-        //     return true;
-        // }
-        // return false;
-    // });
+    // $('#promoteAllStudents').click(function(e){
+    //      e.preventDefault();
+    //      var allids = [];
 
-    $(document).ready(function() {
+    //      $("input:checkbox[name=ids]:checked").each(function(){
+    //         allids.push($(this).val()); 
+    //      });
+
+    //      $,ajax({
+    //          url: "",
+    //          type: "DELETE",
+    //          data: {
+    //              _token:$("input[name=_token]").val(),
+    //              ids:allids 
+    //          }, 
+    //          success:function(response){
+    //              $.each(allids, function(key,val){
+    //                  $("#sid"+val).remove();
+    //              })
+    //          }
+    //      });
+    // })
+});
+
+// $(document).on('click', '#promoteAllStudents', function(){
+//         var id = [];
+//         if(confirm("Are you sure you want to Delete this data?"))
+//         {
+//             $('.checkBoxClass:checked').each(function(){
+//                 id.push($(this).val());
+//             });
+//             if(id.length > 0)
+//             {
+//                 $.ajax({
+//                     url:"",
+//                     method:"post",
+//                     data:{id:id},
+//                     success:function(data)
+//                     {
+//                         // alert(data);
+//                         $('#student_table').DataTable().ajax.reload();
+//                     }
+//                 });
+//             }
+//             else
+//             {
+//                 alert("Please select atleast one checkbox");
+//             }
+//         }
+//     });
+
+
+
+    // $(document).ready(function() {
         /**
+
          * Data Table Initialization
          **/
-        let table = $("#students").DataTable({
-            processing: true,
-            serverside: true,
-            ajax: "{{ url('get_all_students_list') }}",
-            columns: [
-                { data: "erp_no" },
-                { data: "studentName" },
-                { data: "fatherName" },
-                { data: "stdGender" },
-                { data: "class" },
-                { data: "section" },
-                { data: "more" },
-                // { data: "documents", orderable: false, searchable: false },
-                { data: "action", orderable: false, searchable: false }
-            ]
-        }); //.search( 'Enrolled' ).draw();
+        // let table = $("#students").DataTable({
+        //     processing: true,
+        //     serverside: true,
+        //     ajax: "{{ url('get_all_promotion_students_list') }}",
+        //     columns: [
+        //         { data: "erp_no" },
+        //         { data: "studentName" },
+        //         { data: "fatherName" },
+        //         { data: "stdGender" },
+        //         { data: "class" },
+        //         { data: "section" },
+        //         { data: "more" },
+        //         {data: 'select_orders', orderable: false, searchable: false},
+                // { data: "action", orderable: false, searchable: false },
+                
+            // ]
+        // }); //.search( 'Enrolled' ).draw();
 
         // Re-draw datatable when user performing filteration
         // $("#erp_no, #studentName").keyup(function() {
         //     table.draw();
         // });
-    });
+    // });
+
+    
+   
+
 </script>
 @endsection
 

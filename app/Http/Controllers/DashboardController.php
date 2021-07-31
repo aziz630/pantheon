@@ -28,9 +28,9 @@ class DashboardController extends Controller
             return view('pages.empdashboard', compact('page_title', 'page_description'));
 
         }
-        if(Auth::user()->hasRole('admin')) {
-            return redirect('/dashboard');
-        }
+        // if(Auth::user()->hasRole('admin')) {
+        //     return redirect('/dashboard');
+        // }
         
     }
 }

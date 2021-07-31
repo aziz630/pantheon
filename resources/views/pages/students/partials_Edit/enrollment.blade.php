@@ -11,7 +11,7 @@
                 <option>Select Session</option>
 
                 @foreach ($sessions as $session)
-                    <option value="{{ $session->id }}" {{ $session->session_id == $session->id ? 'selected' : ''
+                    <option value="{{ $session->id }}" {{ $editData->academic_session_id == $session->id ? 'selected' : ''
                         }} > {{ $session["session"].'-'.($session["session"] + 1) }}</option
                     >
                 @endforeach
@@ -39,7 +39,7 @@
                 <option>Select Class</option>
 
                 @if(isset($classes)) @foreach($classes as $class)
-                <option value="{{ $class['id'] }}">
+                <option value="{{ $class['id'] }}" {{ ($editData->class_id == $class['id'])? 'selected': '' }}>
                     {{ $class["class_name"] }}
                 </option>
                 @endforeach @endif
@@ -66,7 +66,7 @@
 
                 @foreach($sections as $section)
                 <option
-                    value="{{ $section->id }}"
+                    value="{{ $section->id }}" {{ ($editData->section_id == $section->id)? 'selected': '' }}
                     >{{ $section->section_name }}</option
                 >
                 @endforeach
@@ -110,13 +110,35 @@
                 name="stdAdmissionDate"
                 id="stdAdmissionDate"
                 placeholder="Month/Day/Year"
-                value="{{ $student->std_admission_date }}"
+                value="{{ $editData['student']['std_admission_date'] }}"
             />
             <!-- @if($errors->has('stdAdmissionDate'))
                 <span class="text-danger">{{ $errors->first('stdAdmissionDate') }}</span>
             @endif -->
             <span class="form-text text-muted"
                 >Please enter student admission date.</span
+            >
+        </div>
+        <!--end::Input-->
+    </div>
+
+    <div class="col-xl-4">
+        <!--begin::Input-->
+        <div class="form-group">
+            <label>Discount</label>
+            <input
+                type="text"
+                class="form-control form-control-solid"
+                name="discount"
+                id="discount"
+                placeholder="Discount"
+                value="{{ $editData['discount']['discount'] }}"
+            />
+            @if($errors->has('discount'))
+                <span class="text-danger">{{ $errors->first('discount') }}</span>
+            @endif
+            <span class="form-text text-muted"
+                >Please enter student Discount.</span
             >
         </div>
         <!--end::Input-->

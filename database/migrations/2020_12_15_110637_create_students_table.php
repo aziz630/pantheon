@@ -15,29 +15,31 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->string('std_name', 20);
-            $table->string('std_gender');
-            $table->date('std_dob');
-            $table->string('std_pob', 100);
-            $table->string('std_religion');
-            $table->string('std_nationality', 80)->default('Pakistani');
-            $table->string('std_current_address');
-            $table->string('std_permanent_address');
-            $table->string('std_email', 225);
+            $table->string('id_no')->nullable();
+            $table->string('usertype')->nullable()->comment('Student,Employee,Admin');
+            $table->string('std_name', 20)->nullable();
+            $table->string('std_gender')->nullable();
+            $table->date('std_dob')->nullable();
+            $table->string('std_pob', 100)->nullable();
+            $table->string('std_religion')->nullable();
+            $table->string('std_nationality', 80)->default('Pakistani')->nullable();
+            $table->string('std_current_address')->nullable();
+            $table->string('std_permanent_address')->nullable();
+            $table->string('std_email', 225)->nullable();
             // $table->string('std_mobile_no', 15);
-            $table->string('std_emergency_contact_no', 15);
-            $table->date('std_admission_date');
+            $table->string('std_emergency_contact_no', 15)->nullable();
+            $table->date('std_admission_date')->nullable();
             // $table->date('std_registeration_no');
-            $table->string('std_father_name', 20);
-            $table->string('std_father_cnic', 35);
-            $table->string('std_father_occupation', 20);
-            $table->string('std_mother_name', 20);
-            $table->string('std_mother_cnic', 35);
-            $table->string('std_mother_occupation', 20);
+            $table->string('std_father_name', 20)->nullable();
+            $table->string('std_father_cnic', 35)->nullable();
+            $table->string('std_father_occupation', 20)->nullable();
+            $table->string('std_mother_name', 20)->nullable();
+            $table->string('std_mother_cnic', 35)->nullable();
+            $table->string('std_mother_occupation', 20)->nullable();
             $table->string('reason_of_withdrawal')->default(null)->nullable();
-            $table->foreignId('guardian_id');
-            $table->string('std_image');
-            $table->softDeletesTz('deleted_at', 0);
+            $table->foreignId('guardian_id')->nullable();
+            $table->string('std_image')->nullable();
+            $table->softDeletesTz('deleted_at', 0)->nullable();
 
 
 

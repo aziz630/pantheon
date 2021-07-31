@@ -8,11 +8,17 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\FeeCategoryController;
+use App\Http\Controllers\FeeCategoryAmountController;
 use App\Http\Controllers\FeeStructureController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\EmployController;
 use App\Http\Controllers\DomesticController;
 use App\Http\Controllers\ResigneController;
+use App\Http\Controllers\OtherFeeController;
+use App\Http\Controllers\AccountStudentsFeeController;
+
+use App\Http\Controllers\RegistrationFeeController;
+use App\Http\Controllers\MonthlyFeeController;
 
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PreviousSchoolController;
@@ -42,11 +48,11 @@ Route::group(['middleware'=>['auth']], function (){
 	// Route::get('/emp_dashboard', [EmpDashboardController::class, 'index']);
 	// Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-	Route::get('/dashboard/resigne', [EmployController::class, 'resign_employ']);
+	Route::get('/resigne', [EmployController::class, 'resign_employ']);
 
 });
 
-Route::group(['middleware'=>['auth', 'role:admin']], function (){
+Route::group(['middleware'=>['auth']], function (){
 
 	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -78,6 +84,47 @@ Route::group(['middleware'=>['auth', 'role:admin']], function (){
 	Route::get('/section_delete/{id}', [SectionController::class, 'delete_section']);
 	Route::get('/section_restore/{id}', [SectionController::class, 'restore_section']);
 
+
+	/*** [ Other Fee ] */
+	Route::get('/other_fee/{p?}', [OtherFeeController::class, 'other_fee_list']);
+	Route::get('/get_other_fee', [OtherFeeController::class, 'read_all_other_fee']);
+	Route::get('/trashed_other_fee', [OtherFeeController::class, 'read_all_trashed_other_fee']);
+
+	Route::get('/other_fee_create', [OtherFeeController::class, 'create_other_fee']);
+	Route::post('/other_fee_create', [OtherFeeController::class, 'save_other_fee'])->name('save.other.fee');
+
+	Route::get('/other_fee_edit/{id}', [OtherFeeController::class, 'edit_other_fee']);
+	Route::post('/other_fee_edit', [OtherFeeController::class, 'update_other_fee'])->name('other.fee.update');
+
+	Route::get('/other_fee_delete/{id}', [OtherFeeController::class, 'delete_other_fee']);
+	Route::get('/other_fee_restore/{id}', [OtherFeeController::class, 'restore_other_fee']);
+
+
+
+	/*** [ student Registration free ] */
+	Route::get('/student_reg_fee_view/{p?}', [RegistrationFeeController::class, 'reg_free_view']);
+	Route::get('/registration_fee_classwise', [RegistrationFeeController::class, 'registration_fee_class_wise'])->name('student.registration.fee.classwise.get');
+	Route::get('/registration_fee_payslip', [RegistrationFeeController::class, 'registration_fee_payslip'])->name('student.registration.fee.payslip');
+
+	
+	/*** [ student Monthly free ] */
+	Route::get('/student_monthly_fee_view/{p?}', [MonthlyFeeController::class, 'monthly_free_view']);
+	Route::get('/monthly_fee_classwise', [MonthlyFeeController::class, 'monthly_fee_class_wise'])->name('student.monthly.fee.classwise.get');
+	Route::get('/monthly_fee_payslip', [MonthlyFeeController::class, 'monthly_fee_payslip'])->name('student.monthly.fee.payslip');
+
+	/*** [ student Account ] */
+	Route::get('/student_fee/{p?}', [AccountStudentsFeeController::class, 'student_account_view']);
+	Route::get('/student_fee_add', [AccountStudentsFeeController::class, 'Student_Fee_Add'])->name('student.fee.add');
+	Route::get('/account_fee_getstudent', [AccountStudentsFeeController::class, 'Student_Fee_Get_Student'])->name('account.fee.getstudent');
+	Route::post('/account_fee_store', [AccountStudentsFeeController::class, 'Account_Fee_Store'])->name('account.fee.store');
+
+	// Route::post('/other_fee_create', [OtherFeeController::class, 'save_other_fee'])->name('save.other.fee');
+
+	// Route::get('/other_fee_edit/{id}', [OtherFeeController::class, 'edit_other_fee']);
+	// Route::post('/other_fee_edit', [OtherFeeController::class, 'update_other_fee'])->name('other.fee.update');
+
+	// Route::get('/other_fee_delete/{id}', [OtherFeeController::class, 'delete_other_fee']);
+	// Route::get('/other_fee_restore/{id}', [OtherFeeController::class, 'restore_other_fee']);
 
 	/*** [ Sessions ] */
 	Route::get('/sessions/{p?}', [SessionController::class, 'session_list']);
@@ -136,6 +183,18 @@ Route::group(['middleware'=>['auth', 'role:admin']], function (){
 	Route::get('/fee_category_restore/{id}', [FeeCategoryController::class, 'restore_fee_category']);
 
 
+	/*** [ Fee categories Amount Routes ] */
+	Route::get('/fee_categories_amount/{p?}', [FeeCategoryAmountController::class, 'fee_category_amount_list']);
+	Route::get('/fee_amount_create', [FeeCategoryAmountController::class, 'create_fee_amount_category'])->name('fee.amount.create');
+	Route::post('/save_amount', [FeeCategoryAmountController::class, 'save_fee_amount'])->name('save.fee.amount');
+
+	Route::get('/fee_amount_edit/{fee_category_id}', [FeeCategoryAmountController::class, 'edit_fee_amount'])->name('fee.amount.edit');
+	Route::post('/fee_category_update/{fee_category_id}', [FeeCategoryAmountController::class, 'update_fee_category_amount'])->name('ubdate.fee.amount');
+
+	Route::get('/fee_amount_detail/{fee_category_id}', [FeeCategoryAmountController::class, 'detail_fee_amount'])->name('fee.amount.detail');
+	// Route::get('/fee_category_restore/{id}', [FeeCategoryAmountController::class, 'restore_fee_category']);
+  
+
 	/*** [ Fee Structures ] */
 	Route::get('/fee_structures/{p?}', [FeeStructureController::class, 'fee_structure_list']);
 	Route::get('/get_fee_structures', [FeeStructureController::class, 'read_all_fee_structures']);
@@ -162,6 +221,7 @@ Route::group(['middleware'=>['auth', 'role:admin']], function (){
 
 	Route::get('/fee_record_edit/{id}', [FeeController::class, 'edit_fee_record']);
 	Route::post('/fee_record_edit', [FeeController::class, 'update_fee_record'])->name('fee.update');
+
 
 
 	/**
@@ -264,22 +324,30 @@ Route::group(['middleware'=>['auth', 'role:admin']], function (){
 	Route::post('/enroll_studen', [StudentController::class, 'save_and_enroll_new_student'])->name('student.enroll');
 	Route::post('/get_all_sections_for_class', [StudentController::class, 'get_all_sections_for_a_specific_class']);
 	Route::post('/get_fee_structure', [StudentController::class, 'ajax_fee_collection_view']);
-	Route::get('/students', [StudentController::class, 'index']);
-	Route::get('/get_all_students_list', [StudentController::class, 'read_all_students']);
+	Route::get('/students', [StudentController::class, 'all_student_list']);
+	// Route::get('/get_all_students_list', [StudentController::class, 'read_all_students']);
 	Route::get('/withdraw_students', [StudentController::class, 'withdraw_students_list']);
 	Route::get('/get_all_withdraw_students_list', [StudentController::class, 'read_all_withdraw_students']);
-
-
-	Route::get('/edit_student/{id}', [StudentController::class, 'edit_student_record']);
-	Route::post('/edit_student', [StudentController::class, 'update_student_record'])->name('student.update');
-	Route::get('/delete_student/{id}', [StudentController::class, 'delete_student']);
-
-	Route::get('/view_student/{id}', [StudentController::class, 'view_single_student_detail']);
+	Route::get('/student_promotion', [StudentController::class, 'students_promotion_list']);
+	
+	
+	Route::get('/edit_student/{student_id}', [StudentController::class, 'edit_student_record'])->name('student.edit');
+	Route::post('/edit_student/{student_id}', [StudentController::class, 'update_student_record'])->name('student.update');
+	Route::get('/delete_student/{student_id}', [StudentController::class, 'delete_student'])->name('student.delete');
+	
+	Route::get('/view_student/{student_id}', [StudentController::class, 'view_single_student_detail'])->name('view.single.student');
 	Route::get('/download/cnic/{grd_cnic_copy}', [StudentController::class , 'download_guardian_CNIC']);
-
+	
 	Route::get('/withdraw_student', [StudentController::class, 'withdraw_student']);
 	Route::post('/withdraw_student', [StudentController::class, 'withdraw_student_record'])->name('withdraw_student.update');
-
+	Route::get('/Search_student', [StudentController::class, 'student_student'])->name('search.student');
+	Route::get('/Search_student_for_promotion', [StudentController::class, 'search_student_for_promotion'])->name('student.session.class.wise');
+	
+	Route::get('/promote_single_student/{student_id}', [StudentController::class, 'promote_single_student'])->name('promote.single.student');
+	Route::post('/student_promtion_update/{student_id}', [StudentController::class, 'update_student_promotion_record'])->name('promote.student');
+	
+	// Route::post('/promote_student', [StudentController::class, 'student_promotion'])->name('student.promote');
+	Route::post('/promotion_students_list', [StudentController::class, 'promote_selected_studentn'])->name('promotion.students.list');
 });
 
 

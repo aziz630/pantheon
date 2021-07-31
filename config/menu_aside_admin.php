@@ -60,6 +60,27 @@ return [
                     ]
                 ],
                 [
+                    'title' => 'Other Fee',
+                    'bullet' => 'dot',
+                    'submenu' => [
+                        [
+                            'title' => 'Search Other Fee',
+                            'page' => 'other_fee'
+                        ],
+                        [
+                            'title' => 'Add Other Fee',
+                            'page' => 'other_fee_create'
+                        ],
+                        [
+                            'title' => 'Trashed',
+                            'page' => 'other_fee/trashed'
+                        ]
+                        
+                    ]
+                ],
+                
+                
+                [
                     'title' => 'Subjects',
                     'bullet' => 'dot',
                     'submenu' => [
@@ -126,16 +147,20 @@ return [
                     'bullet' => 'dot',
                     'submenu' => [
                         [
+							'title' => 'Enroll Student',
+							'page' => 'enroll_student'
+						],
+                        [
 							'title' => 'Search Students',
 							'page' => 'students'
 						],
 						[
-							'title' => 'Enroll Student',
-							'page' => 'enroll_student'
-						],
-						[
 							'title' => 'Withdrawed Student',
 							'page' => 'withdraw_students'
+                        ],
+                        [
+							'title' => 'Student promotion',
+							'page' => 'student_promotion'
                         ]
                     ]
                 ],
@@ -194,6 +219,25 @@ return [
 								],
 							],
 						],
+                        [
+                            'title' => 'Category Amount',
+                            'bullet' => 'dot',
+                            'submenu' => [
+                                [
+                                    'title' => 'Category Amount',
+                                    'page' => 'fee_categories_amount'
+                                ],
+                                [
+                                    'title' => 'create Category Amount',
+                                    'page' => 'fee_amount_create'
+                                ],
+                                [
+                                    'title' => 'Trashed',
+                                    'page' => 'amount/trashed'
+                                ]
+                                
+                            ]
+                        ],
 						[
 							'title' => 'Fee Structures',
 							'bullet' => 'dot',
@@ -230,6 +274,25 @@ return [
 								],
 							],
 						],
+
+                        [
+							'title' => 'Fee Management',
+							'bullet' => 'dot',
+							'submenu' => [
+								[
+									'title' => 'Register Fee',
+									'page' => 'student_reg_fee_view',
+								],
+								[
+									'title' => 'monthly Fee',
+									'page' => 'student_monthly_fee_view',
+								],
+								[
+									'title' => 'Unprocessed Fee',
+									'page' => 'current_month_fee_register',
+								],
+							],
+						],
                     ]
                 ],
 				[
@@ -245,6 +308,20 @@ return [
 							'page' => '',
 						],
 					],
+                ],
+                [
+                    'title' => 'Student Accounts',
+                    'bullet' => 'dot',
+                    'submenu' => [
+                        [
+                            'title' => 'student fee',
+                            'page' => 'student_fee',
+                        ],
+                        [
+                            'title' => 'Trashed',
+                            'page' => '',
+                        ],
+                    ],
                 ],
             ]
         ],

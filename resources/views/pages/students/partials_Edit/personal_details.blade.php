@@ -9,7 +9,7 @@
                 name="fullName"
                 id="fullName"
                 placeholder="Full Name"
-                value="{{ $student->std_name }}"
+                value="{{ $editData['student']['std_name'] }}"
             />
             <!-- @if($errors->has('fullName'))
                 <span class="text-danger">{{ $errors->first('fullName') }}</span>
@@ -32,7 +32,7 @@
                 readonly
                 id="dob"
                 placeholder="Month/Day/Year"
-                value="{{ $student->std_dob }}"
+                value="{{ $editData['student']['std_dob'] }}"
             />
             <!-- @if($errors->has('stdDOB'))
                 <span class="text-danger">{{ $errors->first('stdDOB') }}</span>
@@ -54,7 +54,7 @@
                 name="stdPOB"
                 id="stdPOB"
                 placeholder="City or Village or Town"
-                value="{{ $student->std_pob}}"
+                value="{{ $editData['student']['std_pob']}}"
             />
             <!-- @if($errors->has('stdPOB'))
                 <span class="text-danger">{{ $errors->first('stdPOB') }}</span>
@@ -81,7 +81,7 @@
                             type="radio"
                             name="stdGender"
                             checked="checked"
-                            value="male" {{ $student->std_gender == 'male' ? 'checked' : '' }}
+                            value="male" {{ $editData['student']['std_gender'] == 'male' ? 'checked' : '' }}
                         />
                         <span></span>
                         Male
@@ -89,14 +89,14 @@
                     <label
                         class="radio radio-outline radio-outline-2x radio-primary"
                     >
-                        <input type="radio" name="stdGender"  value="femate" {{ $student->std_gender == 'femate' ? 'checked' : '' }} />
+                        <input type="radio" name="stdGender"  value="femate" {{ $editData['student']['std_gender'] == 'femate' ? 'checked' : '' }} />
                         <span></span>
                         Female
                     </label>
                     <label
                         class="radio radio-outline radio-outline-2x radio-primary"
                     >
-                        <input type="radio" name="stdGender" value="other" {{ $student->std_gender == 'other' ? 'checked' : '' }} />
+                        <input type="radio" name="stdGender" value="other" {{ $editData['student']['std_gender'] == 'other' ? 'checked' : '' }} />
                         <span></span>
                         Other
                     </label>
@@ -123,7 +123,7 @@
                             name="stdReligion"
                             id="stdReligion"
                             checked="checked"
-                            value="muslim" {{ $student->std_religion == 'muslim' ? 'checked' : '' }}
+                            value="muslim" {{ $editData['student']['std_religion'] == 'muslim' ? 'checked' : '' }}
                         />
                         <span></span>
                         Muslim
@@ -131,7 +131,7 @@
                     <label
                         class="radio radio-outline radio-outline-2x radio-primary"
                     >
-                        <input type="radio" name="stdReligion" value="non-muslim" {{ $student->std_religion == 'non-muslim' ? 'checked' : '' }} />
+                        <input type="radio" name="stdReligion" value="non-muslim" {{ $editData['student']['std_religion'] == 'non-muslim' ? 'checked' : '' }} />
                         <span></span>
                         None-Muslim
                     </label>
@@ -158,7 +158,7 @@
                             name="stdNationality"
                             id="stdNationality"
                             checked="checked"
-                            value="pakistani" {{ $student->std_nationality == 'pakistani' ? 'checked' : '' }}
+                            value="pakistani" {{ $editData['student']['std_nationality'] == 'pakistani' ? 'checked' : '' }}
                         />
                         <span></span>
                         Pakistani
@@ -166,7 +166,7 @@
                     <label
                         class="radio radio-outline radio-outline-2x radio-primary"
                     >
-                        <input type="radio" name="stdNationality" value="forigner" {{ $student->std_nationality == 'forigner' ? 'checked' : '' }} />
+                        <input type="radio" name="stdNationality" value="forigner" {{ $editData['student']['std_nationality'] == 'forigner' ? 'checked' : '' }} />
                         <span></span>
                         Forigner
                     </label>
@@ -208,7 +208,7 @@
                 name="std_email"
                 id="std_email"
                 placeholder="student@example.com"
-                value="{{ $student->std_email }}"
+                value="{{ $editData['student']['std_email'] }}"
             />
             <!-- @if($errors->has('std_email'))
                 <span class="text-danger">{{ $errors->first('std_email') }}</span>
@@ -234,7 +234,7 @@
                 name="stdFatherName"
                 is="stdFatherName"
                 placeholder="Student Father Name"
-                value="{{ $student->std_father_name }}"
+                value="{{ $editData['student']['std_father_name'] }}"
             />
             <!-- @if($errors->has('stdFatherName'))
                 <span class="text-danger">{{ $errors->first('stdFatherName') }}</span>
@@ -256,7 +256,7 @@
                 name="stdFatherCNIC"
                 id="stdFatherCNIC"
                 placeholder="99999-9999999-9"
-                value="{{ $student->std_father_cnic }}"
+                value="{{ $editData['student']['std_father_cnic'] }}"
             />
             <!-- @if($errors->has('stdFatherCNIC'))
                 <span class="text-danger">{{ $errors->first('stdFatherCNIC') }}</span>
@@ -278,7 +278,7 @@
                 name="stdFatherOccupation"
                 id="stdFatherOccupation"
                 placeholder="Student Father Occupation"
-                value="{{ $student->std_father_occupation }}"
+                value="{{ $editData['student']['std_father_occupation'] }}"
             />
             <!-- @if($errors->has('stdFatherOccupation'))
                 <span class="text-danger">{{ $errors->first('stdFatherOccupation') }}</span>
@@ -304,7 +304,7 @@
                 name="stdMotherName"
                 id="stdMotherName"
                 placeholder="Student Mother Name"
-                value="{{ $student->std_mother_name }}"
+                value="{{ $editData['student']['std_mother_name'] }}"
             />
             <!-- @if($errors->has('stdMotherName'))
                 <span class="text-danger">{{ $errors->first('stdMotherName') }}</span>
@@ -326,7 +326,7 @@
                 name="stdMotherCNIC"
                 id="stdMotherCNIC"
                 placeholder="99999-9999999-9"
-                value="{{ $student->std_mother_cnic }}"
+                value="{{ $editData['student']['std_mother_cnic'] }}"
             />
             <!-- @if($errors->has('stdMotherCNIC'))
                 <span class="text-danger">{{ $errors->first('stdMotherCNIC') }}</span>
@@ -348,7 +348,7 @@
                 name="stdMotherOccupation"
                 id="stdMotherOccupation"
                 placeholder="Student Mother Occupation"
-                value="{{ $student->std_mother_occupation }}"
+                value="{{ $editData['student']['std_mother_occupation'] }}"
             />
             <!-- @if($errors->has('stdMotherOccupation'))
                 <span class="text-danger">{{ $errors->first('stdMotherOccupation') }}</span>
@@ -374,7 +374,7 @@
                 name="stdEmergency"
                 id="stdEmergency"
                 placeholder="3429999999"
-                value="{{ $student->std_emergency_contact_no }}"
+                value="{{ $editData['student']['std_emergency_contact_no'] }}"
             />
             <!-- @if($errors->has('stdEmergency'))
                 <span class="text-danger">{{ $errors->first('stdEmergency') }}</span>
@@ -400,9 +400,9 @@
                 <label class="custom-file-label" for="cnicFile"
                     >Choose student profile</label
                 >
-                <!-- @if($errors->has('stdImage'))
+                @if($errors->has('stdImage'))
                     <span class="text-danger">{{ $errors->first('stdImage') }}</span>
-                @endif -->
+                @endif
             </div>
             <span class="form-text text-muted"
                 >Please browse guardian CNIC copy.</span

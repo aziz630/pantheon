@@ -17,4 +17,28 @@ class Enrollment extends Model
     protected $table = 'enrollments';
 
     protected $guarded = [];
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'student_id', 'id');
+    }
+
+    public function class()
+    {
+        return $this->belongsTo(Classes::class, 'class_id', 'id');
+    }
+
+    public function discount(){
+    	return $this->belongsTo(DiscountStudent::class,'id','inrollment_id');
+    }
+
+    public function session()
+    {
+        return $this->belongsTo(Session::class, 'academic_session_id', 'id');
+    }
+    
+    public function guardian()
+    {
+        return $this->belongsTo(Guardian::class, 'guardian_id', 'id');
+    }
 }

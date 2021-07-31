@@ -9,6 +9,8 @@ use App\Models\Guardian;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Student;
+use App\Models\Session;
+use App\Models\DiscountStudent;
 use Ramsey\Uuid\Type\Integer;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -26,33 +28,33 @@ class StudentService
      * 
      * Get all active students
      */
-    public function get_all_students()
-    {
-        $students = collect();
-        $data = DB::table('students')
-            ->join('enrollments', 'students.id', '=', 'enrollments.student_id')
-            ->join('classes', 'enrollments.class_id', '=', 'classes.id')
-            ->join('sections', 'enrollments.section_id', '=', 'sections.id')
-            ->select(
-                'students.*',
-                'enrollments.class_id',
-                'enrollments.section_id',
-                'classes.class_name',
-                'sections.section_name'
-            )
-            ->where('students.deleted_at', '=', Null)->where('reason_of_withdrawal', '=' , NULL)
-            ->orderBy('students.id')
-            ->get();
+    // public function get_all_students()
+    // {
+    //     $students = collect();
+    //     $data = DB::table('students')
+    //         ->join('enrollments', 'students.id', '=', 'enrollments.student_id')
+    //         ->join('classes', 'enrollments.class_id', '=', 'classes.id')
+    //         ->join('sections', 'enrollments.section_id', '=', 'sections.id')
+    //         ->select(
+    //             'students.*',
+    //             'enrollments.class_id',
+    //             'enrollments.section_id',
+    //             'classes.class_name',
+    //             'sections.section_name'
+    //         )
+    //         ->where('students.deleted_at', '=', Null)->where('reason_of_withdrawal', '=' , NULL)
+    //         ->orderBy('students.id')
+    //         ->get();
 
-        if ($data) {
-            $students = $data;  
-        }
+    //     if ($data) {
+    //         $students = $data;  
+    //     }
 
-        return $students;
+    //     return $students;
 
     
 
-    }
+    // }
 
 
 
@@ -120,13 +122,6 @@ class StudentService
     {
         $this->rq = $rq;
             DB::transaction(function () {
-                // $guardian = Guardian::where('grd_cnic_no', $this->rq->guardianCnic)->get();
-                // // making sure that the guardian exists or not. 
-                // if (count($guardian) && $guardian[0]->id) {
-                //     $this->guardianID = $guardian[0]->id;
-                //     $this->familyAccount_balance = $guardian[0]->account_balance;
-                // } else {
-
                      
 
                     //  upload profile image
@@ -154,10 +149,39 @@ class StudentService
                 $image = $this->rq->file('stdImage');
                 $imageName = time().'.'.$image->extension();
                 $image->move(public_path('stdProfile'),$imageName);
-                
+                    
+                $checkYear = Session::find($this->rq->section)->session;
+                $student = Student::where('usertype','Student')->orderBy('id','DESC')->first();
+
+                if ($student == null) {
+                    $firstReg = 0;
+                    $studentId = $firstReg+1;
+                    if ($studentId < 10) {
+                        $id_no = '000'.$studentId;
+                    }elseif ($studentId < 100) {
+                        $id_no = '00'.$studentId;
+                    }elseif ($studentId < 1000) {
+                        $id_no = '0'.$studentId;
+                    }
+                }else{
+                    $student = Student::where('usertype','Student')->orderBy('id','DESC')->first()->id;
+                    $studentId = $student+1;
+                    if ($studentId < 10) {
+                            $id_no = '000'.$studentId;
+                        }elseif ($studentId < 100) {
+                            $id_no = '00'.$studentId;
+                        }elseif ($studentId < 1000) {
+                            $id_no = '0'.$studentId;
+                        }
+
+                    } // end else 
+
+                    $final_id_no = $checkYear.$id_no;
 
                 $student = Student::create([
                     'std_name' => $this->rq->fullName,
+    	            'id_no' => $final_id_no,
+    	            'usertype' => 'Student',
                     'std_gender' => $this->rq->stdGender,
                     'std_dob' => date_format(date_create($this->rq->stdDOB), 'Y-m-d'),
                     'std_pob' => $this->rq->stdPOB,
@@ -182,14 +206,24 @@ class StudentService
 
                 $this->studentID = $student->id;
 
-                Enrollment::create([
+                $enrollment = Enrollment::create([
                     'student_id' => $this->studentID,
                     'class_id' => $this->rq->class,
                     'section_id' => $this->rq->section,
                     'academic_session_id' => $this->rq->session,
+                    'guardian_id' => $this->guardianID,
                     'enrollment_date' => date_format(date_create($this->rq->stdAdmissionDate), 'Y-m-d'),
                     'enrollment_status' => 1,
                 ]);
+
+                $this->enrollmentID = $enrollment->id;
+
+                DiscountStudent::create([
+                    'inrollment_id' => $this->enrollmentID,
+                    'fee_category_id' => '1',
+                    'discount' => $this->rq->discount,
+                ]);
+               
 
                 // FamilyTransaction::create([
                 //     'guardian_id' => $this->guardianID,
@@ -244,98 +278,18 @@ class StudentService
 
 
 
-    /**
-     * 
-     * 
-     * Edit Student Function
-     */
-     
-    public function edit_student($id)
-    {
-        $student = false;
-
-        if ($data = Student::where('id', $id)->first()) {
-            $student = $data;
-        }
-        return $student;
-    }
-
-
-     /**
-     * 
-     * 
-     * update Student 
-     */
     
-    function update_student($rq)
-    {
-        //  upload profile image
-        $image = $rq->file('stdImage');
-        $imageName = time().'.'.$image->extension();
-        $image->move(public_path('stdProfile'),$imageName);
-
-
-        $model = Student::find($rq->sId);
-        $model->std_name = $rq->fullName;
-        $model->std_gender = $rq->stdGender;
-        $model->std_dob = date_format(date_create($rq->stdDOB), 'Y-m-d');
-        $model->std_pob = $rq->stdPOB;
-        $model->std_religion = $rq->stdReligion;
-        $model->std_nationality = $rq->stdNationality;
-        $model->std_current_address = $rq->stdCurrentAddress;
-        $model->std_permanent_address = $rq->stdPermanentAddress;
-        $model->std_email = $rq->std_email;
-        $model->std_emergency_contact_no = $rq->stdEmergency;
-        $model->std_admission_date = date_format(date_create($rq->stdAdmissionDate), 'Y-m-d');
-        $model->std_father_name = $rq->stdFatherName;
-        $model->std_father_cnic = $rq->stdFatherCNIC;
-        $model->std_father_occupation = $rq->stdFatherOccupation;
-        $model->std_mother_name = $rq->stdMotherName;
-        $model->std_mother_cnic = $rq->stdMotherCNIC;
-        $model->std_mother_occupation = $rq->stdMotherOccupation;
-        $model->std_image = $imageName;
-
-        $model->save();
-       
-        //  upload profile image
-        $cnic = $rq->file('guardianCnicCopy');
-        $cnicCopy = time().'.'.$cnic->extension();
-        $cnic->move(public_path('gardianCNIC'),$cnicCopy);
-
-
-        $guardian = Guardian::find($rq->sId);
-        $guardian->grd_name = $rq->guardianName;
-        $guardian->grd_cninc_no = $rq->guardianCnic;
-        $guardian->grd_mobile = $rq->guardianMobile;
-        $guardian->grd_home_ph = $rq->guardianHomePhone;
-        $guardian->grd_email = $rq->guardianEmail;
-        $guardian->grd_address = $rq->gurdianAddress;
-        $guardian->grd_occupation = $rq->guardianOccupation;
-        $guardian->grd_cnic_copy = $cnicCopy;
-        $guardian->save();
-
-        $enrollment = Enrollment::find($rq->sId);
-        $enrollment->class_id = $rq->class;
-        $enrollment->section_id = $rq->section;
-        $enrollment->academic_session_id = $rq->session;
-        $enrollment->enrollment_date = date_format(date_create($rq->stdAdmissionDate), 'Y-m-d');
-
-        $enrollment->save();           
-        
-        return true;
-
-    }
-    /**
+       /**
      * 
      * 
      * View Student detail
      */
 
-    public function view_single_student($id)
+    public function view_single_student($student_id)
     {
         $student = false;
 
-        if ($data = Student::find($id)) {
+        if ($data = Student::find($student_id)) {
             $student = $data;
         }
 

@@ -28,16 +28,13 @@
 <form
     class="form"
     method="post"
-    action="{{ route('student.update') }}"
+    action="{{ route('student.update',$editData->student_id) }}"
     id="update_form"
     accept-charset="utf-8"
     enctype="multipart/form-data"
 >
     @csrf
-    <input
-  type="hidden"
-  name="sId"
-  value="{{ $student->id }}"/>
+    <input type="hidden" name="sid" value="{{ $editData->id }}">
 
 
     <div class="card card-custom m-5">

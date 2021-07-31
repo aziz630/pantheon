@@ -25,7 +25,7 @@
     <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
-            <label>Admission Date</label>
+            <label>Date Of Birth</label>
             <input
                 type="text"
                 class="form-control form-control-solid"

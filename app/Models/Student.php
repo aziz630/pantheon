@@ -22,4 +22,9 @@ class Student extends Model
     {
         return $this->belongsTo(Guardian::class);
     }
+
+    
+    public function discount(){
+    	return $this->belongsTo(DiscountStudent::class);
+    }
 }

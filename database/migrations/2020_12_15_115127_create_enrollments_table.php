@@ -19,6 +19,7 @@ class CreateEnrollmentsTable extends Migration
             $table->foreignId('class_id');
             $table->foreignId('section_id');
             $table->foreignId('academic_session_id');
+            $table->foreignId('guardian_id');
             $table->date('enrollment_date');
             $table->boolean('enrollment_status')->default(0);
             $table->softDeletesTz('deleted_at', 0);

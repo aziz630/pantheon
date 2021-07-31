@@ -159,7 +159,7 @@
         // Private functions
         var demos = function() {
             // minimum setup
-            $("#dob").datepicker({
+            $("#dob").datepicker({ 
                 rtl: KTUtil.isRTL(),
                 todayHighlight: true,
                 orientation: "bottom left",

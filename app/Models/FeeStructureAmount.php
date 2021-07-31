@@ -14,7 +14,5 @@ class FeeStructureAmount extends Model
      */
     protected $table = 'fee_structure_amounts';
 
-    //protected $fillable = [];
-
     protected $guarded = [];
 }

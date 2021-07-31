@@ -18,9 +18,9 @@ class TestMail extends Mailable
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct()
     {
-        $this->data = $data;
+        
     }
 
     /**
@@ -31,20 +31,7 @@ class TestMail extends Mailable
     public function build()
     {
 
-        // return $this->subject('Mail from Pantheon School')
-        //             ->view('pages.emails.testMail');
-
-        // $address = 'janeexampexample@example.com';
-        // $subject = 'This is a demo!';
-        // $name = 'Jane Doe';
-
-        // return $this->view('pages.emails.testMail')
-        //             ->from($address, $name)
-        //             ->cc($address, $name)
-        //             ->bcc($address, $name)
-        //             ->replyTo($address, $name)
-        //             ->subject($subject)
-        //             ->with([ 'test_message' => $this->data['message'] ]);
+        return $this->view('pages.students.mail');
 
     }
 }

@@ -12,9 +12,17 @@ use App\Services\SessionService;
 use App\Services\GuardianService;
 use Illuminate\Http\Request;
 use App\Services\StudentService;
+use App\Services\discountService;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\Enrollment;
 use Illuminate\Support\Facades\DB;
+use App\Models\DiscountStudent;
+use App\Models\Student;
+use App\Models\Session;
+use App\Models\Classes;
+use App\Models\Guardian;
+use App\Models\Section;
+
 
 
 
@@ -25,25 +33,131 @@ class StudentController extends Controller
     public function __construct()
     {
         $this->studentService = new StudentService();
-        $this->guardian_servece = new GuardianService();
+        // $this->guardian_servece = new GuardianService();
+
+    }
+
+    /**
+     * 
+     * 
+     * All Student list
+     */
+
+    public function all_student_list()
+    {
+        $data['sessions'] = Session::all();
+        $data['classes'] = Classes::all();
+
+        $data['session_id'] = Session::orderBy('id', 'desc')->first()->id;
+        $data['class_id'] = Classes::orderBy('id', 'desc')->first()->id;
+        // dd($data['classe_id']);
+        $data['allData'] = Enrollment::where('academic_session_id', $data['session_id'])->where('class_id', $data['class_id'])->get();
+        // dd($data['allData']);
+
+        return view('pages.students.student_list',$data);
+    }  
+
+
+    /**
+     * 
+     * 
+     * Search students
+     */
+
+    public function student_student(Request $request)
+    {
+        $data['sessions'] = Session::all();
+        $data['classes'] = Classes::all();
+
+        $data['session_id'] = $request->session;
+        $data['class_id'] = $request->class;
+        $data['allData'] = Enrollment::where('academic_session_id', $request->session)->where('class_id', $request->class)->get();
+        // dd($data['allData']);
+
+        return view('pages.students.student_list', $data);
+
+    }
+    
+
+    /**
+     * 
+     * 
+     * student list for promotion
+     */
+
+    public function students_promotion_list()
+    {
+         $data['sessions'] = Session::all();
+        $data['classes'] = Classes::all();
+
+        $data['session_id'] = Session::orderBy('id', 'desc')->first()->id;
+        $data['class_id'] = Classes::orderBy('id', 'desc')->first()->id;
+        // dd($data['classe_id']);
+        $data['allData'] = Enrollment::where('academic_session_id', $data['session_id'])->where('class_id', $data['class_id'])->get();
+        // dd($data['allData']);
+
+        return view('pages.students.student_promotion_list', $data);
+    } 
+
+    
+    /**
+     * 
+     * 
+     * Search students for promotion
+     */
+
+     public function search_student_for_promotion(Request $request)
+    {
+        $data['sessions'] = Session::all();
+        $data['classes'] = Classes::all();
+
+        $data['session_id'] = $request->session;
+        $data['class_id'] = $request->class;
+        $data['allData'] = Enrollment::where('academic_session_id', $request->session)->where('class_id', $request->class)->get();
+        // dd($data['allData']);
+
+        return view('pages.students.student_promotion_list', $data);
 
     }
 
 
-    public function index()
+     /**
+     * 
+     * 
+     * promote students
+     */
+
+    public function promote_selected_studentn(Request $request)
     {
-        $page_title = "Students Listing";
-        $page_description = "Search a specific or all students";
 
-        $class = new ClassesService();
-        $classes = $class->get_all_classes();
+        // $student_id_array = $request->id;
+        // dd($student_id_array);
 
-        $section = new SectionService();
-        $sections = $section->get_all_sections();
+        $data['class_id'] = $request->class;
+        $data['session_id'] = $request->session;
+        $data['allData'] = Enrollment::whereIn('id', $student_id_array)
+        ->update([
+            'class_name' => $request->class,
+            'session' => $request->session,
+        ]);
 
-        return view('pages.students.student_list', compact('page_title', 'page_description', 'classes', 'sections'));
-    }  
-    
+        if ($data) {
+            return redirect()->back()->with('success', 'students promote successfully.');
+        } else {
+            return redirect()->back()->with('error', 'student can not be promote at this time,');
+        }
+
+    }
+
+
+   
+
+
+    /**
+     * 
+     * 
+     * student list for withdrawal
+     */
     
     public function withdraw_students_list()
     {
@@ -59,6 +173,9 @@ class StudentController extends Controller
         return view('pages.students.withdraw_student_list', compact('page_title', 'page_description'));
     }     
 
+
+
+
     /**
      * 
      * In this method we are fetching all students from database,
@@ -66,51 +183,7 @@ class StudentController extends Controller
      * The @DataTables class is a provider class provided by yajra datatable package.
      * 
      */
-    public function read_all_students(Request $RQ)
-    {
-        $students = $this->studentService->get_all_students();
-
-        /***  Check whether the request is ajax or not */
-        if ($RQ->ajax()) {
-            return DataTables::of($students)
-                ->addColumn('erp_no', function ($row) {
-                    $erp_no = $row->id;
-                    return $erp_no;
-                })->addColumn('studentName', function ($row) {
-                    $studentName = $row->std_name;
-                    return $studentName;
-                })->addColumn('fatherName', function ($row) {
-                    $fatherName = $row->std_father_name;
-                    return $fatherName;
-                })->addColumn('stdGender', function ($row) {
-                    $gender = ($row->std_gender === 1) ? 'Male' : ($row->std_gender === 2 ? 'Female' : 'Other');
-                    return $gender;
-                })->addColumn('class', function ($row) {
-                    $class = $row->class_name;
-                    return $class;
-                })->addColumn('section', function ($row) {
-                    $section = $row->section_name;
-                    return $section;
-                })->addColumn('more', function ($row) {
-                    $detail = '<a href="' . url('view_student/' . $row->id) . '" class="btn btn-primary btn-sm" title="Edit details">View</a>';
-                    return $detail;
-                // })->addColumn('documents', function ($row) {
-                //     /**  <a href=\"javascript:;\" class=\"btn btn-sm btn-clean btn-icon\" title=\"Edit details\">\\\r\n\t\t\t\t\t\t\t\t<i class=\"la la-edit\"></i>\\\r\n\t\t\t\t\t\t\t</a> */
-                //     $docBtn = '<a href="' . url("student/$row->id/previous_school") . '" class="btn btn-sm btn-clean btn-icon" title="checkout previous school info"><i class="flaticon2-crisp-icons text-success"></i></a>';
-                //     $docBtn .= '<a href="' . url("student/$row->id/edit_previous_school") . '" class="btn btn-sm btn-clean btn-icon" title="Edit previous school info"><i class="flaticon2-writing text-primary"></i></a>';
-                //     return $docBtn;
-                })->addColumn('action', function ($row) {
-                    /**  <a href=\"javascript:;\" class=\"btn btn-sm btn-clean btn-icon\" title=\"Edit details\">\\\r\n\t\t\t\t\t\t\t\t<i class=\"la la-edit\"></i>\\\r\n\t\t\t\t\t\t\t</a> */
-                    // $actBtn = '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Edit details"><i class="la la-edit text-primary"></i></a>';
-                    // $actBtn .= '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Delete"><i class="la la-trash text-danger"></i></a>';
-                    // return $actBtn;
-                    $actBtn = '<a href="' . url('edit_student/' . $row->id) . '" class="btn btn-sm btn-clean btn-icon btn" title="Edit details"><i class="la la-edit"></i></a>';
-                    $actBtn .= '<a href="' . url('delete_student/' . $row->id) . '" class="btn btn-sm btn-clean btn-icon" title="Delete"><i class="la la-trash"></i></a>';
-                    return $actBtn;
-                })->rawColumns(['documents', 'action', 'more'])->make(true);
-        }
-    }
-
+   
 
         /**
          * 
@@ -184,7 +257,7 @@ class StudentController extends Controller
      * Save and Enroll new student
      */
     
-    public function save_and_enroll_new_student(Request $RQ)
+    public function save_and_enroll_new_student(StoreStudentRequest $RQ)
     {
 
         $resp = $this->studentService->enroll_new_student($RQ);
@@ -206,26 +279,21 @@ class StudentController extends Controller
      */
 
 
-    public function edit_student_record(Request $RQ, $id)
+    public function edit_student_record(Request $RQ, $student_id)
     {
-        $page_title = 'Edit Student';
+        $data['page_title'] = 'Edit Student';
 
-        $page_description = 'Use this form to edit/update Student';
+        $data['page_description'] = 'Use this form to edit/update Student';
 
-        $student = $this->studentService->edit_student($id);
+        $data['sessions'] = Session::all();
+        $data['classes'] = Classes::all();
+        $data['sections'] = Section::all();
+        $data['guardian'] = Guardian::all();
 
-        $guardian = $this->guardian_servece->get_all_guardians();
+        $data['editData'] = Enrollment::with('student')->where('student_id', $student_id)->first();
+        // dd($data['editData']);
 
-        $class_service = new ClassesService();
-        $classes = $class_service->get_all_classes();
-
-        $session_service = new SessionService();
-        $sessions = $session_service->get_all_sessions();
-
-        $section = new SectionService();
-        $sections = $section->get_all_sections();
-
-        return view('pages.students.edit_student',  compact('page_title', 'page_description', 'guardian', 'classes', 'sections','sessions', 'student'));
+        return view('pages.students.edit_student',$data);
     }
 
 
@@ -236,19 +304,191 @@ class StudentController extends Controller
      *  Update student record
      */
 
-    public function update_student_record(Request $RQ)
+    public function update_student_record(UpdateStudentRequest $rq, $student_id)
     {
 
-        $RQ->validate([
-            "std_email" => "required|email|unique:students,std_email,".$RQ->sId,
+        $rq->validate([
+            "std_email" => "required|email|unique:students,std_email,".$rq->student_id,
         ]);
 
-        $res = $this->studentService->update_student($RQ);
-        if ($res) {
+        DB::transaction(function() use($rq, $student_id){
+        
+    
+            $model = Student::where('id', $student_id)->first();
+            $model->std_name = $rq->fullName;
+            $model->std_gender = $rq->stdGender;
+            $model->std_dob = date_format(date_create($rq->stdDOB), 'Y-m-d');
+            $model->std_pob = $rq->stdPOB;
+            $model->std_religion = $rq->stdReligion;
+            $model->std_nationality = $rq->stdNationality;
+            $model->std_current_address = $rq->stdCurrentAddress;
+            $model->std_permanent_address = $rq->stdPermanentAddress;
+            $model->std_email = $rq->std_email;
+            $model->std_emergency_contact_no = $rq->stdEmergency;
+            $model->std_admission_date = date_format(date_create($rq->stdAdmissionDate), 'Y-m-d');
+
+
+             //  upload profile image
+             if($rq->file('stdImage')){
+             $image = $rq->file('stdImage');
+            //  unlink(public_path('stdProfile',$model->stdImage));
+             $imageName = time().'.'.$image->extension();
+             $image->move(public_path('stdProfile'),$imageName);
+             }
+
+            $model->std_father_name = $rq->stdFatherName;
+            $model->std_father_cnic = $rq->stdFatherCNIC;
+            $model->std_father_occupation = $rq->stdFatherOccupation;
+            $model->std_mother_name = $rq->stdMotherName;
+            $model->std_mother_cnic = $rq->stdMotherCNIC;
+            $model->std_mother_occupation = $rq->stdMotherOccupation;
+            $model->std_image = $imageName;
+    
+            $model->save();
+           
+            $this->studentID = $model->id;
+            //  upload profile image
+            $cnic = $rq->file('guardianCnicCopy');
+            $cnicCopy = time().'.'.$cnic->extension();
+            $cnic->move(public_path('gardianCNIC'),$cnicCopy);
+    
+    
+            $guardian = Guardian::where('id', $student_id)->first();
+            $guardian->grd_name = $rq->guardianName;
+            $guardian->grd_cninc_no = $rq->guardianCnic;
+            $guardian->grd_mobile = $rq->guardianMobile;
+            $guardian->grd_home_ph = $rq->guardianHomePhone;
+            $guardian->grd_email = $rq->guardianEmail;
+            $guardian->grd_address = $rq->gurdianAddress;
+            $guardian->grd_occupation = $rq->guardianOccupation;
+            $guardian->grd_cnic_copy = $cnicCopy;
+            $guardian->save();
+    
+            $enrollment = Enrollment::where('id', $rq->id)->where('student_id', $student_id)->first();
+            $enrollment->class_id = $rq->class;
+            $enrollment->section_id = $rq->section;
+            $enrollment->academic_session_id = $rq->session;
+            $enrollment->guardian_id = $this->studentID;
+            $enrollment->enrollment_date = date_format(date_create($rq->stdAdmissionDate), 'Y-m-d');
+    
+            $enrollment->save();           
+        });
+           
+        
             return redirect(url('students'))->with('success', 'students updated successfully.');
-        } else {
-            return redirect()->back()->with('error', 'students can not be updated at this time.');
-        }
+      
+    }
+
+
+
+
+     /**
+     * 
+     * 
+     *  Edit student record for Promotion
+     */
+
+    public function promote_single_student($student_id)
+    {
+        $data['page_title'] = 'Edit Student';
+
+        $data['page_description'] = 'Use this form to edit/update Student';
+
+        $data['sessions'] = Session::all();
+        $data['classes'] = Classes::all();
+        $data['sections'] = Section::all();
+        $data['guardian'] = Guardian::all();
+
+        $data['editData'] = Enrollment::with('student')->where('student_id', $student_id)->first();
+        // dd($data['editData']);
+
+
+        return view('pages.students.edit_student_promotion',$data);
+    }
+
+
+    /**
+     * 
+     * 
+     *  Update student promotion record
+     */
+
+    public function update_student_promotion_record(UpdateStudentRequest $rq, $student_id)
+    {
+
+        $rq->validate([
+            "std_email" => "required|email|unique:students,std_email,".$rq->student_id,
+        ]);
+
+        DB::transaction(function() use($rq, $student_id){
+        
+    
+            $model = Student::where('id', $student_id)->first();
+            $model->std_name = $rq->fullName;
+            $model->std_gender = $rq->stdGender;
+            $model->std_dob = date_format(date_create($rq->stdDOB), 'Y-m-d');
+            $model->std_pob = $rq->stdPOB;
+            $model->std_religion = $rq->stdReligion;
+            $model->std_nationality = $rq->stdNationality;
+            $model->std_current_address = $rq->stdCurrentAddress;
+            $model->std_permanent_address = $rq->stdPermanentAddress;
+            $model->std_email = $rq->std_email;
+            $model->std_emergency_contact_no = $rq->stdEmergency;
+            $model->std_admission_date = date_format(date_create($rq->stdAdmissionDate), 'Y-m-d');
+
+
+             //  upload profile image
+             if($rq->file('stdImage')){
+             $image = $rq->file('stdImage');
+            //  unlink(public_path('stdProfile',$model->stdImage));
+             $imageName = time().'.'.$image->extension();
+             $image->move(public_path('stdProfile'),$imageName);
+             }
+
+            $model->std_father_name = $rq->stdFatherName;
+            $model->std_father_cnic = $rq->stdFatherCNIC;
+            $model->std_father_occupation = $rq->stdFatherOccupation;
+            $model->std_mother_name = $rq->stdMotherName;
+            $model->std_mother_cnic = $rq->stdMotherCNIC;
+            $model->std_mother_occupation = $rq->stdMotherOccupation;
+            $model->std_image = $imageName;
+    
+            $model->save();
+           
+            $this->studentID = $model->id;
+
+
+            //  upload profile image
+            $cnic = $rq->file('guardianCnicCopy');
+            $cnicCopy = time().'.'.$cnic->extension();
+            $cnic->move(public_path('gardianCNIC'),$cnicCopy);
+    
+    
+            $guardian = Guardian::where('id', $student_id)->first();
+            $guardian->grd_name = $rq->guardianName;
+            $guardian->grd_cninc_no = $rq->guardianCnic;
+            $guardian->grd_mobile = $rq->guardianMobile;
+            $guardian->grd_home_ph = $rq->guardianHomePhone;
+            $guardian->grd_email = $rq->guardianEmail;
+            $guardian->grd_address = $rq->gurdianAddress;
+            $guardian->grd_occupation = $rq->guardianOccupation;
+            $guardian->grd_cnic_copy = $cnicCopy;
+            $guardian->save();
+    
+            $enrollment = new Enrollment();
+            $enrollment->student_id = $student_id;
+            $enrollment->class_id = $rq->class;
+            $enrollment->section_id = $rq->section;
+            $enrollment->academic_session_id = $rq->session;
+            $enrollment->guardian_id = $this->studentID;
+            $enrollment->enrollment_date = date_format(date_create($rq->stdAdmissionDate), 'Y-m-d');
+    
+            $enrollment->save();           
+        });
+           
+        
+            return redirect(url('student_promotion'))->with('success', 'students Promoted successfully.');
+      
     }
 
 
@@ -258,9 +498,9 @@ class StudentController extends Controller
      * Delete student
      */
 
-    public function delete_student(Request $rq, $id)
+    public function delete_student(Request $rq, $student_id)
     {
-        $res = $this->studentService->delete_student($id);
+        $res = $this->studentService->delete_student($student_id);
         if ($res) {
             return redirect()->back()->with('success', 'Student deleted successfully.');
         } else {
@@ -284,37 +524,24 @@ class StudentController extends Controller
  * 
  * view a single student
  */
-    public function view_single_student_detail(Request $RQ, $id)
+    public function view_single_student_detail(Request $RQ, $student_id)
     {
 
         
-        $student = $this->studentService->view_single_student($id);
+        $student = $this->studentService->view_single_student($student_id);
         
         $section = new SectionService();
-        $sections = $section->get_all_sections($id);
+        $sections = $section->get_all_sections($student_id);
 
-        $guardian = $this->guardian_servece->get_all_guardians($id);
+        $guardians= new GuardianService();
+        $guardian = $guardians->get_all_guardians($student_id);
 
-        // $students = collect();
-        // $data = DB::table('students')
-        //     ->join('enrollments', 'students.id', '=', 'enrollments.student_id')
-        //     ->join('classes', 'enrollments.class_id', '=', 'classes.id')
-        //     ->join('sections', 'enrollments.section_id', '=', 'sections.id')
-        //     ->select(
-        //         'students.*',
-        //         'enrollments.class_id',
-        //         'enrollments.section_id',
-        //         'classes.class_name',
-        //         'sections.section_name'
-        //     )
-        //     ->where('students.deleted_at', '=', Null)->where('reason_of_withdrawal', '=' , NULL)
-        //     ->orderBy('students.id')
-        //     ->get();
+        $discounts= new discountService();
+        $discount = $discounts->get_all_discount();
 
-        // $enrollment = Enrollment::all()->first($id);
+        // $discount = Enrollment::with('discount')->where('student_id', $student_id)->first();
 
-
-        return view('pages.students.detail_page', compact('student', 'guardian', 'sections'));
+        return view('pages.students.detail_page', compact('student', 'guardian', 'sections', 'discount'));
     }
 
     /**
