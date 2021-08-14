@@ -9,6 +9,8 @@ use App\Models\Classes;
 use App\Models\Section;
 use App\Models\Enrollment;
 use App\Models\FeeCategoryAmount;
+use App\Models\AccountStudentsFee;
+use App\Models\DuesAccount;
 use DB;
 use PDF;
 
@@ -49,7 +51,7 @@ class MonthlyFeeController extends Controller
     	 	$color = 'success';
     	 	$html[$key]['tdsource']  = '<td>'.($key+1).'</td>';
     	 	$html[$key]['tdsource'] .= '<td>'.$v['student']['id_no'].'</td>';
-    	 	$html[$key]['tdsource'] .= '<td>'.$v['student']['std_name'].'</td>';
+    	 	$html[$key]['tdsource'] .= '<td>'.$v['student']['name'].'</td>';
     	 	$html[$key]['tdsource'] .= '<td>'.$registrationfee->amount.'</td>';
     	 	$html[$key]['tdsource'] .= '<td>'.$v['discount']['discount'].'%'.'</td>';
     	 	
@@ -72,14 +74,29 @@ class MonthlyFeeController extends Controller
     {
         $student_id = $request->student_id;
     	$class_id = $request->class_id;
-    	$data['month'] = $request->month;
-    	
+    	$month = $request->month;
+    	$studentId = $request->student_id;
+
+		$MonthlyFee = FeeCategoryAmount::where('fee_category_id','2')->first();
+
+    	$details = Enrollment::with(['student','discount'])->where('student_id',$student_id)->where('class_id',$class_id)->first();
 
 
-    	$data['details'] = Enrollment::with(['student','discount'])->where('student_id',$student_id)->where('class_id',$class_id)->first();
+		// dd($data['details']['session']['session']);
 
-        $pdf = PDF::loadView('pages.fee.monthly_fee.monthly_fee_pdf', $data);
+		$pdf = PDF::loadView('pages.fee.monthly_fee.monthly_fee_pdf', compact('details','month','class_id', 'studentId'));
         $pdf->SetProtection(['copy', 'print'], '', 'pass');
-        return $pdf->stream('document.pdf');
+		$pdf->stream('document.pdf');
+
+		// $data = new DuesAccount();
+		// $data->year_id = $details['session']['id'];
+		// $data->class_id = $class_id;
+		// $data->date = date("d M Y");
+		// $data->fee_category_id = $MonthlyFee['fee_cateogry']['id'];
+		// $data->student_id = $request->student_id;		
+		// $data->dues = $MonthlyFee->amount;
+		// $data->save();
+
+        // return true;
     }
 }

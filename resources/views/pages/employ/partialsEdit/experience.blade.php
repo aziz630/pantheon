@@ -1,6 +1,6 @@
 <div class="row">
     
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Experience</label>
@@ -20,6 +20,51 @@
         </div>
         <!--end::Input-->
     </div>
+
+    <div class="col-xl-4">
+        <!--begin::Input-->
+        <div class="form-group">
+            <label>Joining Date</label><span class="text-danger">*</span>
+            <input
+                type="text"
+                class="form-control form-control-solid"
+                readonly
+                name="effected_salary"
+                id="dob"
+                placeholder="Month/Day/Year"
+                value="{{ $employee->join_date }}"
+            />
+            @if($errors->has('effected_salary'))
+                <span class="text-danger">{{ $errors->first('effected_salary') }}</span>
+            @endif
+            <span class="form-text text-muted"
+                >Please select effected date.</span
+            >
+        </div>
+        <!--end::Input-->
+    </div>
+
+    <div class="col-xl-4">
+        <!--begin::Input-->
+        <div class="form-group">
+            <label>Salary</label>
+            <input
+                type="text"
+                class="form-control form-control-solid"
+                name="empSalary"
+                placeholder="Enter your exprience"
+                value="{{ $employee->salart }}"
+            />
+            @if ($errors->has('empSalary'))
+                <span class="text-danger">{{ $errors->first('empSalary') }}</span>
+            @endif
+            <span class="form-text text-muted"
+                >Please enter your exprience.</span
+            >
+        </div>
+        <!--end::Input-->
+    </div>
+    
     
 </div>
 

@@ -53,7 +53,7 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Picture</label>
 														<div class="col-lg-9 col-xl-6">
-															<div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url({{ asset('stdProfile') }}/{{ $student->std_image }})">
+															<div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url({{ asset('stdProfile') }}/{{ $student->image }})">
 																<div class="image-input-wrapper" style="background-image: url({{ asset('profile') }}/{{ $student->emp_profile_image }})"></div>
 																<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
 																	<i class="fa fa-pen icon-sm text-muted"></i>
@@ -96,21 +96,21 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Name</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->std_name }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->name }}" readonly />
 														</div>
 													</div>
 
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Father Name</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->std_father_name }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->father_name }}" readonly />
 														</div>
 													</div>
 								
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Email</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->std_email }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->email }}" readonly />
 														</div>
 													</div>
 
@@ -118,55 +118,55 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Gender</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->std_gender }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->gender }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Address</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->std_current_address }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->current_address }}" readonly />
 														</div>
 													</div>
 
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Permanant Address</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->std_permanent_address }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->permanent_address }}" readonly />
 														</div>
 													</div>
 
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Admission Date</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->std_admission_date }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->admission_date }}" readonly />
 														</div>
 													</div>
 
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Emergency Contact</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->std_emergency_contact_no }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->contact_no }}" readonly />
 														</div>
 													</div>
 
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Date Of Birth</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->std_dob }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->dob }}" readonly />
 														</div>
 													</div>
 
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Place Of Birth</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->std_pob }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->pob }}" readonly />
 														</div>
 													</div>
 
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Nationality</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->std_nationality }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->nationality }}" readonly />
 														</div>
 													</div>
 
@@ -175,14 +175,14 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Father CNIC</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->std_father_cnic }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->father_cnic }}" readonly />
 														</div>
 													</div>
 
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Father Occupation</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->std_father_occupation }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $student->father_occupation }}" readonly />
 														</div>
 													</div>
 

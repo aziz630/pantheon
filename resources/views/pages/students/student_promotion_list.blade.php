@@ -142,7 +142,8 @@
             >
             <thead>
                 <tr>
-                    <th>Enrollment No.</th>
+                    <th>SL No.</th>
+                    <th>ID No.</th>
                     <th>Student Name</th>
                     <th>Father Name</th>
                     <th>Gender</th>
@@ -157,9 +158,10 @@
                 @foreach($allData as $key => $value)
                     <tr id="sid{{ $value->studen_id }}">
                         <td>{{$key+1}}</td>
-                        <td>{{ $value['student']['std_name'] }}</td>
-                        <td>{{ $value['student']['std_father_name'] }}</td>
-                        <td>{{ $value['student']['std_gender'] }}</td>
+                        <td>{{ $value['student']['id_no'] }}</td>
+                        <td>{{ $value['student']['name'] }}</td>
+                        <td>{{ $value['student']['father_name'] }}</td>
+                        <td>{{ $value['student']['gender'] }}</td>
                         <td>{{ $value['class']['class_name'] }}</td>
                         <td>{{ $value['session']['session'] }}</td>
                         <td>

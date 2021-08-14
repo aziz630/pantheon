@@ -65,20 +65,20 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Job Title</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->emp_title }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->title }}" readonly />
 														</div>
 													</div>
 										
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Name</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->emp_name }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->name }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Email</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->emp_email }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->email }}" readonly />
 														</div>
 													</div>
 

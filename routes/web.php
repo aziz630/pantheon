@@ -12,10 +12,18 @@ use App\Http\Controllers\FeeCategoryAmountController;
 use App\Http\Controllers\FeeStructureController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\EmployController;
-use App\Http\Controllers\DomesticController;
+use App\Http\Controllers\EmployeeSalaryController;
+use App\Http\Controllers\EmployeeAttendanceController;
+use App\Http\Controllers\MonthlySalaryController;
+use App\Http\Controllers\AccountEmployeeSalaryController;
+use App\Http\Controllers\ProfitController;
+
+
+// use App\Http\Controllers\DomesticController;
 use App\Http\Controllers\ResigneController;
 use App\Http\Controllers\OtherFeeController;
 use App\Http\Controllers\AccountStudentsFeeController;
+use App\Http\Controllers\AccountOtherCostController;
 
 use App\Http\Controllers\RegistrationFeeController;
 use App\Http\Controllers\MonthlyFeeController;
@@ -118,13 +126,30 @@ Route::group(['middleware'=>['auth']], function (){
 	Route::get('/account_fee_getstudent', [AccountStudentsFeeController::class, 'Student_Fee_Get_Student'])->name('account.fee.getstudent');
 	Route::post('/account_fee_store', [AccountStudentsFeeController::class, 'Account_Fee_Store'])->name('account.fee.store');
 
-	// Route::post('/other_fee_create', [OtherFeeController::class, 'save_other_fee'])->name('save.other.fee');
+	/*** [ Employee Account ] */
+	Route::get('/account/salary/view', [AccountEmployeeSalaryController::class, 'Account_Salary_view']);
+	Route::get('/account/salary/add', [AccountEmployeeSalaryController::class, 'Employee_Salary_Add'])->name('employee.salary.add');
+	Route::get('/account/salary/get', [AccountEmployeeSalaryController::class, 'Account_Salary_Getemployee'])->name('account.salary.getemployee');
+	Route::post('/account/salary/store', [AccountEmployeeSalaryController::class, 'Account_Salary_Store'])->name('employee.account.salary.store');
 
-	// Route::get('/other_fee_edit/{id}', [OtherFeeController::class, 'edit_other_fee']);
-	// Route::post('/other_fee_edit', [OtherFeeController::class, 'update_other_fee'])->name('other.fee.update');
 
-	// Route::get('/other_fee_delete/{id}', [OtherFeeController::class, 'delete_other_fee']);
-	// Route::get('/other_fee_restore/{id}', [OtherFeeController::class, 'restore_other_fee']);
+	/*** [ Other cost ] */
+	Route::get('/other_cost_view', [AccountOtherCostController::class, 'Account_Other_Cost_view']);
+	Route::get('/add_other_cost', [AccountOtherCostController::class, 'Add_Other_Cost'])->name('add.other.cost');
+	Route::post('/save_other_cost', [AccountOtherCostController::class, 'Save_other_Cost'])->name('save.other.cost');
+	Route::get('/edit_other_cost/{id}', [AccountOtherCostController::class, 'Edit_Other_Cost'])->name('edit.other.cost');
+	Route::post('/Update_other_cost/{id}', [AccountOtherCostController::class, 'Update_Other_Cost'])->name('update.other.cost');
+	Route::get('/other_cost/trashed', [AccountOtherCostController::class, 'Trashrd_Other_Cost']);
+
+
+	/**
+	 * 
+	 * 
+	 * Report Management All Routs
+	 */
+	Route::get('/monthly/profit/view', [ProfitController::class, 'Monthly_Profit_view']);
+	Route::get('/monthly/report/profit/get', [ProfitController::class, 'report_Profit_Datewaise_Get'])->name('report.profit.datewaise.get');
+	Route::get('/report/profit/pdf', [ProfitController::class, 'Report_Profit_pdf'])->name('report.profit.pdf');
 
 	/*** [ Sessions ] */
 	Route::get('/sessions/{p?}', [SessionController::class, 'session_list']);
@@ -283,7 +308,6 @@ Route::group(['middleware'=>['auth']], function (){
 	Route::post('/save_employ', [EmployController::class, 'save_new_employee'])->name('employee.save');
 
 	Route::get('/get_all_employee', [EmployController::class, 'read_all_employee']);
-	// Route::get('/get_all_domestic_employee', [EmployController::class, 'read_all_domestic_employee']);
 	Route::get('/trashed_employee', [EmployController::class, 'read_all_trashed_employee']);
 
 	Route::get('/single_emp/{id}', [EmployController::class, 'get_single_employee_detail']);
@@ -295,8 +319,44 @@ Route::group(['middleware'=>['auth']], function (){
 	Route::get('/employee_restore/{id}', [EmployController::class, 'restore_employee']);
 
 
+
+	/***
+	 * 
+	 * 
+	 * Employee Salary Increment
+	 */
+	Route::get('/employee/salary/view', [EmployeeSalaryController::class, 'Employee_Salary_View']);
+
+	Route::get('/employee/salary/increment/{id}', [EmployeeSalaryController::class, 'Employee_Salary_Increment'])->name('employee.salary.increment');
+	Route::get('/employee/salary/detail/{id}', [EmployeeSalaryController::class, 'Employee_Salary_detail'])->name('employee.salary.details');
+	Route::post('/employee/salary/store/{id}', [EmployeeSalaryController::class, 'Salary_Store'])->name('update.increment.store');
+
+
+	/***
+	 * 
+	 * 
+	 * Employee Monthly Salary
+	 */
+	Route::get('/employee/monthly/salary/view', [MonthlySalaryController::class, 'Employee_Monthly_Salary_View']);
+	Route::get('/employee/monthly/salary/get', [MonthlySalaryController::class, 'Employee_Monthly_Salary_Get'])->name('employee.monthly.salary.get');
+	Route::get('/employee/monthly/salary/payslip/{id}', [MonthlySalaryController::class, 'Employee_Monthly_Salary_Payslip'])->name('employee.monthly.salary.payslip');
+
+
+	/***
+	 * 
+	 * 
+	 * Employee Attendance
+	 */
+	Route::get('/employee/attendance/view', [EmployeeAttendanceController::class, 'Employee_Attendance_view']);
+
+	Route::get('/add/employee/attendance', [EmployeeAttendanceController::class, 'Add_Employee_Attendance'])->name('add.employee.attendance');
+	Route::post('/store/employee/attendance', [EmployeeAttendanceController::class, 'store_Employee_Attendance'])->name('store.employee.attendance');
+	Route::get('/employee/attendance/edit/{date}', [EmployeeAttendanceController::class, 'Employee_Attendance_Edit'])->name('employee.attendance.edit');
+	Route::get('/employee/attendance/detail/{date}', [EmployeeAttendanceController::class, 'Employee_Attendance_details'])->name('employee.attendance.details');
+
+
 	/********
-	 * *
+	 **
 	 * RESIGN EMPLOYEE
 	 */
 	Route::get('/resigneRequest/{p?}', [EmployController::class, 'resigne_request_list']);
@@ -304,6 +364,7 @@ Route::group(['middleware'=>['auth']], function (){
 	Route::get('/terminateEmployee/{p?}', [EmployController::class, 'terminate_employee_list']);
 	Route::get('/resignRequest/{id}', [EmployController::class, 'get_resigne_employee_detail']);
 	Route::post('/resign_employee', [EmployController::class, 'update_resign_employee_record'])->name('resigh_employee.update');
+	
 	Route::get('/get_all_resigne_request', [EmployController::class, 'read_all_resigne_requests']);
 	Route::get('/get_all_resigned_employee', [EmployController::class, 'read_all_resigned_employee']);
 	Route::get('/get_all_terminated_employee', [EmployController::class, 'read_all_terminated_request']);
@@ -356,23 +417,6 @@ Route::group(['middleware'=>['auth']], function (){
  * 
  * Academics module routes starts here **************************************
  */
-
-/*** [ Classes ] */
-
-
-// Route::post('/update_previous_school', [PreviousSchoolController::class, 'update_a_previous_school'])->middleware('auth')->name('previousSchool.update');
-
-// Email route
-// Route::get('/send-mail', function()
-// {
-// 	$details = [
-// 		'title' => 'Mail from Pantheon School',
-// 		'body'  => 'this email for testing'
-// 	];
-// 	\Mail::to('eng.azizkhan11@gmail.com')->send(new \App\Mail\TestMail($details));
-// });
-
-
 
 
 

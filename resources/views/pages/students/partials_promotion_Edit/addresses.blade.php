@@ -9,7 +9,7 @@
                 name="stdCurrentAddress"
                 id="stdCurrentAddress"
                 placeholder="Student current address"
-                value="{{ $editData['student']['std_current_address'] }}"
+                value="{{ $editData['student']['current_address'] }}"
             />
             @if($errors->has('stdCurrentAddress'))
                 <span class="text-danger">{{ $errors->first('stdCurrentAddress') }}</span>
@@ -30,7 +30,7 @@
                 name="stdPermanentAddress"
                 id="stdPermanentAddress"
                 placeholder="Student permanent address"
-                value="{{ $editData['student']['std_permanent_address'] }}"
+                value="{{ $editData['student']['permanent_address'] }}"
             />
             @if($errors->has('stdPermanentAddress'))
                 <span class="text-danger">{{ $errors->first('stdPermanentAddress') }}</span>

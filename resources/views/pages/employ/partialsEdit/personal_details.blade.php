@@ -8,7 +8,7 @@
                 class="form-control form-control-solid"
                 name="title"
                 placeholder="Enter Post Title"
-                value="{{ $employee->emp_title }}"
+                value="{{ $employee->title }}"
             />
             @if ($errors->has('title'))
                 <span class="text-danger">{{ $errors->first('title') }}</span>
@@ -30,7 +30,7 @@
                 class="form-control form-control-solid"
                 name="fullName"
                 placeholder="Full Name"
-                value="{{ $employee->emp_name }}"
+                value="{{ $employee->name }}"
             />
             @if ($errors->has('fullName'))
                 <span class="text-danger">{{ $errors->first('fullName') }}</span>
@@ -51,7 +51,7 @@
                 class="form-control form-control-solid"
                 name="fName"
                 placeholder="Father Name"
-                value="{{ $employee->emp_fname }}"
+                value="{{ $employee->father_name }}"
             />
             @if ($errors->has('fName'))
                 <span class="text-danger">{{ $errors->first('fName') }}</span>
@@ -77,7 +77,7 @@
                 class="form-control form-control-solid"
                 name="empContact"
                 placeholder="Employee mobile number"
-                value="{{ $employee->emp_contact }}"
+                value="{{ $employee->contact_no }}"
             />
             @if ($errors->has('empContact'))
                 <span class="text-danger">{{ $errors->first('empContact') }}</span>
@@ -100,7 +100,7 @@
                 readonly
                 id="dob"
                 placeholder="Month/Day/Year"
-                value="{{ $employee->emp_dob }}"
+                value="{{ $employee->dob }}"
             />
             @if ($errors->has('empDOB'))
                 <span class="text-danger">{{ $errors->first('empDOB') }}</span>
@@ -119,12 +119,12 @@
             <input
                 type="email"
                 class="form-control form-control-solid"
-                name="emp_email"
+                name="email"
                 placeholder="employee@example.com"
-                value="{{ $employee->emp_email }}"
+                value="{{ $employee->email }}"
             />
-            @if ($errors->has('emp_email'))
-                <span class="text-danger">{{ $errors->first('emp_email') }}</span>
+            @if ($errors->has('email'))
+                <span class="text-danger">{{ $errors->first('email') }}</span>
             @endif
             <span class="form-text text-muted"
                 >Please enter email address.</span
@@ -145,7 +145,7 @@
                 class="form-control form-control-solid"
                 name="empCurrentAddress"
                 placeholder="employ current address"
-                value="{{ $employee->emp_address }}"
+                value="{{ $employee->current_address }}"
             />
             @if ($errors->has('empCurrentAddress'))
                 <span class="text-danger">{{ $errors->first('empCurrentAddress') }}</span>
@@ -165,7 +165,7 @@
                 class="form-control form-control-solid"
                 name="empPermanentAddress"
                 placeholder="Enter permanent address"
-                value="{{ $employee->emp_permanent_address }}"
+                value="{{ $employee->permanent_address }}"
             />
             @if ($errors->has('empPermanentAddress'))
                 <span class="text-danger">{{ $errors->first('empPermanentAddress') }}</span>
@@ -220,7 +220,7 @@
                             type="radio"
                             name="empNationality"
                             
-                            value="pakistani" {{ $employee->emp_nationality == 'pakistani' ? 'checked' : '' }}
+                            value="pakistani" {{ $employee->nationality == 'pakistani' ? 'checked' : '' }}
                         />
                         <span></span>
                         Pakistani
@@ -229,7 +229,7 @@
                         class="radio radio-outline radio-outline-2x radio-primary"
                     >
                         <input type="radio" name="empNationality" value="forigner"
-                        {{ $employee->emp_nationality == 'forigner' ? 'checked' : '' }} />
+                        {{ $employee->nationality == 'forigner' ? 'checked' : '' }} />
                         <span></span>
                         Forigner
                     </label>
@@ -254,7 +254,7 @@
                             type="radio"
                             name="empReligion"
                            
-                            value="muslim"{{ $employee->emp_religion == 'muslim' ? 'checked' : '' }}
+                            value="muslim"{{ $employee->religion == 'muslim' ? 'checked' : '' }}
                         />
                         <span></span>
                         Muslim
@@ -263,7 +263,7 @@
                         class="radio radio-outline radio-outline-2x radio-primary"
                     >
                         <input type="radio" name="empReligion" value="non-muslim"
-                        {{ $employee->emp_religion == 'non-muslim' ? 'checked' : '' }} />
+                        {{ $employee->religion == 'non-muslim' ? 'checked' : '' }} />
                         <span></span>
                         None-Muslim
                     </label>
@@ -286,7 +286,7 @@
                         <input
                             type="radio"
                             name="empMarried"
-                            value="single" {{ $employee->is_married == 'single' ? 'checked' : '' }}
+                            value="single" {{ $employee->married == 'single' ? 'checked' : '' }}
                         />
                         <span></span>
                         Single
@@ -294,7 +294,7 @@
                     <label
                         class="radio radio-outline radio-outline-2x radio-primary"
                     >
-                        <input type="radio" name="empMarried" value="married" {{ $employee->is_married == 'married' ? 'checked' : '' }} />
+                        <input type="radio" name="empMarried" value="married" {{ $employee->married == 'married' ? 'checked' : '' }} />
                         <span></span>
                         Married
                     </label>
@@ -318,7 +318,7 @@
                         <input
                             type="radio"
                             name="empGender"
-                            value="male" {{ $employee->emp_gender == 'male' ? 'checked' : '' }}
+                            value="male" {{ $employee->gender == 'male' ? 'checked' : '' }}
                         />
                         <span></span>
                         Male
@@ -326,14 +326,14 @@
                     <label
                         class="radio radio-outline radio-outline-2x radio-primary"
                     >
-                        <input type="radio" name="empGender" value="female" {{ $employee->emp_gender == 'female' ? 'checked' : '' }} />
+                        <input type="radio" name="empGender" value="female" {{ $employee->gender == 'female' ? 'checked' : '' }} />
                         <span></span>
                         Female
                     </label>
                     <label
                         class="radio radio-outline radio-outline-2x radio-primary"
                     >
-                        <input type="radio" name="empGender" value="other" {{ $employee->emp_gender == 'other' ? 'checked' : '' }} />
+                        <input type="radio" name="empGender" value="other" {{ $employee->gender == 'other' ? 'checked' : '' }} />
                         <span></span>
                         Other
                     </label>

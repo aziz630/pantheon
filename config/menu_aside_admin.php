@@ -238,42 +238,43 @@ return [
                                 
                             ]
                         ],
-						[
-							'title' => 'Fee Structures',
-							'bullet' => 'dot',
-							'submenu' => [
-								[
-									'title' => 'Search Structure',
-									'page' => 'fee_structures',
-								],
-								[
-									'title' => 'Create Structure',
-									'page' => 'fee_structure_create',
-								],
-								[
-									'title' => 'Trashed',
-									'page' => 'fee_structures/trashed',
-								],
-							],
-						],
-						[
-							'title' => 'Fee Register',
-							'bullet' => 'dot',
-							'submenu' => [
-								[
-									'title' => 'Search Register',
-									'page' => 'fee_register',
-								],
-								[
-									'title' => 'Collect Fee',
-									'page' => 'collect_fee',
-								],
-								[
-									'title' => 'Unprocessed Fee',
-									'page' => 'current_month_fee_register',
-								],
-							],
-						],
+                        
+						// [
+						// 	'title' => 'Fee Structures',
+						// 	'bullet' => 'dot',
+						// 	'submenu' => [
+						// 		[
+						// 			'title' => 'Search Structure',
+						// 			'page' => 'fee_structures',
+						// 		],
+						// 		[
+						// 			'title' => 'Create Structure',
+						// 			'page' => 'fee_structure_create',
+						// 		],
+						// 		[
+						// 			'title' => 'Trashed',
+						// 			'page' => 'fee_structures/trashed',
+						// 		],
+						// 	],
+						// ],
+						// [
+						// 	'title' => 'Fee Register',
+						// 	'bullet' => 'dot',
+						// 	'submenu' => [
+						// 		[
+						// 			'title' => 'Search Register',
+						// 			'page' => 'fee_register',
+						// 		],
+						// 		[
+						// 			'title' => 'Collect Fee',
+						// 			'page' => 'collect_fee',
+						// 		],
+						// 		[
+						// 			'title' => 'Unprocessed Fee',
+						// 			'page' => 'current_month_fee_register',
+						// 		],
+						// 	],
+						// ],
 
                         [
 							'title' => 'Fee Management',
@@ -288,41 +289,118 @@ return [
 									'page' => 'student_monthly_fee_view',
 								],
 								[
-									'title' => 'Unprocessed Fee',
+									'title' => 'Exam Fee',
 									'page' => 'current_month_fee_register',
 								],
 							],
 						],
+                        
                     ]
-                ],
-				[
-                    'title' => 'Family Accounts',
-                    'bullet' => 'dot',
-					'submenu' => [
-						[
-							'title' => 'Search Accounts',
-							'page' => 'accounts',
-						],
-						[
-							'title' => 'Trashed',
-							'page' => '',
-						],
-					],
                 ],
                 [
                     'title' => 'Student Accounts',
-                    'bullet' => 'dot',
+                    'bullet' => 'line',
                     'submenu' => [
                         [
-                            'title' => 'student fee',
+                            'title' => 'Search Collect Fee',
                             'page' => 'student_fee',
                         ],
                         [
-                            'title' => 'Trashed',
-                            'page' => '',
+                            'title' => 'Add/Edit Fee',
+                            'page' => 'student_fee_add',
                         ],
                     ],
                 ],
+                [
+                    'title' => 'Employee Accounts',
+                    'bullet' => 'line',
+                    'submenu' => [
+                        [
+                            'title' => 'Search Employee Salary',
+                            'page' => 'account/salary/view',
+                        ],
+                        [
+                            'title' => 'Add/Edit Salary',
+                            'page' => 'account/salary/add',
+                        ],
+                    ],
+                ],
+                [
+                    'title' => 'Other Cost',
+                    'bullet' => 'dot',
+                    'submenu' => [
+                        [
+                            'title' => 'Other Cost',
+                            'page' => 'other_cost_view',
+                        ],
+                        [
+                            'title' => 'Add Other Cost',
+                            'page' => 'add_other_cost'
+                        ],
+                        [
+                            'title' => 'Trashed',
+                            'page' => 'other_cost/trashed'
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'Attendance',
+                    'bullet' => 'dot',
+                    'submenu' => [
+                        [
+                            'title' => 'Search Attendance',
+                            'page' => 'employee/attendance/view',
+                        ],
+                        [
+                            'title' => 'Add Attendance',
+                            'page' => 'add/employee/attendance',
+                        ],
+                        [
+                            'title' => 'Trashed',
+                            'page' => 'fee_structures/trashed',
+                        ],
+                    ],
+                ],
+                [
+                    'title' => 'Emp Salary Management',
+                    'bullet' => 'dot',
+                    'submenu' => [
+                        [
+                            'title' => 'Search Employee Salart',
+                            'page' => 'employee/monthly/salary/view',
+                        ],
+                        [
+                            'title' => 'Increment Salary',
+                            'page' => 'employee/salary/view'
+                        ],
+                        [
+                            'title' => 'Trashed',
+                            'page' => 'fee_structures/trashed',
+                        ],
+                    ],
+                ],
+                [
+                    'title' => 'profit Management',
+                        'bullet' => 'dot',
+                        'submenu' => [
+                            [
+                                'title' => 'Monthly/Yearly Profit',
+                                'page' => 'monthly/profit/view',
+                            ],
+                            [
+                                'title' => 'Increment Salary',
+                                'page' => 'employee/salary/view'
+                            ],
+                            [
+                                'title' => 'Trashed',
+                                'page' => 'fee_structures/trashed',
+                            ],
+                
+                        ]
+                        
+                ]
+
+
             ]
         ],
 		[
@@ -354,7 +432,8 @@ return [
                 [
                     'title' => 'Trashed Employee',
                     'page' => 'employee/trashed'
-                ]
+                ],
+               
             
             ]
         ],

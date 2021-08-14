@@ -11,9 +11,9 @@ class AccountStudentsFee extends Model
 
     protected $guarded = [];
 
-    public function student()
+    public function User()
     {
-        return $this->belongsTo(Student::class, 'student_id', 'id');
+        return $this->belongsTo(User::class, 'student_id', 'id');
     }
 
     public function class()
@@ -39,8 +39,10 @@ class AccountStudentsFee extends Model
     {
         return $this->belongsTo(FeeCategory::class, 'fee_category_id', 'id');
     }
-    // public function OtherFee()
-    // {
-    //     return $this->belongsTo(OtherFee::class, 'other_fee_id', 'id');
-    // }
+
+    public function DuesFee()
+    {
+        return $this->belongsTo(DuesAccount::class, 'dues_id', 'id');
+    }
+   
 }

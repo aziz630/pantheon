@@ -177,7 +177,8 @@
         >
         <thead>
             <tr>
-                <th>Enrollment No.</th>
+                <th>SL No.</th>
+                <th>ID No.</th>
                 <th>Student Name</th>
                 <th>Father Name</th>
                 <th>Gender</th>
@@ -221,6 +222,7 @@
             ajax: "{{ url('get_all_withdraw_students_list') }}",
             columns: [
                 { data: "erp_no" },
+                { data: "ID_NO" },
                 { data: "studentName" },
                 { data: "fatherName" },
                 { data: "stdGender" },

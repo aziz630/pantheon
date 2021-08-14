@@ -129,21 +129,24 @@ class EmployController extends Controller
         /***  Check whether the request is ajax or not */
         if ($RQ->ajax()) {
             return DataTables::of($employee)->addIndexColumn()
-                ->addColumn('title', function ($row) {
-                    $empTitle = $row->emp_title;
+                ->addColumn('ID_NO', function ($row) {
+                    $ID_NO = $row->id_no;
+                    return $ID_NO;
+                })->addColumn('title', function ($row) {
+                    $empTitle = $row->title;
                     return $empTitle;
                 })->addColumn('fullName', function ($row) {
-                    $empName = $row->emp_name;
+                    $empName = $row->name;
                     return $empName;
-                })->addColumn('fName', function ($row) {
-                    $empFname = $row->emp_fname;
-                    return $empFname;
                 })->addColumn('empContact', function ($row) {
-                    $empcontact = $row->emp_contact;
+                    $empcontact = $row->contact_no;
                     return $empcontact;
-                })->addColumn('empEmail', function ($row) {
-                    $empemail = $row->emp_email;
-                    return $empemail;
+                })->addColumn('EmpGender', function ($row) {
+                    $empFname = $row->gender;
+                    return $empFname;
+                })->addColumn('empJoinDate', function ($row) {
+                    $empJoinDate = $row->join_date;
+                    return $empJoinDate;
                 })->addColumn('more', function ($row) {
                     $detail = '<a href="' . url('single_emp/' . $row->id) . '" class="btn btn-primary btn-sm" title="Edit details">View</a>';
                     return $detail;
@@ -171,11 +174,14 @@ class EmployController extends Controller
         /***  Check whether the request is ajax or not */
         if ($RQ->ajax()) {
             return DataTables::of($resEmployee)->addIndexColumn()
-                ->addColumn('title', function ($row) {
-                    $empTitle = $row->emp_title;
+                ->addColumn('ID_NO', function ($row) {
+                    $empID = $row->id_no;
+                    return $empID;
+                })->addColumn('title', function ($row) {
+                    $empTitle = $row->title;
                     return $empTitle;
                 })->addColumn('fullName', function ($row) {
-                    $empName = $row->emp_name;
+                    $empName = $row->name;
                     return $empName;
                 })->addColumn('action', function ($row) {
                     $detail = '<a href="' . url('resignRequest/' . $row->id) . '" class="btn btn-primary btn-sm" title="Edit details">View</a>';
@@ -203,16 +209,16 @@ class EmployController extends Controller
         if ($RQ->ajax()) {
             return DataTables::of($resEmployee)->addIndexColumn()
                 ->addColumn('title', function ($row) {
-                    $empTitle = $row->emp_title;
+                    $empTitle = $row->title;
                     return $empTitle;
                 })->addColumn('fullName', function ($row) {
-                    $empName = $row->emp_name;
+                    $empName = $row->name;
                     return $empName;
                 })->addColumn('empEmail', function ($row) {
-                    $ERPNO = $row->emp_email;
+                    $ERPNO = $row->email;
                     return $ERPNO;
                 })->addColumn('status', function ($row) {
-                     if ($row->emp_status == 0) return 'resigne';
+                     if ($row->status == 0) return 'resigne';
                     return 'cancle';
                 })->rawColumns(['status'])->make(true);
         }
@@ -235,13 +241,13 @@ class EmployController extends Controller
         if ($RQ->ajax()) {
             return DataTables::of($resEmployee)->addIndexColumn()
                 ->addColumn('title', function ($row) {
-                    $empTitle = $row->emp_title;
+                    $empTitle = $row->title;
                     return $empTitle;
                 })->addColumn('fullName', function ($row) {
-                    $empName = $row->emp_name;
+                    $empName = $row->name;
                     return $empName;
                 })->addColumn('empEmail', function ($row) {
-                    $empEmail = $row->emp_email;
+                    $empEmail = $row->email;
                     return $empEmail;
                 })->addColumn('erpNumber', function ($row) {
                     $ERPNO = $row->ERP_number;
@@ -267,19 +273,19 @@ class EmployController extends Controller
         if ($RQ->ajax()) {
             return DataTables::of($trashEmployee)->addIndexColumn()
                 ->addColumn('title', function ($row) {
-                    $empTitle = $row->emp_title;
+                    $empTitle = $row->title;
                     return $empTitle;
                 })->addColumn('fullName', function ($row) {
-                    $empName = $row->emp_name;
+                    $empName = $row->name;
                     return $empName;
                 })->addColumn('fName', function ($row) {
-                    $empFname = $row->emp_fname;
+                    $empFname = $row->fname;
                     return $empFname;
                 })->addColumn('empContact', function ($row) {
-                    $empcontact = $row->emp_contact;
+                    $empcontact = $row->contact;
                     return $empcontact;
                 })->addColumn('empEmail', function ($row) {
-                    $empemail = $row->emp_email;
+                    $empemail = $row->email;
                     return $empemail;
                 })->addColumn('more', function ($row) {
                     $actBtn = '<a href="' . url('single_emp/' . $row->id) . '" class="btn btn-sm btn-clean btn-icon btn-icon btn-outline-primary" title="Edit details"><i class="la la-edit"></i></a>';        
@@ -304,8 +310,8 @@ class EmployController extends Controller
     {
 
         $employee = $this->employee_service->get_single_employee($id);
-        $academic = $this->academic_service->edit_employee_academic_detail($id);
-        return view('pages.employ.detail_page', compact('employee', 'academic'));
+        // $academic = $this->academic_service->edit_employee_academic_detail($id);
+        return view('pages.employ.detail_page', compact('employee'));
     }
 
     
@@ -418,20 +424,12 @@ class EmployController extends Controller
 
     public function approve(Request $request, $id)
     {
-        $approve = Employee::findOrFail($id);
-        $approveUser = User::findOrFail($id);
+        $approve = User::findOrFail($id);
             $approve->emp_status = false;  
-            $approveUser->status = false;
             $approve->save();
-            $approveUser->save();
 
-            // $employee = Employee::whereEmail($request->emp_email)->first();
-            // if(count($employee) == 1)
-            // {
-
-                
-
-                Mail::to($approve->emp_email)->send(new TestMail());
+            // email function
+                Mail::to($approve->email)->send(new TestMail());
                 
             return redirect(url('resigneRequest'))->with('success', 'Request Approved successfully And send Email.');
         
@@ -441,17 +439,20 @@ class EmployController extends Controller
     
      public function reject($id)
     {
-        $reject = Employee::findOrFail($id);
+        $reject = User::findOrFail($id);
         $reject->reject_status = false; 
         $reject->save();
 
-        $data = array('name'=>"Aziz");
+        // $data = array('name'=>"Aziz");
    
-        Mail::send(['text'=>'pages.emails.testMail'], $data, function($message) {
-           $message->to('eng.azizkhan11@gmail.com', 'Pantheon')->subject
-              ('Your Resignation has been Rejected by the Head. kindly contact Us');
-           $message->from('eng.azizkhan11@gmail.com','Pantheon');
-        });
+        // Mail::send(['text'=>'pages.emails.testMail'], $data, function($message) {
+        //    $message->to('eng.azizkhan11@gmail.com', 'Pantheon')->subject
+        //       ('Your Resignation has been Rejected by the Head. kindly contact Us');
+        //    $message->from('eng.azizkhan11@gmail.com','Pantheon');
+        // });
+
+        // email function
+        Mail::to($approve->email)->send(new TestMail());
 
         return redirect(url('resigneRequest'))->with('error', 'Employee Request Rejected.');
         

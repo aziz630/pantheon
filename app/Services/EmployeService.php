@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\User;
 use App\Models\Academic;
+use App\Models\EmployeeSalaryLog;
 use Ramsey\Uuid\Type\Integer;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -36,7 +37,7 @@ class EmployeService
                 foreach($this->rq->file('empfile') as $file)
                 {
                     $name = time().'.'.$file->extension();
-                    $file->move(public_path('attachement'), $name);  
+                    $file->move(public_path('upload/attachement'), $name);  
                     $files[] = $name;  
                 }
              }
@@ -44,34 +45,65 @@ class EmployeService
             //  upload profile image
             $image = $this->rq->file('file');
             $imageName = time().'.'.$image->extension();
-            $image->move(public_path('profile'),$imageName);
+            $image->move(public_path('upload/employee_profile'),$imageName);
 
-            $employee = Employee::create([
 
-                'emp_title' => $this->rq->title,
-                'emp_name' => $this->rq->fullName,
-                'emp_fname' => $this->rq->fName,
-                'emp_address' => $this->rq->empCurrentAddress,
-                'emp_contact' => $this->rq->empContact,
-                'emp_dob' => date_format(date_create($this->rq->empDOB), 'Y-m-d'),
-                'emp_email' => $this->rq->emp_email,
-                'emp_permanent_address' => $this->rq->empPermanentAddress,
-                'is_married' => $this->rq->empMarried,
-                'emp_nationality' => $this->rq->empNationality,
-                'emp_gender' => $this->rq->empGender,
+
+        $checkYear = date('Ym',strtotime($this->rq->join_date));
+    	//dd($checkYear);
+    	$employee = User::where('usertype','Employee')->orderBy('id','DESC')->first();
+
+    	if ($employee == null) {
+    		$firstReg = 0;
+    		$employeeId = $firstReg+1;
+    		if ($employeeId < 10) {
+    			$id_no = '000'.$employeeId;
+    		}elseif ($employeeId < 100) {
+    			$id_no = '00'.$employeeId;
+    		}elseif ($employeeId < 1000) {
+    			$id_no = '0'.$employeeId;
+    		}
+    	}else{
+            $employee = User::where('usertype','Employee')->orderBy('id','DESC')->first()->id;
+            $employeeId = $employee+1;
+            if ($employeeId < 10) {
+                    $id_no = '000'.$employeeId;
+                }elseif ($employeeId < 100) {
+                    $id_no = '00'.$employeeId;
+                }elseif ($employeeId < 1000) {
+                    $id_no = '0'.$employeeId;
+                }
+
+    	    } // end else 
+
+    	$final_id_no = $checkYear.$id_no;
+
+            // $code = rand(0000,9999);
+
+            $employee = User::create([
+
+                'title' => $this->rq->title,
+                'name' => $this->rq->fullName,
+                'father_name' => $this->rq->fName,
+                'id_no' => $final_id_no,
+                'usertype' => 'Employee',
+                'current_address' => $this->rq->empCurrentAddress,
+                'contact_no' => $this->rq->empContact,
+                'dob' => date_format(date_create($this->rq->empDOB), 'Y-m-d'),
+                'password' => bcrypt('pantheon@123'),
+                'email' => $this->rq->emp_email,
+                'permanent_address' => $this->rq->empPermanentAddress,
+                'married' => $this->rq->empMarried,
+                'nationality' => $this->rq->empNationality,
+                'gender' => $this->rq->empGender,
                 'is_employee' => $this->rq->role_id,
-                'emp_religion' => $this->rq->empReligion,
-                'emp_experience' => $this->rq->empExperience,
-                'emp_profile_image' => $imageName,
-                'emp_status' => true,
-                'emp_file_attachment' => json_encode($files),
-                
-            ]);
-
-            $this->employID = $employee->id;
-
-
-            $academic = Academic::create([
+                'religion' => $this->rq->empReligion,
+                'experience' => $this->rq->empExperience,
+                'image' => $imageName,
+                'status' => true,
+                'join_date' => date_format(date_create($this->rq->empJoinDate), 'Y-m-d'),
+                'salary' => $this->rq->empSalary,
+                'file_attachment' => json_encode($files),
 
                 'matric_pass_year' => $this->rq->mpassingyear,
                 'matric_subj' => $this->rq->msubject,
@@ -96,44 +128,41 @@ class EmployeService
                 'any_other_pass_year' => $this->rq->opassingyear,
                 'any_other_subj' => $this->rq->osubject,
                 'any_other_schl' => $this->rq->ocollegename,
-                'any_other_per' => $this->rq->ocgpa,                
-                'employ_id' => $this->employID,
-            ]);  
-
-            $user = User::create([
-                'fname' => $this->rq->fullName,
-                'email' => $this->rq->emp_email,
-                'password' => Hash::make('pantheon@123'),
-                'gender' => $this->rq->empGender,
-                'dob' => date_format(date_create($this->rq->empDOB), 'Y-m-d'),
-                'is_muslim' => $this->rq->empReligion,
-                'nationality' => $this->rq->empNationality,
-                'address' => $this->rq->empCurrentAddress,
-                'phone' => $this->rq->empContact,
-                'title' => $this->rq->title,
-                'is_employee' => $this->rq->role_id,
-                'emergency_contact' => $this->rq->empContact,
-                'status' => true,
-                'profile_image' => $imageName,
-                'employee_id' => $this->employID,
+                'any_other_per' => $this->rq->ocgpa,    
                 
             ]);
-                
-            $user->attachRole($this->rq->role_id);
+
+            $this->employID = $employee->id;
+
+            $employee->attachRole($this->rq->role_id);
+
+            $employee_salary = EmployeeSalaryLog::create([
+
+                'employee_id' => $this->employID,
+                'effected_salary' => date('Y-m-d',strtotime($this->rq->join_date)),
+                'previous_salary' => $this->rq->empSalary,
+                'present_salary' => $this->rq->empSalary,
+                'increment_salary' => '0',
+            ]);
+             
         });  
         
         return true;
     }
 
+    /**
+     * 
+     * 
+     * Get All employies List
+     */
     public function get_all_employee()
     {
         $employee = false;
 
-        // where('emp_status', '=', true)->where('reason_of_terminate', '=' , NULL)
-        if ($data = Employee::where([
+        if ($data = User::where([
             ['emp_status', '=' , true],
             ['reason_of_terminate', '=', Null ],
-            ['emp_dob', '!=', Null]
+            ['usertype', '=', 'Employee'],
             ])->get()){
             $employee = $data;
         }
@@ -154,7 +183,7 @@ class EmployeService
 
         // $statusValue = ['field' => 'value', 'another_field' => 'another_value', ...];
 
-        if ($data = Employee::where([
+        if ($data = User::where([
             ['reason_of_resign', '!=' , NULL],
             ['emp_status', '=', true ],
             ['reject_status', '=', true]
@@ -176,7 +205,7 @@ class EmployeService
     public function get_all_resigned_employee()
     {
         $resign_employee = false;
-        if ($data = Employee::where('emp_status', '=', false)->get()){
+        if ($data = User::where('emp_status', '=', false)->get()){
 
             $resign_employee = $data;
         }
@@ -192,7 +221,7 @@ class EmployeService
     public function get_all_terminated_employee()
     {
         $resign_employee = false;
-        if ($data = Employee::where('reason_of_terminate', '!=' , NULL)->get()){
+        if ($data = User::where('reason_of_terminate', '!=' , NULL)->get()){
 
             $resign_employee = $data;
         }
@@ -204,7 +233,7 @@ class EmployeService
     {
         $employee = false;
 
-        if ($data = Employee::find($id)) {
+        if ($data = User::find($id)) {
             $employee = $data;
         }
 
@@ -216,7 +245,7 @@ class EmployeService
     {
         $resigne_employee = false;
 
-        if ($data = Employee::find($id)) {
+        if ($data = User::find($id)) {
             $resigne_employee = $data;
         }
 
@@ -233,7 +262,7 @@ class EmployeService
             foreach($rq->file('empfile') as $file)
             {
                 $name = time().'.'.$file->extension();
-                $file->move(public_path('attachement'), $name);  
+                $file->move(public_path('upload/attachement'), $name);  
                 $files[] = $name;  
             }
          }
@@ -241,56 +270,58 @@ class EmployeService
         //  upload profile image
         $image = $rq->file('file');
         $imageName = time().'.'.$image->extension();
-        $image->move(public_path('profile'),$imageName);
+        $image->move(public_path('upload/employee_profile'),$imageName);
 
 
-        $model = Employee::find($rq->eId);
-        $model->emp_title = $rq->title;
-        $model->emp_name = $rq->fullName;
-        $model->emp_fname = $rq->fName;
-        $model->emp_address = $rq->empCurrentAddress;
-        $model->emp_contact = $rq->empContact;
-        $model->emp_dob = date_format(date_create($rq->empDOB), 'Y-m-d');
-        $model->emp_email = $rq->emp_email;
-        $model->emp_permanent_address = $rq->empPermanentAddress;
-        $model->emp_profile_image = $imageName;
-        $model->is_married = $rq->empMarried;
+        $model = User::find($rq->eId);
+        $model->title = $rq->title;
+        $model->name = $rq->fullName;
+        $model->father_name = $rq->fName;
+        $model->address = $rq->empCurrentAddress;
+        $model->contact = $rq->empContact;
+        $model->dob = date_format(date_create($rq->empDOB), 'Y-m-d');
+        $model->email = $rq->emp_email;
+        $model->permanent_address = $rq->empPermanentAddress;
+        $model->image = $imageName;
+        $model->married = $rq->empMarried;
         $model->is_employee = $rq->role_id;
-        $model->emp_nationality = $rq->empNationality;
-        $model->emp_gender = $rq->empGender;
-        $model->emp_religion = $rq->empReligion;
-        $model->emp_experience = $rq->empExperience;
-        $model->emp_status = true;
-        $model->emp_file_attachment = json_encode($files);
+        $model->nationality = $rq->empNationality;
+        $model->gender = $rq->empGender;
+        $model->join_date = date_format(date_create($this->rq->empJoinDate), 'Y-m-d');
+        $model->salary = $this->rq->empSalary;
+        $model->religion = $rq->empReligion;
+        $model->experience = $rq->empExperience;
+        $model->status = true;
+        $model->file_attachment = json_encode($files);
 
-        $model->save();
+        // $model->save();
        
-        $academic = Academic::find($rq->eId);
-        $academic->matric_pass_year = $rq->mpassingyear;
-        $academic->matric_subj = $rq->msubject;
-        $academic->matric_schl = $rq->mschoolname;
-        $academic->matric_per = $rq->mpersentage;
+        // $academic = Academic::find($rq->eId);
+        $model->matric_pass_year = $rq->mpassingyear;
+        $model->matric_subj = $rq->msubject;
+        $model->matric_schl = $rq->mschoolname;
+        $model->matric_per = $rq->mpersentage;
 
-        $academic->secondary_pass_year = $rq->mpassingyear;
-        $academic->secondary_subj = $rq->ssubject;
-        $academic->secondary_schl = $rq->scollegename;
-        $academic->secondary_per = $rq->scgpa;
+        $model->secondary_pass_year = $rq->mpassingyear;
+        $model->secondary_subj = $rq->ssubject;
+        $model->secondary_schl = $rq->scollegename;
+        $model->secondary_per = $rq->scgpa;
 
-        $academic->graduate_pass_year = $rq->gpassingyear;
-        $academic->graduate_subj = $rq->gsubject;
-        $academic->graduate_schl = $rq->gcollegename;
-        $academic->graduate_per = $rq->gcgpa;
+        $model->graduate_pass_year = $rq->gpassingyear;
+        $model->graduate_subj = $rq->gsubject;
+        $model->graduate_schl = $rq->gcollegename;
+        $model->graduate_per = $rq->gcgpa;
 
-        $academic->post_graduate_pass_year = $rq->pgpassingyear;
-        $academic->post_graduate_subj = $rq->pgsubject;
-        $academic->post_graduate_schl = $rq->pgcollegename;
-        $academic->post_graduate_per = $rq->pgcgpa;
+        $model->post_graduate_pass_year = $rq->pgpassingyear;
+        $model->post_graduate_subj = $rq->pgsubject;
+        $model->post_graduate_schl = $rq->pgcollegename;
+        $model->post_graduate_per = $rq->pgcgpa;
 
-        $academic->any_other_pass_year = $rq->opassingyear;
-        $academic->any_other_subj = $rq->osubject;
-        $academic->any_other_schl = $rq->ocollegename;
-        $academic->any_other_per = $rq->ocgpa;    
-        $academic->save();           
+        $model->any_other_pass_year = $rq->opassingyear;
+        $model->any_other_subj = $rq->osubject;
+        $model->any_other_schl = $rq->ocollegename;
+        $model->any_other_per = $rq->ocgpa;    
+        $model->save();           
         
         return true;
 
@@ -302,9 +333,9 @@ class EmployeService
     {
         $image = $rq->file('file');
         $imageName = time().'.'.$image->extension();
-        $image->move(public_path('resigneImages'),$imageName);
+        $image->move(public_path('upload/resigneImages'),$imageName);
         
-        $model = Employee::find($rq->rId);
+        $model = User::find($rq->rId);
         $model->reason_of_resign = $rq->reasonOfResign;
         $model->resig_file = $imageName;
         $model->save();
@@ -318,7 +349,7 @@ class EmployeService
     public function employee_terminate_record($rq)
     {
         
-        $model = Employee::find($rq->tId);
+        $model = User::find($rq->tId);
         $model->reason_of_terminate = $rq->reasonOfTerminate;
         $model->save();
         return true;
@@ -331,7 +362,7 @@ class EmployeService
     {
         $employee = false;
 
-        if ($data = Employee::where('id', $id)->first()) {
+        if ($data = User::where('id', $id)->first()) {
             $employee = $data;
         }
         return $employee;
@@ -344,7 +375,7 @@ class EmployeService
     {
         $employee = false;
 
-        if ($data = Employee::onlyTrashed()->get()) {
+        if ($data = User::onlyTrashed()->get()) {
             $employee = $data;
         }
 
@@ -355,7 +386,7 @@ class EmployeService
 
     function delete_employee($id)
     {
-        $model = Employee::find($id);
+        $model = User::find($id);
 
         if ($model->delete()) {
             return true;
@@ -368,7 +399,7 @@ class EmployeService
 
     function restore_employee($id)
     {
-        $model = Employee::withTrashed()->where('id', $id);
+        $model = User::withTrashed()->where('id', $id);
         if ($model->restore()) {
             return true;
         }

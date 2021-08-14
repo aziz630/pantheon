@@ -69,7 +69,7 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label>Session:</label>
+                    <label>Month:</label>
                     <select
                         name="month"
                         id="month"

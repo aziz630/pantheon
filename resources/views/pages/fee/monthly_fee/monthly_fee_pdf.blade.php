@@ -49,11 +49,20 @@
 </table>
 
 @php 
-$registrationfee = App\Models\FeeCategoryAmount::where('fee_category_id','2')->where('class_id',$details->class_id)->first();
-$originalfee = $registrationfee->amount;
-        $discount = $details['discount']['discount'];
-        $discounttablefee = $discount/100*$originalfee;
-        $finalfee = (float)$originalfee-(float)$discounttablefee;
+$MonthlyFee = App\Models\FeeCategoryAmount::where('fee_category_id','2')->where('class_id',$details->class_id)->first();
+$originalfee = $MonthlyFee->amount;
+      $discount = $details['discount']['discount'];
+      $discounttablefee = $discount/100*$originalfee;
+      $finalfee = (float)$originalfee-(float)$discounttablefee;
+
+    <!-- $data = new App\Models\DuesAccount();
+		$data->year_id = $details['session']['id'];
+		$data->class_id = $class_id;
+		$data->date = date("d M Y");
+		$data->fee_category_id = $MonthlyFee['fee_cateogry']['id'];
+		$data->student_id = $studentId;		
+		$data->dues = $MonthlyFee->amount;
+		$data->save(); -->
 
 @endphp 
 

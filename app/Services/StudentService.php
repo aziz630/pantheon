@@ -22,41 +22,6 @@ class StudentService
     private $studentID = null;
     private $familyAccount_balance = 0;
 
-    /**
-     * 
-     * 
-     * 
-     * Get all active students
-     */
-    // public function get_all_students()
-    // {
-    //     $students = collect();
-    //     $data = DB::table('students')
-    //         ->join('enrollments', 'students.id', '=', 'enrollments.student_id')
-    //         ->join('classes', 'enrollments.class_id', '=', 'classes.id')
-    //         ->join('sections', 'enrollments.section_id', '=', 'sections.id')
-    //         ->select(
-    //             'students.*',
-    //             'enrollments.class_id',
-    //             'enrollments.section_id',
-    //             'classes.class_name',
-    //             'sections.section_name'
-    //         )
-    //         ->where('students.deleted_at', '=', Null)->where('reason_of_withdrawal', '=' , NULL)
-    //         ->orderBy('students.id')
-    //         ->get();
-
-    //     if ($data) {
-    //         $students = $data;  
-    //     }
-
-    //     return $students;
-
-    
-
-    // }
-
-
 
       /**
      * 
@@ -67,19 +32,19 @@ class StudentService
     public function get_all_withdraw_students()
     {
         $students = collect();
-        $data = DB::table('students')
-            ->join('enrollments', 'students.id', '=', 'enrollments.student_id')
+        $data = DB::table('users')
+            ->join('enrollments', 'users.id', '=', 'enrollments.student_id')
             ->join('classes', 'enrollments.class_id', '=', 'classes.id')
             ->join('sections', 'enrollments.section_id', '=', 'sections.id')
             ->select(
-                'students.*',
+                'users.*',
                 'enrollments.class_id',
                 'enrollments.section_id',
                 'classes.class_name',
                 'sections.section_name'
             )
-            ->where('students.deleted_at', '=', Null)->where('reason_of_withdrawal', '!=' , NULL)
-            ->orderBy('students.id')
+            ->where('users.deleted_at', '=', Null)->where('reason_of_withdrawal', '!=' , NULL)
+            ->orderBy('users.id')
             ->get();
 
         if ($data) {
@@ -102,7 +67,7 @@ class StudentService
     {
         $student = false;
 
-        if ($data = Student::find($id)) {
+        if ($data = User::find($id)) {
             $student = $data;
         }
 
@@ -127,7 +92,7 @@ class StudentService
                     //  upload profile image
                     $cnic = $this->rq->file('guardianCnicCopy');
                     $cnicCopy = time().'.'.$cnic->extension();
-                    $cnic->move(public_path('gardianCNIC'),$cnicCopy);
+                    $cnic->move(public_path('upload/gardianCNIC'),$cnicCopy);
 
                     $guardian = Guardian::create([
                         'grd_name' => $this->rq->guardianName,
@@ -142,16 +107,14 @@ class StudentService
                     ]);
 
                     $this->guardianID = $guardian->id;
-                    // $this->familyAccount_balance = 0;
-                // }
 
                 //  upload profile image
                 $image = $this->rq->file('stdImage');
                 $imageName = time().'.'.$image->extension();
-                $image->move(public_path('stdProfile'),$imageName);
+                $image->move(public_path('upload/stdProfile'),$imageName);
                     
-                $checkYear = Session::find($this->rq->section)->session;
-                $student = Student::where('usertype','Student')->orderBy('id','DESC')->first();
+                $checkYear = Session::find($this->rq->session)->session;
+                $student = User::where('usertype','Student')->orderBy('id','DESC')->first();
 
                 if ($student == null) {
                     $firstReg = 0;
@@ -164,7 +127,7 @@ class StudentService
                         $id_no = '0'.$studentId;
                     }
                 }else{
-                    $student = Student::where('usertype','Student')->orderBy('id','DESC')->first()->id;
+                    $student = User::where('usertype','Student')->orderBy('id','DESC')->first()->id;
                     $studentId = $student+1;
                     if ($studentId < 10) {
                             $id_no = '000'.$studentId;
@@ -177,30 +140,30 @@ class StudentService
                     } // end else 
 
                     $final_id_no = $checkYear.$id_no;
+                    // $code = rand(0000,9999);
 
-                $student = Student::create([
-                    'std_name' => $this->rq->fullName,
+                $student = User::create([
+                    'name' => $this->rq->fullName,
     	            'id_no' => $final_id_no,
     	            'usertype' => 'Student',
-                    'std_gender' => $this->rq->stdGender,
-                    'std_dob' => date_format(date_create($this->rq->stdDOB), 'Y-m-d'),
-                    'std_pob' => $this->rq->stdPOB,
-                    'std_religion' => $this->rq->stdReligion,
-                    'std_nationality' => $this->rq->stdNationality,
-                    'std_current_address' => $this->rq->stdCurrentAddress,
-                    'std_permanent_address' => $this->rq->stdPermanentAddress,
-                    'std_email' => $this->rq->std_email,
-                    // 'std_mobile_no' => $this->rq->stdPhone,
-                    'std_emergency_contact_no' => $this->rq->stdEmergency,
-                    'std_admission_date' => date_format(date_create($this->rq->stdAdmissionDate), 'Y-m-d'),
-                    // 'std_registeration_no' => $this->rq->regNumber,
-                    'std_father_name' => $this->rq->stdFatherName,
-                    'std_father_cnic' => $this->rq->stdFatherCNIC,
-                    'std_father_occupation' => $this->rq->stdFatherOccupation,
-                    'std_mother_name' => $this->rq->stdMotherName,
-                    'std_mother_cnic' => $this->rq->stdMotherCNIC,
-                    'std_mother_occupation' => $this->rq->stdMotherOccupation,
-                    'std_image' => $imageName,
+                    'password' => bcrypt('pantheon@123'),
+                    'gender' => $this->rq->stdGender,
+                    'dob' => date_format(date_create($this->rq->stdDOB), 'Y-m-d'),
+                    'pob' => $this->rq->stdPOB,
+                    'religion' => $this->rq->stdReligion,
+                    'nationality' => $this->rq->stdNationality,
+                    'current_address' => $this->rq->stdCurrentAddress,
+                    'permanent_address' => $this->rq->stdPermanentAddress,
+                    'email' => $this->rq->std_email,
+                    'contact_no' => $this->rq->stdEmergency,
+                    'admission_date' => date_format(date_create($this->rq->stdAdmissionDate), 'Y-m-d'),
+                    'father_name' => $this->rq->stdFatherName,
+                    'father_cnic' => $this->rq->stdFatherCNIC,
+                    'father_occupation' => $this->rq->stdFatherOccupation,
+                    'mother_name' => $this->rq->stdMotherName,
+                    'mother_cnic' => $this->rq->stdMotherCNIC,
+                    'mother_occupation' => $this->rq->stdMotherOccupation,
+                    'image' => $imageName,
                     'guardian_id' => $this->guardianID,
                 ]);
 
@@ -224,52 +187,6 @@ class StudentService
                     'discount' => $this->rq->discount,
                 ]);
                
-
-                // FamilyTransaction::create([
-                //     'guardian_id' => $this->guardianID,
-                //     'transaction_date' => date('Y-m-d H:i:s', strtotime("-1 minutes")),
-                //     'description' => 'Security Fee deposit',
-                //     'debit_amount' => intval($this->rq->Security),
-                //     'credit_amount' => 0,
-                //     'balance' => $this->familyAccount_balance + intval($this->rq->Security),
-                //     'is_notified' => 1,
-                // ]);
-
-                // $guardian = Guardian::find($this->guardianID);
-                // $guardian->account_balance = intval($this->rq->Security) + intval($guardian->account_balance);
-                // $guardian->save();
-
-                // Fee::insert([
-                //     [
-                //         'student_id' => $this->studentID,
-                //         'fee_structure_id' => $this->rq->structure_id,
-                //         'fee_month' => date('F'),
-                //         'transaction_date' => date('Y-m-d H:i:s', strtotime("-1 minutes")),
-                //         'description' => 'Amount payable for new admission',
-                //         'discount_amount' => 0,
-                //         'debit_amount' => 0,
-                //         'credit_amount' => (intval($this->rq->deposit) + intval($this->rq->concission)) - intval($this->rq->Security),
-                //         'amount_payable' => (intval($this->rq->deposit) + intval($this->rq->concission)) - intval($this->rq->Security),
-                //         'is_notified' => 1,
-                //         'is_processed' => 1,
-                //         'created_at' => date('Y-m-d H:i:s'),
-                //         'updated_at' => date('Y-m-d H:i:s'),
-                //     ], [
-                //         'student_id' => $this->studentID,
-                //         'fee_structure_id' => $this->rq->structure_id,
-                //         'fee_month' => date('F'),
-                //         'transaction_date' => date('Y-m-d H:i:s', time()),
-                //         'description' => 'Amount paid for new Admission, ' . intval($this->rq->Security) . ' security fee is deposited to family account',
-                //         'discount_amount' => $this->rq->concission,
-                //         'debit_amount' => intval($this->rq->deposit) - intval($this->rq->Security),
-                //         'credit_amount' => 0,
-                //         'amount_payable' => 0,
-                //         'is_notified' => 1,
-                //         'is_processed' => 1,
-                //         'created_at' => date('Y-m-d H:i:s'),
-                //         'updated_at' => date('Y-m-d H:i:s'),
-                //     ]
-                // ]);
             });
 
             
@@ -289,7 +206,7 @@ class StudentService
     {
         $student = false;
 
-        if ($data = Student::find($student_id)) {
+        if ($data = User::find($student_id)) {
             $student = $data;
         }
 
@@ -305,7 +222,7 @@ class StudentService
 
     function delete_student($id)
     {
-        $model = Student::find($id);
+        $model = User::find($id);
 
         if ($model->delete()) {
             return true;
@@ -319,7 +236,7 @@ class StudentService
     public function student_withdraw_record($rq)
     {
         
-        $model = Student::find($rq->wId);
+        $model = User::find($rq->wId);
         $model->reason_of_withdrawal = $rq->reasonOfWithdraw;
         $model->save();
         return true;

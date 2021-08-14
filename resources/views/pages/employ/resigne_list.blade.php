@@ -47,6 +47,7 @@
         <thead>
             <tr>
                 <th>S/No.</th>
+                <th>ID/No.</th>
                 <th>Name</th>
                 <th>Title</th>
                 <th>Actions</th>
@@ -88,6 +89,7 @@
             ajax: "{{ $remoteUrl }}",
             columns: [
                 { data: "DT_RowIndex" },
+                { data: "ID_NO" },
                 { data: "fullName" },
                 { data: "title" },
                 { data: "action", orderable: false, searchable: false }

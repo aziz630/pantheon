@@ -1,6 +1,6 @@
 <div class="row">
     
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <!--begin::Input-->
         <div class="form-group">
             <label>Experience</label>
@@ -13,6 +13,50 @@
             />
             @if ($errors->has('empExperience'))
                 <span class="text-danger">{{ $errors->first('empExperience') }}</span>
+            @endif
+            <span class="form-text text-muted"
+                >Please enter your exprience.</span
+            >
+        </div>
+        <!--end::Input-->
+    </div>
+
+    <div class="col-xl-4">
+        <!--begin::Input-->
+        <div class="form-group">
+            <label>Joining Date</label><span class="text-danger">*</span>
+            <input
+                type="text"
+                class="form-control form-control-solid"
+                readonly
+                name="empJoinDate"
+                id="admissionDate"
+                placeholder="Month/Day/Year"
+                value="{{ old('empJoinDate') }}"
+            />
+            @if($errors->has('empJoinDate'))
+                <span class="text-danger">{{ $errors->first('empJoinDate') }}</span>
+            @endif
+            <span class="form-text text-muted"
+                >Please select effected date.</span
+            >
+        </div>
+        <!--end::Input-->
+    </div>
+
+    <div class="col-xl-4">
+        <!--begin::Input-->
+        <div class="form-group">
+            <label>Salary</label>
+            <input
+                type="text"
+                class="form-control form-control-solid"
+                name="empSalary"
+                placeholder="Enter your exprience"
+                value="{{ old('empSalary')}}"
+            />
+            @if ($errors->has('empSalary'))
+                <span class="text-danger">{{ $errors->first('empSalary') }}</span>
             @endif
             <span class="form-text text-muted"
                 >Please enter your exprience.</span

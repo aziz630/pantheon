@@ -81,11 +81,12 @@
         <thead>
             <tr>
                 <th>S/No.</th>
+                <th>ID/No.</th>
                 <th>Title</th>
                 <th>Name</th>
-                <th>F/Name</th>
                 <th>Contact</th>
-                <th>Email</th>
+                <th>Gender</th>
+                <th>Join Date</th>
                 <th>More</th>
                 <th>Actions</th>
             </tr>
@@ -126,11 +127,12 @@
             ajax: "{{ $remoteUrl }}",
             columns: [
                 { data: "DT_RowIndex" },
+                { data: "ID_NO" },
                 { data: "title" },
                 { data: "fullName" },
-                { data: "fName" },
                 { data: "empContact" },
-                { data: "empEmail" },
+                { data: "EmpGender" },
+                { data: "empJoinDate" },
                 { data: "more" },
                 { data: "action", orderable: false, searchable: false }
             ]

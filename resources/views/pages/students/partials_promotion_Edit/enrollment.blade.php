@@ -110,7 +110,7 @@
                 name="stdAdmissionDate"
                 id="stdAdmissionDate"
                 placeholder="Month/Day/Year"
-                value="{{ $editData['student']['std_admission_date'] }}"
+                value="{{ $editData['student']['admission_date'] }}"
             />
             <!-- @if($errors->has('stdAdmissionDate'))
                 <span class="text-danger">{{ $errors->first('stdAdmissionDate') }}</span>

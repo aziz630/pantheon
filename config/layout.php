@@ -278,6 +278,8 @@ return [
             'plugins/global/plugins.bundle.js',
             'plugins/custom/prismjs/prismjs.bundle.js',
             'js/scripts.bundle.js',
+            'plugins/custom/flot/flot.bundle.js',
+            'js/pages/features/charts/flotcharts.js',
         ],
     ],
 

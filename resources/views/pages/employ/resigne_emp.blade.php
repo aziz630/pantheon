@@ -57,7 +57,7 @@
                                     class="form-control form-control-solid"
                                     name="fullName"
                                     require
-                                    value="{{ auth()->user()->fname }}" readonly
+                                    value="{{ auth()->user()->name }}" readonly
                                 />
                                 <span class="form-text text-muted"
                                     >Your name.</span

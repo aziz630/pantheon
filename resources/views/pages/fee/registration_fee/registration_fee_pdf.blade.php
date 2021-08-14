@@ -33,7 +33,7 @@
 <tr>
         <td>
             <h2>
-            <?php $image_path = '/stdProfile/samad-removebg-preview.png'; ?>
+            <?php $image_path = '/upload/samad-removebg-preview.png'; ?>
             <img src="{{ public_path().$image_path }}" width="200" height="150" alt="User Avatar">
             </h2>
         </td>
@@ -66,19 +66,19 @@ $originalfee = $registrationfee->amount;
   <tr>
     <td>1</td>
     <td><b>Student ID No</b></td>
-    <td>{{ $details['student']['id'] }}</td>
+    <td>{{ $details['student']['id_no'] }}</td>
   </tr>
 
     <tr>
     <td>2</td>
     <td><b>Student Name</b></td>
-    <td>{{ $details['student']['std_name'] }}</td>
+    <td>{{ $details['student']['name'] }}</td>
   </tr>
 
   <tr>
     <td>3</td>
     <td><b>Father's Name</b></td>
-    <td>{{ $details['student']['std_father_name'] }}</td>
+    <td>{{ $details['student']['father_name'] }}</td>
   </tr>
   <tr>
     <td>4</td>
@@ -124,19 +124,19 @@ $originalfee = $registrationfee->amount;
   <tr>
     <td>1</td>
     <td><b>Student ID No</b></td>
-    <td>{{ $details['student']['id'] }}</td>
+    <td>{{ $details['student']['id_no'] }}</td>
   </tr>
 
     <tr>
     <td>2</td>
     <td><b>Student Name</b></td>
-    <td>{{ $details['student']['std_name'] }}</td>
+    <td>{{ $details['student']['name'] }}</td>
   </tr>
 
   <tr>
     <td>3</td>
     <td><b>Father's Name</b></td>
-    <td>{{ $details['student']['std_father_name'] }}</td>
+    <td>{{ $details['student']['father_name'] }}</td>
   </tr>
   <tr>
     <td>4</td>

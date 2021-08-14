@@ -17,6 +17,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\Enrollment;
 use Illuminate\Support\Facades\DB;
 use App\Models\DiscountStudent;
+use App\Models\User;
 use App\Models\Student;
 use App\Models\Session;
 use App\Models\Classes;
@@ -133,19 +134,19 @@ class StudentController extends Controller
         // $student_id_array = $request->id;
         // dd($student_id_array);
 
-        $data['class_id'] = $request->class;
-        $data['session_id'] = $request->session;
-        $data['allData'] = Enrollment::whereIn('id', $student_id_array)
-        ->update([
-            'class_name' => $request->class,
-            'session' => $request->session,
-        ]);
+        // $data['class_id'] = $request->class;
+        // $data['session_id'] = $request->session;
+        // $data['allData'] = Enrollment::whereIn('id', $student_id_array)
+        // ->update([
+        //     'class_name' => $request->class,
+        //     'session' => $request->session,
+        // ]);
 
-        if ($data) {
-            return redirect()->back()->with('success', 'students promote successfully.');
-        } else {
-            return redirect()->back()->with('error', 'student can not be promote at this time,');
-        }
+        // if ($data) {
+        //     return redirect()->back()->with('success', 'students promote successfully.');
+        // } else {
+        //     return redirect()->back()->with('error', 'student can not be promote at this time,');
+        // }
 
     }
 
@@ -203,14 +204,17 @@ class StudentController extends Controller
                 ->addColumn('erp_no', function ($row) {
                     $erp_no = $row->id;
                     return $erp_no;
+                })->addColumn('ID_NO', function ($row) {
+                    $studentIdNo = $row->id_no;
+                    return $studentIdNo;
                 })->addColumn('studentName', function ($row) {
-                    $studentName = $row->std_name;
+                    $studentName = $row->name;
                     return $studentName;
                 })->addColumn('fatherName', function ($row) {
-                    $fatherName = $row->std_father_name;
+                    $fatherName = $row->father_name;
                     return $fatherName;
                 })->addColumn('stdGender', function ($row) {
-                    $gender = ($row->std_gender === 1) ? 'Male' : ($row->std_gender === 2 ? 'Female' : 'Other');
+                    $gender = ($row->gender === 1) ? 'Male' : ($row->gender === 2 ? 'Female' : 'Other');
                     return $gender;
                 })->addColumn('class', function ($row) {
                     $class = $row->class_name;
@@ -314,18 +318,18 @@ class StudentController extends Controller
         DB::transaction(function() use($rq, $student_id){
         
     
-            $model = Student::where('id', $student_id)->first();
-            $model->std_name = $rq->fullName;
-            $model->std_gender = $rq->stdGender;
-            $model->std_dob = date_format(date_create($rq->stdDOB), 'Y-m-d');
-            $model->std_pob = $rq->stdPOB;
-            $model->std_religion = $rq->stdReligion;
-            $model->std_nationality = $rq->stdNationality;
-            $model->std_current_address = $rq->stdCurrentAddress;
-            $model->std_permanent_address = $rq->stdPermanentAddress;
-            $model->std_email = $rq->std_email;
-            $model->std_emergency_contact_no = $rq->stdEmergency;
-            $model->std_admission_date = date_format(date_create($rq->stdAdmissionDate), 'Y-m-d');
+            $model = User::where('id', $student_id)->first();
+            $model->name = $rq->fullName;
+            $model->gender = $rq->stdGender;
+            $model->dob = date_format(date_create($rq->stdDOB), 'Y-m-d');
+            $model->pob = $rq->stdPOB;
+            $model->religion = $rq->stdReligion;
+            $model->nationality = $rq->stdNationality;
+            $model->current_address = $rq->stdCurrentAddress;
+            $model->permanent_address = $rq->stdPermanentAddress;
+            $model->email = $rq->std_email;
+            $model->emergency_contact_no = $rq->stdEmergency;
+            $model->admission_date = date_format(date_create($rq->stdAdmissionDate), 'Y-m-d');
 
 
              //  upload profile image
@@ -333,16 +337,16 @@ class StudentController extends Controller
              $image = $rq->file('stdImage');
             //  unlink(public_path('stdProfile',$model->stdImage));
              $imageName = time().'.'.$image->extension();
-             $image->move(public_path('stdProfile'),$imageName);
+             $image->move(public_path('upload/stdProfile'),$imageName);
              }
 
-            $model->std_father_name = $rq->stdFatherName;
-            $model->std_father_cnic = $rq->stdFatherCNIC;
-            $model->std_father_occupation = $rq->stdFatherOccupation;
-            $model->std_mother_name = $rq->stdMotherName;
-            $model->std_mother_cnic = $rq->stdMotherCNIC;
-            $model->std_mother_occupation = $rq->stdMotherOccupation;
-            $model->std_image = $imageName;
+            $model->father_name = $rq->stdFatherName;
+            $model->father_cnic = $rq->stdFatherCNIC;
+            $model->father_occupation = $rq->stdFatherOccupation;
+            $model->mother_name = $rq->stdMotherName;
+            $model->mother_cnic = $rq->stdMotherCNIC;
+            $model->mother_occupation = $rq->stdMotherOccupation;
+            $model->image = $imageName;
     
             $model->save();
            
@@ -350,7 +354,7 @@ class StudentController extends Controller
             //  upload profile image
             $cnic = $rq->file('guardianCnicCopy');
             $cnicCopy = time().'.'.$cnic->extension();
-            $cnic->move(public_path('gardianCNIC'),$cnicCopy);
+            $cnic->move(public_path('upload/gardianCNIC'),$cnicCopy);
     
     
             $guardian = Guardian::where('id', $student_id)->first();
@@ -423,18 +427,18 @@ class StudentController extends Controller
         DB::transaction(function() use($rq, $student_id){
         
     
-            $model = Student::where('id', $student_id)->first();
-            $model->std_name = $rq->fullName;
-            $model->std_gender = $rq->stdGender;
-            $model->std_dob = date_format(date_create($rq->stdDOB), 'Y-m-d');
-            $model->std_pob = $rq->stdPOB;
-            $model->std_religion = $rq->stdReligion;
-            $model->std_nationality = $rq->stdNationality;
-            $model->std_current_address = $rq->stdCurrentAddress;
-            $model->std_permanent_address = $rq->stdPermanentAddress;
-            $model->std_email = $rq->std_email;
-            $model->std_emergency_contact_no = $rq->stdEmergency;
-            $model->std_admission_date = date_format(date_create($rq->stdAdmissionDate), 'Y-m-d');
+            $model = User::where('id', $student_id)->first();
+            $model->name = $rq->fullName;
+            $model->gender = $rq->stdGender;
+            $model->dob = date_format(date_create($rq->stdDOB), 'Y-m-d');
+            $model->pob = $rq->stdPOB;
+            $model->religion = $rq->stdReligion;
+            $model->nationality = $rq->stdNationality;
+            $model->current_address = $rq->stdCurrentAddress;
+            $model->permanent_address = $rq->stdPermanentAddress;
+            $model->email = $rq->std_email;
+            $model->contact_no = $rq->stdEmergency;
+            $model->admission_date = date_format(date_create($rq->stdAdmissionDate), 'Y-m-d');
 
 
              //  upload profile image
@@ -442,16 +446,16 @@ class StudentController extends Controller
              $image = $rq->file('stdImage');
             //  unlink(public_path('stdProfile',$model->stdImage));
              $imageName = time().'.'.$image->extension();
-             $image->move(public_path('stdProfile'),$imageName);
+             $image->move(public_path('upload/stdProfile'),$imageName);
              }
 
-            $model->std_father_name = $rq->stdFatherName;
-            $model->std_father_cnic = $rq->stdFatherCNIC;
-            $model->std_father_occupation = $rq->stdFatherOccupation;
-            $model->std_mother_name = $rq->stdMotherName;
-            $model->std_mother_cnic = $rq->stdMotherCNIC;
-            $model->std_mother_occupation = $rq->stdMotherOccupation;
-            $model->std_image = $imageName;
+            $model->father_name = $rq->stdFatherName;
+            $model->father_cnic = $rq->stdFatherCNIC;
+            $model->father_occupation = $rq->stdFatherOccupation;
+            $model->mother_name = $rq->stdMotherName;
+            $model->mother_cnic = $rq->stdMotherCNIC;
+            $model->mother_occupation = $rq->stdMotherOccupation;
+            $model->image = $imageName;
     
             $model->save();
            
@@ -461,7 +465,7 @@ class StudentController extends Controller
             //  upload profile image
             $cnic = $rq->file('guardianCnicCopy');
             $cnicCopy = time().'.'.$cnic->extension();
-            $cnic->move(public_path('gardianCNIC'),$cnicCopy);
+            $cnic->move(public_path('upload/gardianCNIC'),$cnicCopy);
     
     
             $guardian = Guardian::where('id', $student_id)->first();
@@ -516,7 +520,7 @@ class StudentController extends Controller
      */
     public function download_guardian_CNIC(Request $RQ, $grd_cnic_copy)
     {
-        return response()->download(public_path('gardianCNIC/'.$grd_cnic_copy));
+        return response()->download(public_path('upload/gardianCNIC/'.$grd_cnic_copy));
     }
 
 /**

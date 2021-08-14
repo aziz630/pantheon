@@ -53,8 +53,8 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Picture</label>
 														<div class="col-lg-9 col-xl-6">
-															<div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url({{ asset('profile') }}/{{ $employee->emp_profile_image }})">
-																<div class="image-input-wrapper" style="background-image: url({{ asset('profile') }}/{{ $employee->emp_profile_image }})"></div>
+															<div class="image-input image-input-outline" id="kt_profile_avatar" style="background-image: url({{ asset('profile') }}/{{ $employee->image }})">
+																<div class="image-input-wrapper" style="background-image: url({{ asset('profile') }}/{{ $employee->image }})"></div>
 																<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
 																	<i class="fa fa-pen icon-sm text-muted"></i>
 																	<input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg" />
@@ -75,20 +75,20 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Job Title</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->emp_title }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->title }}" readonly />
 														</div>
 													</div>
 										
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Name</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->emp_name }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->name }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Father Name</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->emp_fname }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->father_name }}" readonly />
 														</div>
 													</div>
 												
@@ -147,7 +147,7 @@
 																		<i class="la la-at"></i>
 																	</span>
 																</div>
-																<input type="text" class="form-control form-control-lg form-control-solid" value="{{ $employee->emp_email }}"/>
+																<input type="text" class="form-control form-control-lg form-control-solid" value="{{ $employee->email }}"/>
 															</div>
 														</div>
 													</div>
@@ -163,32 +163,32 @@
 																		<i class="la la-phone"></i>
 																	</span>
 																</div>
-																<input type="text" class="form-control form-control-lg form-control-solid" value="{{ $employee->emp_contact }}"/>
+																<input type="text" class="form-control form-control-lg form-control-solid" value="{{ $employee->contact_no }}"/>
 															</div>
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Address</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->emp_address }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->current_address }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Date of birth</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->emp_dob }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->dob }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Experience</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->emp_experience }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->experience }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Gender</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->emp_gender }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->gender }}" readonly />
 														</div>
 													</div>
 												
@@ -240,25 +240,25 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Matric passing Year</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->matric_pass_year }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->matric_pass_year }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Subject</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->matric_subj }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->matric_subj }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">School</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->matric_schl }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->matric_schl }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Persentage</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->matric_per }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->matric_per }}" readonly />
 														</div>
 													</div>
 
@@ -314,25 +314,25 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Secondary passing Year</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->secondary_pass_year }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->secondary_pass_year }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Subject</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->secondary_subj }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->secondary_subj }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">School</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->secondary_schl }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->secondary_schl }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Persentage</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->secondary_per }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->secondary_per }}" readonly />
 														</div>
 													</div>
 													
@@ -386,25 +386,25 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Graduate passing Year</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->graduate_pass_year }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->graduate_pass_year }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Subject</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->graduate_subj }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->graduate_subj }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">School</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->graduate_schl }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->graduate_schl }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Persentage</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->graduate_per }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->graduate_per }}" readonly />
 														</div>
 													</div>
 
@@ -458,25 +458,25 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Post Graduate passing Year</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->post_graduate_pass_year }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->post_graduate_pass_year }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Subject</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->post_graduate_subj }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->post_graduate_subj }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">School</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->post_graduate_schl }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->post_graduate_schl }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Persentage</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->post_graduate_per }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->post_graduate_per }}" readonly />
 														</div>
 													</div>
 												
@@ -533,25 +533,25 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Any Other passing Year</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->any_other_pass_year }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->any_other_pass_year }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Subject</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->any_other_subj }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->any_other_subj }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">School</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->any_other_schl }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->any_other_schl }}" readonly />
 														</div>
 													</div>
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Persentage</label>
 														<div class="col-lg-9 col-xl-6">
-															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $academic->any_other_per }}" readonly />
+															<input class="form-control form-control-lg form-control-solid" type="text" value="{{ $employee->any_other_per }}" readonly />
 														</div>
 													</div>
 
@@ -606,7 +606,7 @@
 															<hr>
 															<div class="card-toolbar">
 																<a
-																	href="{{ url('/download/attached', $employee->emp_file_attachment) }}"
+																	href="{{ url('/download/attached', $employee->file_attachment) }}"
 																	class="btn btn-primary font-weight-bolder"
 																>
 																	<span class="svg-icon svg-icon-md">

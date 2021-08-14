@@ -37,6 +37,20 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Employee::class);
     }
+
+    public function guardian()
+    {
+        return $this->belongsTo(Guardian::class);
+    }
+
+    public function discount(){
+    	return $this->belongsTo(DiscountStudent::class);
+    }
+
+    public function qulification()
+    {
+        return $this->hasMany(Academic::class);
+    }
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -16,10 +16,12 @@ class CreateAccountStudentsFeesTable extends Migration
         Schema::create('account_students_fees', function (Blueprint $table) {
             $table->id();
             $table->integer('year_id')->nullable();
+            $table->integer('dues_id')->nullable();
             $table->integer('class_id')->nullable();
             $table->integer('student_id')->nullable();
             $table->integer('fee_category_id')->nullable();
-            // $table->string('other_fee')->nullable();
+            $table->string('dues')->nullable();
+            $table->string('fee')->nullable();
             $table->string('date')->nullable();
             $table->double('amount')->nullable();
             $table->timestamps();
